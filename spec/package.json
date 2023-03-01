@@ -1,0 +1,70 @@
+{
+  "name": "wikirefs-spec",
+  "version": "0.0.1",
+  "description": "A collection of spec tests to test against the wikirefs spec",
+  "license": "GPL-3.0",
+  "author": {
+    "name": "manunamz",
+    "email": "manuanmz@pm.me"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wikibonsai/wikirefs.git",
+    "directory": "spec"
+  },
+  "files": [
+    "dist/**/*"
+  ],
+  "main": "./dist/index.cjs.js",
+  "module": "./dist/index.esm.js",
+  "browser": "./dist/index.umd.js",
+  "scripts": {
+    "build": "rollup -c",
+    "clean": "npx del dist",
+    "rebuild": "yarn clean && yarn build",
+    "lint": "eslint . --ext .ts"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/plugin-transform-runtime": "^7.19.6",
+    "@babel/preset-env": "^7.20.2",
+    "@babel/preset-typescript": "^7.18.6",
+    "@rollup/plugin-babel": "^6.0.2",
+    "@rollup/plugin-commonjs": "^23.0.2",
+    "@types/node": "^18.0.0",
+    "del-cli": "^5.0.0",
+    "nyc": "^15.1.0",
+    "rollup": "2.70.1",
+    "rollup-plugin-ts": "^3.0.2",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.5.5"
+  },
+  "keywords": [
+    "bidirectional link",
+    "bidirectional links",
+    "internal link",
+    "internal links",
+    "personal wiki",
+    "ref",
+    "refs",
+    "reference",
+    "references",
+    "regex",
+    "spec",
+    "specification",
+    "test",
+    "wiki",
+    "wiki-link",
+    "wiki-links",
+    "wikiattr",
+    "wikiattrs",
+    "wikibonsai",
+    "wikiembed",
+    "wikiembeds",
+    "wikilink",
+    "wikilinks",
+    "wikiref",
+    "wikirefs",
+    "zettelkasten"
+  ]
+}
