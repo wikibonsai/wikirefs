@@ -74,7 +74,7 @@ describe('scan()', () => {
 
     describe('malformed; attr-like but not an attr', () => {
 
-      it('[[wikilink]] on later line', testScan({
+      it('[[wikilink]] on later line; empty attrtype', testScan({
         mkdn: ': attrtype ::\n\n[[wikilink]]\n',
         expdData:[{
           kind: 'wikilink',
@@ -84,7 +84,7 @@ describe('scan()', () => {
         }],
       }));
 
-      it('[[wikilink]] on later line', testScan({
+      it('[[wikilink]] on later line; empty string attrtype', testScan({
         mkdn: ': attrtype :: \'\' \n\n[[wikilink]]\n',
         expdData:[{
           kind: 'wikilink',
