@@ -14,9 +14,6 @@
   "files": [
     "dist/**/*"
   ],
-  "workspaces": [
-    "spec"
-  ],
   "main": "./dist/index.cjs.js",
   "module": "./dist/index.esm.js",
   "browser": "./dist/index.umd.js",
