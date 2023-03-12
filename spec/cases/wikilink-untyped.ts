@@ -45,23 +45,23 @@ export const wikiLinkUntypedCases: WikiRefTestCase[] = [
   // 'fname-' config functions
   // render fallback
   {
-    descr: 'wikilink; untyped; render fallback; no \'resolveHtmlText\'',
+    descr: 'wikilink; untyped; render fallback; no \'htmlText\'',
     mkdn: '[[no-html-text]].',
     html: '<p><a class="wiki link" href="/tests/fixtures/no-html-text" data-href="/tests/fixtures/no-html-text">no-html-text</a>.</p>\n',
   },
   {
-    descr: 'wikilink; untyped; render fallback; no \'resolveHtmlText\'; labelled',
+    descr: 'wikilink; untyped; render fallback; no \'htmlText\'; labelled',
     mkdn: '[[no-html-text|[bracketted] label txt]].',
     html: '<p><a class="wiki link" href="/tests/fixtures/no-html-text" data-href="/tests/fixtures/no-html-text">[bracketted] label txt</a>.</p>\n',
   },
   // invalid
   {
-    descr: 'wikilink; untyped; invalid; no \'resolveHtmlHref\'',
+    descr: 'wikilink; untyped; invalid; no \'htmlHref\'',
     mkdn: '[[no-html-href]].',
     html: '<p><a class="wiki link invalid">[[no-html-href]]</a>.</p>\n',
   },
   {
-    descr: 'wikilink; untyped; invalid; no \'resolveHtmlHref\'; labelled',
+    descr: 'wikilink; untyped; invalid; no \'htmlHref\'; labelled',
     mkdn: '[[no-html-href|[bracketted] label txt]].',
     html: '<p><a class="wiki link invalid">[[no-html-href|[bracketted] label txt]]</a>.</p>\n',
   },
@@ -120,7 +120,7 @@ export const wikiLinkUntypedCases: WikiRefTestCase[] = [
     html: '<p><strong><a class="wiki link" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></strong></p>\n',
   },
   {
-    descr: 'wikilink; untyped; w/ other mkdn constructs; bold; no \'resolveHtmlHref\'',
+    descr: 'wikilink; untyped; w/ other mkdn constructs; bold; no \'htmlHref\'',
     mkdn: '**[[no-html-href]]**',
     html: '<p><strong><a class="wiki link invalid">[[no-html-href]]</a></strong></p>\n',
   },
@@ -130,7 +130,7 @@ export const wikiLinkUntypedCases: WikiRefTestCase[] = [
     html: '<p><em><a class="wiki link" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></em></p>\n'
   },
   {
-    descr: 'wikilink; untyped; w/ other mkdn constructs; italics; no \'resolveHtmlHref\'',
+    descr: 'wikilink; untyped; w/ other mkdn constructs; italics; no \'htmlHref\'',
     mkdn: '_[[no-html-href]]_',
     html: '<p><em><a class="wiki link invalid">[[no-html-href]]</a></em></p>\n'
   },
@@ -155,7 +155,7 @@ export const wikiLinkUntypedCases: WikiRefTestCase[] = [
     html: '<h1><a class="wiki link" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></h1>\n',
   },
   {
-    descr: 'wikilink; untyped; w/ other mkdn constructs; headers; no \'resolveHtmlHref\'',
+    descr: 'wikilink; untyped; w/ other mkdn constructs; headers; no \'htmlHref\'',
     mkdn: `
 # [[no-html-href]]
   `,
@@ -171,7 +171,7 @@ export const wikiLinkUntypedCases: WikiRefTestCase[] = [
 `,
   },
   {
-    descr: 'wikilink; untyped; w/ other mkdn constructs; blockquote; no \'resolveHtmlHref\'',
+    descr: 'wikilink; untyped; w/ other mkdn constructs; blockquote; no \'htmlHref\'',
     mkdn: '> [[no-html-href]]',
     html:
 `<blockquote>
@@ -193,7 +193,7 @@ export const wikiLinkUntypedCases: WikiRefTestCase[] = [
 `,
   },
   {
-    descr: 'wikilink; untyped; w/ other mkdn constructs; list; no \'resolveHtmlHref\'',
+    descr: 'wikilink; untyped; w/ other mkdn constructs; list; no \'htmlHref\'',
     mkdn: `
 - [[no-html-href]]
 - some text.

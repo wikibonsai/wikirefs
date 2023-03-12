@@ -77,7 +77,7 @@ embedded document
   },
   // render fallbacks
   {
-    descr: 'wikiembed; md; render fallback; no \'resolveEmbedContent\'',
+    descr: 'wikiembed; md; render fallback; no \'embedContent\'',
     mkdn: '![[embed-doc-no-content]]',
     html:
 `<p>
@@ -102,7 +102,7 @@ Error: Content not found for 'embed-doc-no-content'
 `,
   },
   {
-    descr: 'wikiembed; md; render fallback; no \'resolveHtmlText\'',
+    descr: 'wikiembed; md; render fallback; no \'htmlText\'',
     mkdn: '![[embed-doc-no-html-text]]',
     html:
 `<p>
@@ -128,7 +128,7 @@ embed-doc-no-html-text
 `,
   },
   {
-    descr: 'wikiembed; md; render fallback; no \'resolveHtmlHref\'',
+    descr: 'wikiembed; md; render fallback; no \'htmlHref\'',
     mkdn: '![[embed-doc-no-html-href]]',
     html:
 `<p>
@@ -154,7 +154,7 @@ embedded document without html href
 `,
   },
   {
-    descr: 'wikiembed; md; render fallback; no \'resolveEmbedContent\', \'resolveHtmlText\', or \'resolveHtmlHref\'',
+    descr: 'wikiembed; md; render fallback; no \'embedContent\', \'htmlText\', or \'htmlHref\'',
     mkdn: '![[embed-doc-no-resolvers]]',
     html:
 `<p>
@@ -330,7 +330,7 @@ cycle detected
 `,
   },
   {
-    descr: 'wikiembed; audio; mp3; render fallback; no \'resolveHtmlHref\'',
+    descr: 'wikiembed; audio; mp3; render fallback; no \'htmlHref\'',
     mkdn: '![[missing-audio.mp3]]',
     html:
 `<p>
@@ -358,7 +358,7 @@ cycle detected
 `,
   },
   {
-    descr: 'wikiembed; img; png; render fallback; no \'resolveHtmlHref\'',
+    descr: 'wikiembed; img; png; render fallback; no \'htmlHref\'',
     mkdn: '![[missing-image.png]]',
     html:
 `<p>
@@ -386,7 +386,7 @@ cycle detected
 `,
   },
   {
-    descr: 'wikiembed; video; mp4; render fallback; no \'resolveHtmlHref\'',
+    descr: 'wikiembed; video; mp4; render fallback; no \'htmlHref\'',
     mkdn: '![[missing-video.mp4]]',
     html:
 `<p>
@@ -400,7 +400,7 @@ cycle detected
   },
   // invalid media kind -- will just be processed as markdown
   {
-    descr: 'wikiembed; invalid media kind (handled as markdown -- similar to no \'resolveEmbedContent\' and \'resolveHtmlText\')',
+    descr: 'wikiembed; invalid media kind (handled as markdown -- similar to no \'embedContent\' and \'htmlText\')',
     mkdn: '![[invalid.abc]]',
     html:
 `<p>

@@ -124,7 +124,7 @@ export const wikiAttrPrefixedCases: WikiRefTestCase[] = [
   // 'fname-' config functions
   // render fallback
   {
-    descr: 'wikiattr; prefixed; single; render fallback; no \'resolveHtmlText\'',
+    descr: 'wikiattr; prefixed; single; render fallback; no \'htmlText\'',
     mkdn: ':attrtype::[[no-html-text]]\n',
     html:
 `<aside class="attrbox">
@@ -138,7 +138,7 @@ export const wikiAttrPrefixedCases: WikiRefTestCase[] = [
   },
   // invalid
   {
-    descr: 'wikiattr; prefixed; single; invalid; no \'resolveHtmlText\'',
+    descr: 'wikiattr; prefixed; single; invalid; no \'htmlHref\'',
     mkdn: ':attrtype::[[no-html-href]]\n',
     html:
 `<aside class="attrbox">
