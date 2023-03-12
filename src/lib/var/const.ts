@@ -114,6 +114,7 @@ export namespace CONST {
 
   export const GLOB_MEDIA: string = '[' + 
     ([] as string[])
+      .concat([CONST.EXTS.PDF])
       .concat(Array.from(CONST.EXTS.AUD))
       .concat(Array.from(CONST.EXTS.IMG))
       .concat(Array.from(CONST.EXTS.VID)).join('|')
