@@ -125,7 +125,7 @@ WikiLinkResult {
   filename: [string, number];
   label: [string, number] | [];
 }
-WikiLinkResult {
+WikiEmbedResult {
   kind: 'wikiembed';
   filename: [string, number] | [];
   media: string;
