@@ -54,7 +54,7 @@ const esm = {
 // cjs/es-only configuration
 const cjs_es = {
   ...shared,
-  input: 'index.ts',
+  input: pkg.source,
   output: [
     {
       file: pkg.main,

@@ -1,7 +1,7 @@
 {
   "name": "wikirefs-spec",
   "version": "0.0.1",
-  "description": "A collection of spec tests to test against the wikirefs spec",
+  "description": "A collection of tests to validate markdown parser output against the wikirefs spec",
   "license": "GPL-3.0",
   "author": {
     "name": "manunamz",
@@ -15,6 +15,7 @@
   "files": [
     "dist/**/*"
   ],
+  "source": "index.ts",
   "main": "./dist/index.cjs.js",
   "module": "./dist/index.esm.js",
   "browser": "./dist/index.umd.js",
