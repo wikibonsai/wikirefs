@@ -1,6 +1,6 @@
 # wikirefs-spec
 
-![[A WikiBonsai Project](https://github.com/wikibonsai/wikibonsai)](https://img.shields.io/badge/%F0%9F%8E%8B-A%20WikiBonsai%20Project-brightgreen)
+[![A WikiBonsai Project](https://img.shields.io/badge/%F0%9F%8E%8B-A%20WikiBonsai%20Project-brightgreen)](https://github.com/wikibonsai/wikibonsai)
 [![NPM package](https://img.shields.io/npm/v/wikirefs-spec)](https://npmjs.org/package/wikirefs-spec)
 
 WikiRefs refers to several wiki constructs that all fall under the umbrella "wikiref" and generally include the `[[double square bracket]]` syntax in some way.
@@ -197,7 +197,7 @@ Note: In a markdown context, when talking about the different kinds of wiki cons
 - wikiattr -> `<a class="attr wiki" ...`
 - typed wikilink -> `<a class="wiki link typed" ...`
 - untyped wikilink -> `<a class="wiki link" ...`
-- wikiebed -> `<a class="wiki embed" ...`
+- wikiembed -> `<a class="wiki embed" ...`
 
 ### Untyped
 
