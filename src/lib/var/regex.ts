@@ -164,9 +164,10 @@ export namespace RGX {
                                       + ')'
                                       + '|'
                                       // mkdwn-list-separated
+                                      + '\n'
                                       + '(?:'
-                                        + '\n'
                                         + ATTR_LINE.LIST_ITEM.source                                     // only captures last item
+                                        + '\n'
                                       + ')+'
                                     + ')'
                                   , 'im'),

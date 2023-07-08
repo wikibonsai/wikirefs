@@ -297,7 +297,7 @@ describe('RGX', () => {
 - [[wikilink-3]]
 `,
         match: [
-          'attrtype::\n- [[wikilink-1]]\n- [[wikilink-2]]\n- [[wikilink-3]]',
+          'attrtype::\n- [[wikilink-1]]\n- [[wikilink-2]]\n- [[wikilink-3]]\n',
           'attrtype',
           undefined,
           undefined,
@@ -350,7 +350,7 @@ describe('RGX', () => {
 - [[wikilink-3]]
 `,
         match: [
-          ':attrtype::\n- [[wikilink-1]]\n- [[wikilink-2]]\n- [[wikilink-3]]',
+          ':attrtype::\n- [[wikilink-1]]\n- [[wikilink-2]]\n- [[wikilink-3]]\n',
           'attrtype',
           undefined,
           undefined,
