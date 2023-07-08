@@ -15,6 +15,7 @@ interface WikiAttrResult {
   kind: string;
   type: [string, number] | [];
   filenames: [string, number][];
+  listFormat: string; // 'mkdn' or 'comma'
 }
 
 interface WikiLinkResult {
@@ -74,6 +75,17 @@ export function scan(content: string, opts?: ScanOpts): (WikiAttrResult | WikiLi
         } while (fnameMatch);
         const attrtypeOffset: number = attrMatch.index + matchText.indexOf(attrtypeText);
         const trimmedAttrTypeText: string = attrtypeText.trim();
+        let listFormat: string = 'none';
+        // single case
+        if (filenames.length === 1) {
+          listFormat = 'none';
+        }
+        if (/\n- /.test(matchText)) {
+          listFormat = 'mkdn';
+        }
+        if (/ *, */.test(matchText)) {
+          listFormat = 'comma';
+        }
         /* eslint-disable indent */
         const escaped: boolean = isStrEscaped(
                                                 trimmedAttrTypeText, content,
@@ -85,6 +97,7 @@ export function scan(content: string, opts?: ScanOpts): (WikiAttrResult | WikiLi
             kind: CONST.WIKI.ATTR,
             type: [trimmedAttrTypeText, attrtypeOffset],
             filenames: filenames,
+            listFormat: listFormat,
           } as WikiAttrResult);
         }
       }

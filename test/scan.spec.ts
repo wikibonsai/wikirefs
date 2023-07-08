@@ -108,6 +108,7 @@ describe('scan()', () => {
         filenames: [
           ['wikilink', 12],
         ],
+        listFormat: 'none',
       }]
     }));
 
@@ -120,7 +121,8 @@ describe('scan()', () => {
           ['wikilinks', 12],
           ['wikilink', 26],
         ],
-      }]
+        listFormat: 'comma',
+      }],
     }));
 
     it('unprefixed; list-mkdn', testScan({
@@ -132,6 +134,7 @@ describe('scan()', () => {
           ['wikilinks', 15],
           ['wikilink', 31],
         ],
+        listFormat: 'mkdn',
       }],
     }));
 
@@ -144,6 +147,7 @@ describe('scan()', () => {
           filenames: [
             ['wikilink', 17],
           ],
+          listFormat: 'mkdn',
         },
         {
           kind: 'wikiattr',
@@ -151,6 +155,7 @@ describe('scan()', () => {
           filenames: [
             ['wikilink', 44],
           ],
+          listFormat: 'mkdn',
         }
       ],
     }));
@@ -163,6 +168,7 @@ describe('scan()', () => {
         filenames: [
           ['wikilink', 13],
         ],
+        listFormat: 'none',
       }]
     }));
 
@@ -174,6 +180,7 @@ describe('scan()', () => {
         filenames: [
           ['wikilink', 15],
         ],
+        listFormat: 'none',
       }]
     }));
 
@@ -186,6 +193,7 @@ describe('scan()', () => {
           ['wikilinks', 13],
           ['wikilink', 27],
         ],
+        listFormat: 'comma',
       }]
     }));
 
@@ -198,6 +206,7 @@ describe('scan()', () => {
           ['wikilinks', 16],
           ['wikilink', 32],
         ],
+        listFormat: 'mkdn',
       }],
     }));
 
@@ -214,10 +223,12 @@ describe('scan()', () => {
         kind: 'wikiattr',
         type: ['reftype', 2],
         filenames: [ ['fname-a', 13] ],
+        listFormat: 'none',
       }, {
         kind: 'wikiattr',
         type: ['attrtype', 24],
         filenames: [ ['fname-b', 36] ],
+        listFormat: 'none',
       }],
     }));
 
@@ -236,6 +247,7 @@ describe('scan()', () => {
           kind: 'wikiattr',
           type: ['reftype', 2],
           filenames: [ ['fname-a', 13] ],
+          listFormat: 'none',
         }
         // note: 'fname-b' is left out
       ],
