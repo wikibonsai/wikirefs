@@ -107,26 +107,30 @@ The new linktype string to be added.
 
 The content string to make the retype (rename).
 
-### `scan(content: string, opts?: ScanOpts): (WikiAttrResult | WikiLinkResult)[]`
+### `scan(content: string, opts?: ScanOpts): (WikiAttrResult | WikiLinkResult | WikiEmbedResult)[]`
 
-Scan a given `content` string and return an array of descriptions of all valid wiki constructs.
+Scan a given `content` string and return an array of descriptions of all valid wiki constructs. Results typically contain an array with two items, the first being the wikitext (see [note](#a-note-on-terminology) below) and the second being the index of the wikitext's starting position in the content string.
 
 Result formats:
 
 ```js
-WikiAttrResult {
-  kind: 'wikiattr';
+ScanResult {
+  kind: string;
+  text: string;
+  start: number;
+  end: number;
+}
+WikiAttrResult extends ScanResult {
   type: [string, number] | [];
   filenames: [string, number][];
+  listFormat: string;
 }
-WikiLinkResult {
-  kind: 'wikilink';
+WikiLinkResult extends ScanResult {
   type: [string, number] | [];
   filename: [string, number];
   label: [string, number] | [];
 }
-WikiEmbedResult {
-  kind: 'wikiembed';
+WikiEmbedResult extends ScanResult {
   filename: [string, number] | [];
   media: string;
 }
@@ -134,7 +138,12 @@ WikiEmbedResult {
 
 Options:
 
-`filename: string`: a specific filename to be targetted -- non-target-filename wiki constructs will be ignored.
+`opts.filename: string`: a specific filename to be targetted -- non-target-filename wiki constructs will be ignored.
+
+`opts.kind: string`: specific kinds of wiki constructs may be targetted; valid options are `'attr'` and `'link'`.
+
+`opts.skipEsc: boolean`: whether or not to skip escaped wiki construct instances; set to `true` by default.
+
 
 `kind: string`: specific kinds of wiki constructs may be targetted; valid options are `'attr'` and `'link'`.
 

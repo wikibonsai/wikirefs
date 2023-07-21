@@ -5,28 +5,31 @@ import { RGX } from '../var/regex';
 import { getMediaKind } from './media';
 
 
-interface ScanOpts {
+export interface ScanOpts {
   filename?: string;
   kind?: string;
   skipEsc?: boolean;
 }
 
-interface WikiAttrResult {
+export interface ScanResult {
   kind: string;
+  text: string;
+  start: number;
+}
+
+export interface WikiAttrResult extends ScanResult {
   type: [string, number] | [];
   filenames: [string, number][];
   listFormat: string; // 'mkdn' or 'comma'
 }
 
-interface WikiLinkResult {
-  kind: string;
+export interface WikiLinkResult extends ScanResult {
   type: [string, number] | [];
   filename: [string, number];
   label: [string, number] | [];
 }
 
-interface WikiEmbedResult {
-  kind: string;
+export interface WikiEmbedResult extends ScanResult {
   filename: [string, number] | [];
   media: string;
 }
@@ -95,10 +98,12 @@ export function scan(content: string, opts?: ScanOpts): (WikiAttrResult | WikiLi
         if ((filenames.length !== 0) && (skipEsc || !escaped)) {
           res.push({
             kind: CONST.WIKI.ATTR,
+            text: matchText,
+            start: attrMatch.index,
             type: [trimmedAttrTypeText, attrtypeOffset],
             filenames: filenames,
             listFormat: listFormat,
-          } as WikiAttrResult);
+          });
         }
       }
     } while (attrMatch);
@@ -134,9 +139,11 @@ export function scan(content: string, opts?: ScanOpts): (WikiAttrResult | WikiLi
           if (skipEsc || !escaped) {
             res.push({
               kind: CONST.WIKI.EMBED,
+              text: matchText,
+              start: embedMatch.index,
               filename: [fileNameText, wikilinkOffset + filenameOffset],
               media: getMediaKind(fileNameText),
-            } as WikiEmbedResult);
+            });
           }
         }
       }
@@ -172,6 +179,8 @@ export function scan(content: string, opts?: ScanOpts): (WikiAttrResult | WikiLi
             const label: [string, number] | [] = (labelText)    ? [labelText, linkMatch.index + labelOffset]              : [];
             res.push({
               kind: CONST.WIKI.LINK,
+              text: matchText,
+              start: linkMatch.index,
               type: type,
               filename: [fileNameText, wikilinkOffset + filenameOffset],
               label: label,

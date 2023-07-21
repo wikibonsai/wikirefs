@@ -16,10 +16,12 @@ describe('scan()', () => {
   describe('embed', () => {
 
     it('base', testScan({
-      mkdn: '![[wikilink]]',
+      mkdn: '![[wikiembed]]',
       expdData: [{
         kind: 'wikiembed',
-        filename: ['wikilink', 3],
+        text: '![[wikiembed]]',
+        start: 0,
+        filename: ['wikiembed', 3],
         media: 'markdown',
       }]
     }));
@@ -32,6 +34,8 @@ describe('scan()', () => {
       mkdn: '[[wikilink]]',
       expdData: [{
         kind: 'wikilink',
+        text: '[[wikilink]]',
+        start: 0,
         type: [],
         filename: ['wikilink', 2],
         label: [],
@@ -42,6 +46,8 @@ describe('scan()', () => {
       mkdn: ':linktype::[[wikilink]]',
       expdData:[{
         kind: 'wikilink',
+        text: ':linktype::[[wikilink]]',
+        start: 0,
         type: ['linktype', 1],
         filename: ['wikilink', 13],
         label: [],
@@ -54,6 +60,8 @@ describe('scan()', () => {
         mkdn: '[[wikilink|label]]',
         expdData:[{
           kind: 'wikilink',
+          text: '[[wikilink|label]]',
+          start: 0,
           type: [],
           filename: ['wikilink', 2],
           label: ['label', 11],
@@ -64,6 +72,8 @@ describe('scan()', () => {
         mkdn: ':linktype::[[wikilink|label]]',
         expdData:[{
           kind: 'wikilink',
+          text: ':linktype::[[wikilink|label]]',
+          start: 0,
           type: ['linktype', 1],
           filename: ['wikilink', 13],
           label: ['label', 22],
@@ -78,6 +88,8 @@ describe('scan()', () => {
         mkdn: ': attrtype ::\n\n[[wikilink]]\n',
         expdData:[{
           kind: 'wikilink',
+          text: '[[wikilink]]',
+          start: 15,
           filename:['wikilink', 17],
           label: [],
           type: [],
@@ -88,6 +100,8 @@ describe('scan()', () => {
         mkdn: ': attrtype :: \'\' \n\n[[wikilink]]\n',
         expdData:[{
           kind: 'wikilink',
+          text: '[[wikilink]]',
+          start: 19,
           filename: ['wikilink', 21],
           label: [],
           type: [],
@@ -104,6 +118,8 @@ describe('scan()', () => {
       mkdn: 'attrtype::[[wikilink]]\n',
       expdData:[{
         kind: 'wikiattr',
+        text: 'attrtype::[[wikilink]]\n',
+        start: 0,
         type: ['attrtype', 0],
         filenames: [
           ['wikilink', 12],
@@ -112,10 +128,12 @@ describe('scan()', () => {
       }]
     }));
 
-    it('unprefixed; list-comma', testScan({
+    it('unprefixed; list; comma', testScan({
       mkdn: 'attrtype::[[wikilinks]],[[wikilink]]\n',
       expdData: [{
         kind: 'wikiattr',
+        text: 'attrtype::[[wikilinks]],[[wikilink]]\n',
+        start: 0,
         type: ['attrtype', 0],
         filenames: [
           ['wikilinks', 12],
@@ -125,10 +143,12 @@ describe('scan()', () => {
       }],
     }));
 
-    it('unprefixed; list-mkdn', testScan({
+    it('unprefixed; list; mkdn', testScan({
       mkdn: 'attrtype::\n- [[wikilinks]]\n- [[wikilink]]\n',
       expdData:[{
         kind: 'wikiattr',
+        text: 'attrtype::\n- [[wikilinks]]\n- [[wikilink]]\n',
+        start: 0,
         type: ['attrtype', 0],
         filenames: [
           ['wikilinks', 15],
@@ -143,6 +163,8 @@ describe('scan()', () => {
       expdData:[
         {
           kind: 'wikiattr',
+          text: 'attrtype1::\n- [[wikilink]]\n',
+          start: 1,
           type: ['attrtype1', 1],
           filenames: [
             ['wikilink', 17],
@@ -151,6 +173,8 @@ describe('scan()', () => {
         },
         {
           kind: 'wikiattr',
+          text: 'attrtype2::\n- [[wikilink]]\n',
+          start: 28,
           type: ['attrtype2', 28],
           filenames: [
             ['wikilink', 44],
@@ -164,6 +188,8 @@ describe('scan()', () => {
       mkdn: ':attrtype::[[wikilink]]\n',
       expdData:[{
         kind: 'wikiattr',
+        text: ':attrtype::[[wikilink]]\n',
+        start: 0,
         type: ['attrtype', 1],
         filenames: [
           ['wikilink', 13],
@@ -176,6 +202,8 @@ describe('scan()', () => {
       mkdn: ': attrtype ::[[wikilink]]\n',
       expdData:[{
         kind: 'wikiattr',
+        text: ': attrtype ::[[wikilink]]\n',
+        start: 0,
         type: ['attrtype', 2],
         filenames: [
           ['wikilink', 15],
@@ -188,6 +216,8 @@ describe('scan()', () => {
       mkdn: ':attrtype::[[wikilinks]],[[wikilink]]\n',
       expdData: [{
         kind: 'wikiattr',
+        text: ':attrtype::[[wikilinks]],[[wikilink]]\n',
+        start: 0,
         type: ['attrtype', 1],
         filenames: [
           ['wikilinks', 13],
@@ -201,6 +231,8 @@ describe('scan()', () => {
       mkdn: ':attrtype::\n- [[wikilinks]]\n- [[wikilink]]\n',
       expdData:[{
         kind: 'wikiattr',
+        text: ':attrtype::\n- [[wikilinks]]\n- [[wikilink]]\n',
+        start: 0,
         type: ['attrtype', 1],
         filenames: [
           ['wikilinks', 16],
@@ -221,11 +253,15 @@ describe('scan()', () => {
 `,
       expdData: [{
         kind: 'wikiattr',
+        text: ':reftype::[[fname-a]]\n',
+        start: 1,
         type: ['reftype', 2],
         filenames: [ ['fname-a', 13] ],
         listFormat: 'none',
       }, {
         kind: 'wikiattr',
+        text: ':attrtype::[[fname-b]]\n',
+        start: 23,
         type: ['attrtype', 24],
         filenames: [ ['fname-b', 36] ],
         listFormat: 'none',
@@ -245,6 +281,8 @@ describe('scan()', () => {
       expdData: [
         {
           kind: 'wikiattr',
+          text: ':reftype::[[fname-a]]\n',
+          start: 1,
           type: ['reftype', 2],
           filenames: [ ['fname-a', 13] ],
           listFormat: 'none',
