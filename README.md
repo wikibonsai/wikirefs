@@ -33,6 +33,18 @@ Function utilities for editting `[[wikirefs]]`.
 
 See [`./src/lib/func`](https://github.com/wikibonsai/wikirefs/tree/main/src/lib/func/) for more on functions.
 
+### `mkdnToWiki(content: string, opts?: ConvertOpts): string`
+
+In the given `content` string, convert `[markdown](links)` to `[[wikirefs]]` and `![markdown](img-embeds)` to `![[wikiembed-images]]`. File extensions are preserved for media.
+
+Options:
+
+`opts.kind: 'ref' | 'link' | 'embed'`: target specific wikiref constructs for conversion (`attr`s are implicitly included in `link`s).
+
+`opts.format: 'filename' | 'relative' | 'absolute'`: how to format markdown link uris based on wikiref filenames: use a slugified filename, relative path, or absolute path of the file (paths rely on `uriToFnameHash` option to be provided).
+
+`opts.uriToFnameHash: Record<string, string>`: a hash table explicitly defining what uri maps to what filename.
+
 ### `renameFileName(oldFileName: string, newFileName: string, content: string): string`
 
 For all references in a given `content` string which point to an `oldFileName` and rename them to the `newFileName`; ignores escaped instances.
@@ -143,10 +155,21 @@ Options:
 
 `opts.skipEsc: boolean`: whether or not to skip escaped wiki construct instances; set to `true` by default.
 
+### `wikiToMkdn(content: string, opts?: ConvertOpts): string`
 
-`kind: string`: specific kinds of wiki constructs may be targetted; valid options are `'attr'` and `'link'`.
+Convert `[[wikirefs]]` to `[markdown](links)` in a given `content` string.
 
-`skipEsc: boolean`: whether or not to skip escaped wiki construct instances; set to `true` by default.
+In the given `content` string, convert `[[wikirefs]]` to `[markdown](links)` and `![[wikiembed-images]]` to `![markdown](img-embeds)`. File extensions are preserved for media and may be optionally removed or left in-place for markdown files.
+
+Options:
+
+`opts.kind: 'ref' | 'link' | 'embed'`: target specific wikiref constructs for conversion (`attr`s are implicitly included in `link`s).
+
+`opts.format: 'filename' | 'relative' | 'absolute'`: how to format markdown link uris based on wikiref filenames: use a slugified filename, relative path, or absolute path of the file.
+
+`opts.ext: boolean`: whether or not to include file extension in uri.
+
+`opts.fnameToUriHash: Record<string, string>`: a hash table explicitly defining what filename maps to what uri.
 
 ### Regex API
 

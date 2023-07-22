@@ -37,6 +37,14 @@ export namespace CONST {
     VID      : 'video',
   } as const;
 
+  // uri formats
+  // (used for markdown link conversion)
+  export const URI = {
+    FNAME    : 'filename',
+    ABSPATH  : 'absolute',
+    RELPATH  : 'relative',
+  } as const;
+
   // const marker symbols
 
   export const MARKER = {
