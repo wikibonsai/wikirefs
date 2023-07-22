@@ -30,7 +30,7 @@ export interface WikiLinkResult extends ScanResult {
 }
 
 export interface WikiEmbedResult extends ScanResult {
-  filename: [string, number] | [];
+  filename: [string, number];
   media: string;
 }
 
@@ -190,5 +190,6 @@ export function scan(content: string, opts?: ScanOpts): (WikiAttrResult | WikiLi
       }
     } while (linkMatch);
   }
-  return res;
+  // sort matches by start position
+  return res.sort((a, b) => a.start - b.start);
 }

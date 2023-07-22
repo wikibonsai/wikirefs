@@ -109,16 +109,15 @@ The content string to make the retype (rename).
 
 ### `scan(content: string, opts?: ScanOpts): (WikiAttrResult | WikiLinkResult | WikiEmbedResult)[]`
 
-Scan a given `content` string and return an array of descriptions of all valid wiki constructs. Results typically contain an array with two items, the first being the wikitext (see [note](#a-note-on-terminology) below) and the second being the index of the wikitext's starting position in the content string.
+Scan a given `content` string and return an array of descriptions of all valid wikiref constructs. Result formats are listed below and are sorted by order of appearance in the content string based on theri `start` position.
 
 Result formats:
 
 ```js
 ScanResult {
-  kind: string;
-  text: string;
-  start: number;
-  end: number;
+  kind: string;  // kind of wikiref
+  text: string;  // match text
+  start: number; // match start position in content string
 }
 WikiAttrResult extends ScanResult {
   type: [string, number] | [];
@@ -131,7 +130,7 @@ WikiLinkResult extends ScanResult {
   label: [string, number] | [];
 }
 WikiEmbedResult extends ScanResult {
-  filename: [string, number] | [];
+  filename: [string, number];
   media: string;
 }
 ```
