@@ -39,7 +39,7 @@ In the given `content` string, convert `[markdown](links)` to `[[wikirefs]]` and
 
 Options:
 
-`opts.kind: 'ref' | 'link' | 'embed'`: target specific wikiref constructs for conversion (`attr`s are implicitly included in `link`s).
+`opts.kind: 'wikiref' | 'wikilink' | 'wikiembed'`: target specific wikiref constructs for conversion (`attr`s are implicitly included in `link`s).
 
 `opts.format: 'filename' | 'relative' | 'absolute'`: how to format markdown link uris based on wikiref filenames: use a slugified filename, relative path, or absolute path of the file (paths rely on `uriToFnameHash` option to be provided).
 
@@ -151,7 +151,7 @@ Options:
 
 `opts.filename: string`: a specific filename to be targetted -- non-target-filename wiki constructs will be ignored.
 
-`opts.kind: string`: specific kinds of wiki constructs may be targetted; valid options are `'attr'` and `'link'`.
+`opts.kind: string`: specific kinds of wiki constructs may be targetted; valid options are `'wikiattr'`, `'wikilink'`, and `'wikiembed'`.
 
 `opts.skipEsc: boolean`: whether or not to skip escaped wiki construct instances; set to `true` by default.
 
@@ -163,7 +163,7 @@ In the given `content` string, convert `[[wikirefs]]` to `[markdown](links)` and
 
 Options:
 
-`opts.kind: 'ref' | 'link' | 'embed'`: target specific wikiref constructs for conversion (`attr`s are implicitly included in `link`s).
+`opts.kind: 'wikiref' | 'wikilink' | 'wikiembed'`: target specific wikiref constructs for conversion (`attr`s are implicitly included in `link`s).
 
 `opts.format: 'filename' | 'relative' | 'absolute'`: how to format markdown link uris based on wikiref filenames: use a slugified filename, relative path, or absolute path of the file.
 
