@@ -27,7 +27,7 @@ export namespace CONST {
       ANCESTOR   : 'ancestor',   // all up
       PARENT     : 'parent',     // one up
       SIBLING    : 'sibling',    // all sides
-      CHILDREN   : 'children',   // one down
+      CHILD      : 'child',      // one down
       DESCENDANT : 'descendant', // all down
       LINEAGE    : 'lineage',    // all up + all down - self (excludes self)
     },
@@ -59,12 +59,6 @@ export namespace CONST {
     REF      : 'reftype',
     ATTR     : 'attrtype',
     LINK     : 'linktype',
-  } as const;
-
-  // "direction"
-  export const DIR = {
-    FORE     : 'fore',
-    BACK     : 'back',
   } as const;
 
   export const MEDIA = {
