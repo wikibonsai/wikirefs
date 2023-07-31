@@ -1,9 +1,49 @@
 /* eslint indent: 0 */
 /* eslint @typescript-eslint/no-namespace: 0 */
 
+////
+// note:
+// 
+// at the time of writing, constants are mainly a means of defining a
+// controlled vocabulary that is referenced across the entire WikiBonsai
+// project (https://github.com/wikibonsai/wikibonsai/blob/main/docs/TERMS.md).
+
 export namespace CONST {
 
   // const names
+
+  // "direction"
+  export const DIR = {
+    FORE     : 'fore',
+    BACK     : 'back',
+  } as const;
+
+  // kind of relationships
+  // (used for short-hand)
+  export const REL = {
+    // tree
+    FAM      : {
+      FAM        : 'fam',
+      ANCESTOR   : 'ancestor',   // all up
+      PARENT     : 'parent',     // one up
+      SIBLING    : 'sibling',    // all sides
+      CHILDREN   : 'children',   // one down
+      DESCENDANT : 'descendant', // all down
+      LINEAGE    : 'lineage',    // all up + all down - self (excludes self)
+    },
+    // web
+    REF      : {
+      REF      : 'ref',
+      ATTR     : 'attr',
+      LINK     : 'link',
+      EMBED    : 'embed',
+      // direction
+      DIR      : {
+        FORE     : 'fore',
+        BACK     : 'back',
+      },
+    },
+  } as const;
 
   // wiki construct kinds
   export const WIKI = {
