@@ -131,6 +131,35 @@ describe('renameFileName()', () => {
 
   });
 
+  describe('ref', () => {
+
+    it('all', testRenameFileName({
+      mkdn: `
+:attrtype::
+- [[wikilink]]
+- [[wikilink]]
+
+this is a :typed::[[wikilink]].
+
+this is an untyped [[wikilink]].
+
+![[wikilink]]
+`,
+      expdMkdn: `
+:attrtype::
+- [[hello-world]]
+- [[hello-world]]
+
+this is a :typed::[[hello-world]].
+
+this is an untyped [[hello-world]].
+
+![[hello-world]]
+`,
+    }));
+
+  });
+
   describe('escaped; attr; prefixed', () => {
 
     it('single', testRenameFileName({

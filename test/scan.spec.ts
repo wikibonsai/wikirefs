@@ -246,6 +246,46 @@ describe('scan()', () => {
 
   describe('ref', () => {
 
+    it('all; same fname', testScan({
+      mkdn: `
+:attrtype::[[fname-a]]
+
+this is a :typed::[[fname-a]].
+
+this is an untyped [[fname-a]].
+
+![[fname-a]]
+`,
+      expdData: [{
+        kind: 'wikiattr',
+        text: ':attrtype::[[fname-a]]\n',
+        start: 1,
+        type: ['attrtype', 2],
+        filenames: [ ['fname-a', 14] ],
+        listFormat: 'none',
+      }, {
+        kind: 'wikilink',
+        text: ':typed::[[fname-a]]',
+        start: 35,
+        type: ['typed', 36],
+        filename: ['fname-a', 45],
+        label: [],
+      }, {
+        kind: 'wikilink',
+        text: '[[fname-a]]',
+        start: 76,
+        type: [],
+        filename: ['fname-a', 78],
+        label: [],
+      }, {
+        kind: 'wikiembed',
+        media: 'markdown',
+        text: '![[fname-a]]',
+        start: 90,
+        filename: ['fname-a', 93],
+      }],
+    }));
+
     it('wikiattr; single; multi', testScan({
       mkdn: `
 :reftype::[[fname-a]]
