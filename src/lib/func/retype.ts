@@ -1,5 +1,4 @@
-import { getEscIndices, isStrEscaped } from 'escape-mkdn';
-
+import * as string from '../../util/string';
 import { RGX } from '../var/regex';
 
 
@@ -31,36 +30,7 @@ export function retypeAttrType(
     return 'wikirefs.retypeAttrType() error: content \'content\' is shorter than \'newAttrType\', aborting.';
   }
   const wikiattr: RegExp = new RegExp(RGX.WIKI.ATTR, 'gm');
-  const escdIndices: number[] = getEscIndices(content);
-  // 🦨 do-while: https://stackoverflow.com/a/6323598
-  let match: RegExpExecArray | null;
-  let lastOffset: number = 0;
-  let updatedContent: string = '';
-  do {
-    match = wikiattr.exec(content);
-    if (match && (match[1].trim() === oldAttrType)) {
-      const matchText: string = match[0];
-      // for possible initial whitespace pad
-      const attrTypeTextOffset: number = matchText.indexOf(oldAttrType);
-      // attrtype range
-      const start: number = (match.index + attrTypeTextOffset);
-      const end: number = (match.index + attrTypeTextOffset + oldAttrType.length);
-      // check for escapes
-      /* eslint-disable indent */
-      const escaped: boolean = isStrEscaped(
-                                              oldAttrType, content,
-                                              attrTypeTextOffset, escdIndices,
-                                            );
-      /* eslint-enable indent */
-      if (!escaped) {
-        updatedContent += content.substring(lastOffset, start)
-                        + newAttrType;
-        lastOffset = end;
-      }
-    }
-  } while (match);
-  updatedContent += content.substring(lastOffset);
-  return updatedContent;
+  return string.replace(wikiattr, oldAttrType, newAttrType, content, { pad: true });
 }
 
 export function retypeLinkType(
@@ -75,33 +45,5 @@ export function retypeLinkType(
     return 'wikirefs.retypeLinkType() error: content \'content\' is shorter than \'newLinkType\', aborting.';
   }
   const wikilink: RegExp = new RegExp(RGX.WIKI.LINK, 'g');
-  const escdIndices: number[] = getEscIndices(content);
-  // 🦨 do-while: https://stackoverflow.com/a/6323598
-  let match: RegExpExecArray | null;
-  let lastOffset: number = 0;
-  let updatedContent: string = '';
-  do {
-    match = wikilink.exec(content);
-    if (match && (match[1] === oldLinkType)) {
-      const matchText: string = match[0];
-      const linkTypeTextOffset: number = matchText.indexOf(oldLinkType);
-      // linktype range
-      const start: number = (match.index + linkTypeTextOffset);
-      const end: number = (match.index + linkTypeTextOffset + oldLinkType.length);
-      // check for escapes
-      /* eslint-disable indent */
-      const escaped: boolean = isStrEscaped(
-                                              oldLinkType, content,
-                                              linkTypeTextOffset, escdIndices,
-                                            );
-      /* eslint-enable indent */
-      if (!escaped) {
-        updatedContent += content.substring(lastOffset, start)
-                        + newLinkType;
-        lastOffset = end;
-      }
-    }
-  } while (match);
-  updatedContent += content.substring(lastOffset);
-  return updatedContent;
+  return string.replace(wikilink, oldLinkType, newLinkType, content);
 }
