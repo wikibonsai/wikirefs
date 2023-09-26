@@ -19,17 +19,10 @@ describe('renameFileName()', () => {
 
     describe('protect against mis-ordered function params', () => {
 
-      it('\'content\' string longer than \'oldFileName\' (protects against mis-ordered function params)', () => {
+      it('\'content\' string should be longer than \'oldFileName\'', () => {
         const mkdn: string = 'Here is some content with a [[wikiref]].';
         const expdMkdn: string = 'wikirefs.renameFileName() error: content \'content\' is shorter than \'oldFileName\', aborting.';
         const actlMkdn: string = wikirefs.renameFileName(mkdn, 'wikilink.pdf', 'hello-world.pdf');
-        assert.strictEqual(actlMkdn, expdMkdn);
-      });
-
-      it('\'content\' string longer than \'newFileName\' (protects against mis-ordered function params)', () => {
-        const mkdn: string = 'Here is some content with a [[wikiref]].';
-        const expdMkdn: string = 'wikirefs.renameFileName() error: content \'content\' is shorter than \'newFileName\', aborting.';
-        const actlMkdn: string = wikirefs.renameFileName('wikilink.pdf', mkdn, 'hello-world.pdf');
         assert.strictEqual(actlMkdn, expdMkdn);
       });
 

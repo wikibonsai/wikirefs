@@ -13,9 +13,6 @@ export function renameFileName(
   if (content.length < oldFileName.length) {
     return 'wikirefs.renameFileName() error: content \'content\' is shorter than \'oldFileName\', aborting.';
   }
-  if (content.length < newFileName.length) {
-    return 'wikirefs.renameFileName() error: content \'content\' is shorter than \'newFileName\', aborting.';
-  }
   const wikiTextFilename: RegExp = new RegExp(RGX.GET.FILENAME, 'g');
   return string.replace(wikiTextFilename, oldFileName, newFileName, content);
 }

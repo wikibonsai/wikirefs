@@ -19,17 +19,10 @@ describe('retypeRefType()', () => {
 
     describe('protect against mis-ordered function params', () => {
 
-      it('\'content\' string longer than \'oldRefType\' (protects against mis-ordered function params)', () => {
+      it('\'content\' string should be longer than \'oldRefType\'', () => {
         const mkdn: string = 'Here is some content with a [[wikiref]].';
         const expdMkdn: string = 'wikirefs.retypeRefType() error: content \'content\' is shorter than \'oldRefType\', aborting.';
         const actlMkdn: string = wikirefs.retypeRefType(mkdn, 'wikilink.pdf', 'hello-world.pdf');
-        assert.strictEqual(actlMkdn, expdMkdn);
-      });
-
-      it('\'content\' string longer than \'newRefType\' (protects against mis-ordered function params)', () => {
-        const mkdn: string = 'Here is some content with a [[wikiref]].';
-        const expdMkdn: string = 'wikirefs.retypeRefType() error: content \'content\' is shorter than \'newRefType\', aborting.';
-        const actlMkdn: string = wikirefs.retypeRefType('wikilink.pdf', mkdn, 'hello-world.pdf');
         assert.strictEqual(actlMkdn, expdMkdn);
       });
 
@@ -131,17 +124,10 @@ describe('retypeAttrType()', () => {
 
     describe('protect against mis-ordered function params', () => {
 
-      it('\'content\' string longer than \'oldAttrType\' (protects against mis-ordered function params)', () => {
+      it('\'content\' string should be longer than \'oldAttrType\'', () => {
         const mkdn: string = 'Here is some content with a [[wikiref]].';
         const expdMkdn: string = 'wikirefs.retypeAttrType() error: content \'content\' is shorter than \'oldAttrType\', aborting.';
         const actlMkdn: string = wikirefs.retypeAttrType(mkdn, 'wikilink.pdf', 'hello-world.pdf');
-        assert.strictEqual(actlMkdn, expdMkdn);
-      });
-
-      it('\'content\' string longer than \'newAttrType\' (protects against mis-ordered function params)', () => {
-        const mkdn: string = 'Here is some content with a [[wikiref]].';
-        const expdMkdn: string = 'wikirefs.retypeAttrType() error: content \'content\' is shorter than \'newAttrType\', aborting.';
-        const actlMkdn: string = wikirefs.retypeAttrType('wikilink.pdf', mkdn, 'hello-world.pdf');
         assert.strictEqual(actlMkdn, expdMkdn);
       });
 
@@ -271,17 +257,10 @@ describe('retypeLinkType()', () => {
 
     describe('protect against mis-ordered function params', () => {
 
-      it('\'content\' string longer than \'oldLinkType\'', () => {
+      it('\'content\' string should be longer than \'oldLinkType\'', () => {
         const mkdn: string = 'Here is some content with a [[wikiref]].';
         const expdMkdn: string = 'wikirefs.retypeLinkType() error: content \'content\' is shorter than \'oldLinkType\', aborting.';
         const actlMkdn: string = wikirefs.retypeLinkType(mkdn, 'wikilink.pdf', 'hello-world.pdf');
-        assert.strictEqual(actlMkdn, expdMkdn);
-      });
-
-      it('\'content\' string longer than \'oldLinkType\'', () => {
-        const mkdn: string = 'Here is some content with a [[wikiref]].';
-        const expdMkdn: string = 'wikirefs.retypeLinkType() error: content \'content\' is shorter than \'newLinkType\', aborting.';
-        const actlMkdn: string = wikirefs.retypeLinkType('wikilink.pdf', mkdn, 'hello-world.pdf');
         assert.strictEqual(actlMkdn, expdMkdn);
       });
 
