@@ -149,7 +149,6 @@ describe('retypeAttrType()', () => {
 
   });
 
-
   it('replace exact reftype match', testRetypeAttrType({
     mkdn: ':old-reftype::[[wikilink]]\n:old-reftype-ing::[[wikilinking]]\n',
     expdMkdn: ':new-reftype::[[wikilink]]\n:old-reftype-ing::[[wikilinking]]\n',
