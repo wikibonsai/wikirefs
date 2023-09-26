@@ -34,33 +34,33 @@ export function retypeAttrType(
   const escdIndices: number[] = getEscIndices(content);
   // 🦨 do-while: https://stackoverflow.com/a/6323598
   let match: RegExpExecArray | null;
+  let lastOffset: number = 0;
+  let updatedContent: string = '';
   do {
     match = wikiattr.exec(content);
-    if (match && match[1]) {
+    if (match && (match[1].trim() === oldAttrType)) {
       const matchText: string = match[0];
-      const attrTypeText: string = match[1].trim();
-      if (attrTypeText === oldAttrType) {
-        // for possible initial whitespace pad
-        const attrTypeTextOffset: number = matchText.indexOf(attrTypeText);
-        // attrtype range
-        const start: number = (match.index + attrTypeTextOffset);
-        const end: number = (match.index + attrTypeTextOffset + attrTypeText.length);
-        // check for escapes
-        /* eslint-disable indent */
-        const escaped: boolean = isStrEscaped(
-                                                oldAttrType, content,
-                                                attrTypeTextOffset, escdIndices,
-                                              );
-        /* eslint-enable indent */
-        if (!escaped) {
-          content = content.substring(0, start)
-                    + newAttrType
-                    + content.substring(end);
-        }
+      // for possible initial whitespace pad
+      const attrTypeTextOffset: number = matchText.indexOf(oldAttrType);
+      // attrtype range
+      const start: number = (match.index + attrTypeTextOffset);
+      const end: number = (match.index + attrTypeTextOffset + oldAttrType.length);
+      // check for escapes
+      /* eslint-disable indent */
+      const escaped: boolean = isStrEscaped(
+                                              oldAttrType, content,
+                                              attrTypeTextOffset, escdIndices,
+                                            );
+      /* eslint-enable indent */
+      if (!escaped) {
+        updatedContent += content.substring(lastOffset, start)
+                        + newAttrType;
+        lastOffset = end;
       }
     }
   } while (match);
-  return content;
+  updatedContent += content.substring(lastOffset);
+  return updatedContent;
 }
 
 export function retypeLinkType(
@@ -78,31 +78,30 @@ export function retypeLinkType(
   const escdIndices: number[] = getEscIndices(content);
   // 🦨 do-while: https://stackoverflow.com/a/6323598
   let match: RegExpExecArray | null;
+  let lastOffset: number = 0;
+  let updatedContent: string = '';
   do {
     match = wikilink.exec(content);
-    if (match && match[1]) {
+    if (match && (match[1] === oldLinkType)) {
       const matchText: string = match[0];
-      const linkTypeText: string = match[1].trim();
-      if (linkTypeText === oldLinkType) {
-        // for possible initial whitespace pad
-        const linkTypeTextOffset: number = matchText.indexOf(linkTypeText);
-        // linktype range
-        const start: number = (match.index + linkTypeTextOffset);
-        const end: number = (match.index + linkTypeTextOffset + linkTypeText.length);
-        // check for escapes
-        /* eslint-disable indent */
-        const escaped: boolean = isStrEscaped(
-                                                oldLinkType, content,
-                                                linkTypeTextOffset, escdIndices,
-                                              );
-        /* eslint-enable indent */
-        if (!escaped) {
-          content = content.substring(0, start)
-                    + newLinkType
-                    + content.substring(end);
-        }
+      const linkTypeTextOffset: number = matchText.indexOf(oldLinkType);
+      // linktype range
+      const start: number = (match.index + linkTypeTextOffset);
+      const end: number = (match.index + linkTypeTextOffset + oldLinkType.length);
+      // check for escapes
+      /* eslint-disable indent */
+      const escaped: boolean = isStrEscaped(
+                                              oldLinkType, content,
+                                              linkTypeTextOffset, escdIndices,
+                                            );
+      /* eslint-enable indent */
+      if (!escaped) {
+        updatedContent += content.substring(lastOffset, start)
+                        + newLinkType;
+        lastOffset = end;
       }
     }
   } while (match);
-  return content;
+  updatedContent += content.substring(lastOffset);
+  return updatedContent;
 }
