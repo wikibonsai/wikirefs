@@ -173,26 +173,13 @@ Options:
 
 ### Regex API
 
-Regex utilities for extracting wiki constructs from strings. all regexes are case insensitive and the `g` option may be added to find all instances of a wiki construct.
+Regex utilities for extracting wiki constructs from strings. All regexes are case insensitive and the `g` option may be added to find all instances of a wiki construct.
 
-See `regex.ts` for more regex utilities.
-
-### `RGX.WIKI.LINK`
-
-Note: The wikilink regex results will include single wikiattr constructs that match successfully. To see if the result is actually a wikiattr, check that the match is nested directly between two newlines; e.g. it starts at the beginning of a line and ends at the end of the line.
-
-```js
-import * as wikirefs from 'wikirefs';
-
-const match = wikirefs.RGX.WIKI.LINK.exec(':linktype::[[wikilink|label]]');
-
-const matchText    : string = match[0]; // ':linktype::[[wikilink|label]]'
-const linkTypeText : string = match[1]; // 'linktype'
-const fileNameText : string = match[2]; // 'wikilink'
-const labelText    : string = match[3]; // 'label'
-```
+See [`regex.ts`](https://github.com/wikibonsai/wikirefs/blob/main/src/lib/var/regex.ts) for more regex utilities.
 
 ### `RGX.WIKI.ATTR`
+
+Note: Since javascript/typescript regex does not support the [`\G` anchor](https://ruby-doc.org/core-2.5.1/Regexp.html#class-Regexp-label-Anchors), filenames should be extracted from list items in the full match string. `wikirefs.RGX.WIKI.BASE` is a convenience regex for this purpose.
 
 ```js
 // mkdn + comma separated formats both supported
@@ -208,10 +195,10 @@ const match = wikirefs.RGX.WIKI.ATTR.exec(`
 const matchText    : string = match[0]; // ':attrtype::[[wikilink1]],[[wikilink2]]\n'
 const attrTypeText : string = match[1]; // 'attrtype'
 
-// extract filenames manually
+// no '\G' so extract filenames manually
 let fnameMatch: RegExpExecArray;
 let filenames: string[] = [];           // ['wikilink1', 'wikilink2']
-const fnameRegex = new RegExp(RGX.WIKI.BASE, 'gi');
+const fnameRegex = new RegExp(wikirefs.RGX.WIKI.BASE, 'g');
 do {
   fnameMatch = fnameRegex.exec(matchText);
   if (fnameMatch) {
@@ -233,10 +220,10 @@ const match = wikirefs.RGX.WIKI.ATTR.exec(
 const matchText    : string = match[0]; // ':attrtype::\n- [[wikilink1]]\n- [[wikilink2]]\n'
 const attrTypeText : string = match[1]; // 'attrtype'
 
-// extract filenames manually
+// no '\G' so extract filenames manually
 let fnameMatch: RegExpExecArray;
 let filenames: string[] = [];           // ['wikilink1', 'wikilink2']
-const fnameRegex = new RegExp(RGX.WIKI.BASE, 'gi');
+const fnameRegex = new RegExp(wikirefs.RGX.WIKI.BASE, 'g');
 do {
   fnameMatch = fnameRegex.exec(matchText);
   if (fnameMatch) {
@@ -248,6 +235,31 @@ console.log(attrTypeText, filenames) // prints: 'attrtype', ['wikilink1', 'wikil
 
 ```
 
+### `RGX.WIKI.LINK`
+
+Note: The wikilink regex results will include single wikiattr constructs that match successfully. To see if the result is actually a wikiattr, check that the match is followed by a newline.
+
+```js
+import * as wikirefs from 'wikirefs';
+
+const match = wikirefs.RGX.WIKI.LINK.exec(':linktype::[[wikilink|label]]');
+
+const matchText    : string = match[0]; // ':linktype::[[wikilink|label]]'
+const linkTypeText : string = match[1]; // 'linktype'
+const fileNameText : string = match[2]; // 'wikilink'
+const labelText    : string = match[3]; // 'label'
+```
+
+### `RGX.WIKI.EMBED`
+
+```js
+import * as wikirefs from 'wikirefs';
+
+const match = wikirefs.RGX.WIKI.EMBED.exec('![[wikiembed]]');
+
+const matchText    : string = match[0]; // '![[wikiembed]]'
+const fileNameText : string = match[1]; // 'wikiembed'
+```
 
 ## A Note On Terminology
 
