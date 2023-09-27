@@ -782,7 +782,76 @@ some random text.
 `,
   },
   // alongside other markdown constructs
-  // lists: mimicks how markdown treats text paragraphs that are next to lists
+  {
+    descr: 'wikiattr; unprefixed; w/ other mkdn constructs; near headers; before',
+    mkdn:
+`attrtype::[[fname-a]]
+
+# a header
+`,
+    html:
+`<aside class="attrbox">
+<span class="attrbox-title">Attributes</span>
+<dl>
+<dt>attrtype</dt>
+<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
+</dl>
+</aside>
+<h1>a header</h1>
+`,
+  },
+  {
+    descr: 'wikiattr; unprefixed; w/ other mkdn constructs; near headers; immediate before',
+    mkdn:
+`attrtype::[[fname-a]]
+# a header
+`,
+    html:
+`<aside class="attrbox">
+<span class="attrbox-title">Attributes</span>
+<dl>
+<dt>attrtype</dt>
+<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
+</dl>
+</aside>
+<h1>a header</h1>
+`,
+  },
+  {
+    descr: 'wikiattr; unprefixed; w/ other mkdn constructs; near headers; after',
+    mkdn:
+`# a header
+
+attrtype::[[fname-a]]
+`,
+    html:
+`<aside class="attrbox">
+<span class="attrbox-title">Attributes</span>
+<dl>
+<dt>attrtype</dt>
+<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
+</dl>
+</aside>
+<h1>a header</h1>
+`,
+  },
+  {
+    descr: 'wikiattr; unprefixed; w/ other mkdn constructs; near headers; immediate after',
+    mkdn:
+`# a header
+attrtype::[[fname-a]]
+`,
+    html:
+`<aside class="attrbox">
+<span class="attrbox-title">Attributes</span>
+<dl>
+<dt>attrtype</dt>
+<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
+</dl>
+</aside>
+<h1>a header</h1>
+`,
+  },
   {
     descr: 'wikiattr; unprefixed; w/ other mkdn constructs; near lists; before',
     mkdn: 
@@ -873,6 +942,84 @@ attrtype::[[fname-a]]
 <li>list-item-2</li>
 <li>list-item-3</li>
 </ul>
+`,
+  },
+  {
+    descr: 'wikiattr; unprefixed; w/ other mkdn constructs; near blockquotes; before',
+    mkdn:
+`attrtype::[[fname-a]]
+
+> some text
+`,
+    html:
+`<aside class="attrbox">
+<span class="attrbox-title">Attributes</span>
+<dl>
+<dt>attrtype</dt>
+<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
+</dl>
+</aside>
+<blockquote>
+<p>some text</p>
+</blockquote>
+`,
+  },
+  {
+    descr: 'wikiattr; unprefixed; w/ other mkdn constructs; near blockquotes; immediate before',
+    mkdn:
+`attrtype::[[fname-a]]
+> some text
+`,
+    html:
+`<aside class="attrbox">
+<span class="attrbox-title">Attributes</span>
+<dl>
+<dt>attrtype</dt>
+<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
+</dl>
+</aside>
+<blockquote>
+<p>some text</p>
+</blockquote>
+`,
+  },
+  {
+    descr: 'wikiattr; unprefixed; w/ other mkdn constructs; near blockquotes; after',
+    mkdn: 
+`> some text
+
+attrtype::[[fname-a]]
+`,
+    html:
+`<aside class="attrbox">
+<span class="attrbox-title">Attributes</span>
+<dl>
+<dt>attrtype</dt>
+<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
+</dl>
+</aside>
+<blockquote>
+<p>some text</p>
+</blockquote>
+`,
+  },
+  {
+    descr: 'wikiattr; unprefixed; w/ other mkdn constructs; near blockquotes; immediate after',
+    mkdn: 
+`> some text
+attrtype::[[fname-a]]
+`,
+    html:
+`<aside class="attrbox">
+<span class="attrbox-title">Attributes</span>
+<dl>
+<dt>attrtype</dt>
+<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
+</dl>
+</aside>
+<blockquote>
+<p>some text</p>
+</blockquote>
 `,
   },
   // nested
