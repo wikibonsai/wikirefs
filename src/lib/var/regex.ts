@@ -23,7 +23,7 @@ export namespace RGX {
     // markdown-style block-reference
     // BLOCK          : /".* \^" + BLOCK_ID$/i,
 
-    // wikilink (by order of appearance)
+    // wikilink (by order of syntactic appearance)
     EMBED             : new RegExp(esc(CONST.MARKER.EMBED)),
     NOT_EMBED         : new RegExp('(?<!' + esc(CONST.MARKER.EMBED) + ')', 'i'),
     PREFIX            : new RegExp('(?:' + CONST.MARKER.PREFIX + ' ?)'),

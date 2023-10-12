@@ -18,15 +18,16 @@ import { wikiEmbedCases } from './cases/wikiembed';
 // vars
 
 /* eslint-disable indent */
-const wikiAttrCases: WikiRefTestCase[] = ([] as WikiRefTestCase[]).concat(wikiAttrUnprefixedCases)
-                                                                  .concat(wikiAttrPrefixedCases)
-                                                                  .concat(wikiAttrMixedCases);
-const wikiLinkCases: WikiRefTestCase[] = ([] as WikiRefTestCase[]).concat(wikiLinkTypedCases)
-                                                                  .concat(wikiLinkUntypedCases)
-                                                                  .concat(wikiLinkMixedCases);
-const wikiRefCases : WikiRefTestCase[] = ([] as WikiRefTestCase[]).concat(wikiAttrCases)
-                                                                  .concat(wikiLinkCases)
-                                                                  .concat(wikiEmbedCases);
+const wikiAttrCases : WikiRefTestCase[] = ([] as WikiRefTestCase[]).concat(wikiAttrUnprefixedCases)
+                                                                   .concat(wikiAttrPrefixedCases)
+                                                                   .concat(wikiAttrMixedCases);
+const wikiLinkCases : WikiRefTestCase[] = ([] as WikiRefTestCase[]).concat(wikiLinkTypedCases)
+                                                                   .concat(wikiLinkUntypedCases)
+                                                                   .concat(wikiLinkMixedCases);
+// const wikiEmbedCases: WikiRefTestCase[] = wikiEmbedCases;
+const wikiRefCases  : WikiRefTestCase[] = ([] as WikiRefTestCase[]).concat(wikiAttrCases)
+                                                                   .concat(wikiLinkCases)
+                                                                   .concat(wikiEmbedCases);
 /* eslint-enable indent */
 
 // export

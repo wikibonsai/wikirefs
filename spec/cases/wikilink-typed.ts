@@ -184,6 +184,26 @@ export const wikiLinkTypedCases: WikiRefTestCase[] = [
 `,
     html: '<h1><a class="wiki link invalid">:linktype::[[no-html-href]]</a></h1>\n',
   },
+//   {
+//     descr: 'wikilink; typed; w/ other mkdn constructs; url',
+//     mkdn:
+// `<www.example.com>
+// [[fname-a]]
+// `,
+//     html:
+// `<p><a href="www.example.com">www.example.com</a><a class="wiki link type reftype__linktype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></p>
+// `,
+//   },
+//   {
+//     descr: 'wikilink; typed; w/ other mkdn constructs; angle brackets',
+//     mkdn:
+// `<some text>
+// [[fname-a]]
+// `,
+//     html:
+// `<p><some text><a class="wiki link type reftype__linktype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></p>
+// `,
+//   },
   {
     descr: 'wikilink; typed; w/ other mkdn constructs; blockquote',
     mkdn: '> :linktype::[[fname-a]]',
