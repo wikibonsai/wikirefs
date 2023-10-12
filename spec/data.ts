@@ -19,6 +19,11 @@ export const fileDataMap: TestFileData[] = [
     title: 'Title C',
     href: '/tests/fixtures/fname-c',
   },
+  {
+    filename: 'fname-d',
+    title: 'Title D',
+    href: '/tests/fixtures/fname-d',
+  },
   // single-char case
   {
     filename: 'a',

@@ -154,20 +154,20 @@ export const wikiAttrPrefixedCases: WikiRefTestCase[] = [
   {
     descr: 'wikiattr; prefixed; single; multi; w/o space',
     mkdn: 
-`:attrtype1::[[fname-a]]
-:attrtype2::[[fname-b]]
-:attrtype3::[[fname-c]]
+`:attrtype-1::[[fname-a]]
+:attrtype-2::[[fname-b]]
+:attrtype-3::[[fname-c]]
 `, 
     html:
 `<aside class="attrbox">
 <span class="attrbox-title">Attributes</span>
 <dl>
-<dt>attrtype1</dt>
-<dd><a class="attr wiki reftype__attrtype1" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
-<dt>attrtype2</dt>
-<dd><a class="attr wiki reftype__attrtype2" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></dd>
-<dt>attrtype3</dt>
-<dd><a class="attr wiki reftype__attrtype3" href="/tests/fixtures/fname-c" data-href="/tests/fixtures/fname-c">title c</a></dd>
+<dt>attrtype-1</dt>
+<dd><a class="attr wiki reftype__attrtype-1" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
+<dt>attrtype-2</dt>
+<dd><a class="attr wiki reftype__attrtype-2" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></dd>
+<dt>attrtype-3</dt>
+<dd><a class="attr wiki reftype__attrtype-3" href="/tests/fixtures/fname-c" data-href="/tests/fixtures/fname-c">title c</a></dd>
 </dl>
 </aside>
 `,
@@ -175,23 +175,23 @@ export const wikiAttrPrefixedCases: WikiRefTestCase[] = [
   {
     descr: 'wikiattr; prefixed; single; multi; w/ space',
     mkdn: 
-`:attrtype1::[[fname-a]]
+`:attrtype-1::[[fname-a]]
 
-:attrtype2::[[fname-b]]
+:attrtype-2::[[fname-b]]
 
-:attrtype3::[[fname-c]]
+:attrtype-3::[[fname-c]]
 
 `,
     html:
 `<aside class="attrbox">
 <span class="attrbox-title">Attributes</span>
 <dl>
-<dt>attrtype1</dt>
-<dd><a class="attr wiki reftype__attrtype1" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
-<dt>attrtype2</dt>
-<dd><a class="attr wiki reftype__attrtype2" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></dd>
-<dt>attrtype3</dt>
-<dd><a class="attr wiki reftype__attrtype3" href="/tests/fixtures/fname-c" data-href="/tests/fixtures/fname-c">title c</a></dd>
+<dt>attrtype-1</dt>
+<dd><a class="attr wiki reftype__attrtype-1" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
+<dt>attrtype-2</dt>
+<dd><a class="attr wiki reftype__attrtype-2" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></dd>
+<dt>attrtype-3</dt>
+<dd><a class="attr wiki reftype__attrtype-3" href="/tests/fixtures/fname-c" data-href="/tests/fixtures/fname-c">title c</a></dd>
 </dl>
 </aside>
 `,
@@ -199,20 +199,20 @@ export const wikiAttrPrefixedCases: WikiRefTestCase[] = [
   {
     descr: 'wikiattr; prefixed; single; multi; variable space before attrtype special char (::)',
     mkdn:
-`:attrtype1 :: [[fname-a]]
-:attrtype2  :: [[fname-b]]
-:attrtype3     :: [[fname-c]]
+`:attrtype-1 :: [[fname-a]]
+:attrtype-2  :: [[fname-b]]
+:attrtype-3     :: [[fname-c]]
 `,
     html:
 `<aside class="attrbox">
 <span class="attrbox-title">Attributes</span>
 <dl>
-<dt>attrtype1</dt>
-<dd><a class="attr wiki reftype__attrtype1" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
-<dt>attrtype2</dt>
-<dd><a class="attr wiki reftype__attrtype2" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></dd>
-<dt>attrtype3</dt>
-<dd><a class="attr wiki reftype__attrtype3" href="/tests/fixtures/fname-c" data-href="/tests/fixtures/fname-c">title c</a></dd>
+<dt>attrtype-1</dt>
+<dd><a class="attr wiki reftype__attrtype-1" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
+<dt>attrtype-2</dt>
+<dd><a class="attr wiki reftype__attrtype-2" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></dd>
+<dt>attrtype-3</dt>
+<dd><a class="attr wiki reftype__attrtype-3" href="/tests/fixtures/fname-c" data-href="/tests/fixtures/fname-c">title c</a></dd>
 </dl>
 </aside>
 `,
@@ -220,20 +220,20 @@ export const wikiAttrPrefixedCases: WikiRefTestCase[] = [
   {
     descr: 'wikiattr; prefixed; single; multi; variable space before attrtype special char (::) should not exceed 4 spaces (past prior attrtype)',
     mkdn:
-`:attrtype1 :: [[fname-a]]
-:attrtype2  :: [[fname-b]]
-:attrtype3       :: [[fname-c]]
+`:attrtype-1 :: [[fname-a]]
+:attrtype-2  :: [[fname-b]]
+:attrtype-3       :: [[fname-c]]
 `,
     html:
 `<aside class="attrbox">
 <span class="attrbox-title">Attributes</span>
 <dl>
-<dt>attrtype1</dt>
-<dd><a class="attr wiki reftype__attrtype1" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
-<dt>attrtype2</dt>
-<dd><a class="attr wiki reftype__attrtype2" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></dd>
-<dt>attrtype3</dt>
-<dd><a class="attr wiki reftype__attrtype3" href="/tests/fixtures/fname-c" data-href="/tests/fixtures/fname-c">title c</a></dd>
+<dt>attrtype-1</dt>
+<dd><a class="attr wiki reftype__attrtype-1" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
+<dt>attrtype-2</dt>
+<dd><a class="attr wiki reftype__attrtype-2" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></dd>
+<dt>attrtype-3</dt>
+<dd><a class="attr wiki reftype__attrtype-3" href="/tests/fixtures/fname-c" data-href="/tests/fixtures/fname-c">title c</a></dd>
 </dl>
 </aside>
 `,
@@ -241,25 +241,43 @@ export const wikiAttrPrefixedCases: WikiRefTestCase[] = [
   {
     descr: 'wikiattr; prefixed; single; multi; error; only one (optional) space allowed after attrtype special char (::)',
     mkdn: 
-`:attrtype1 :: [[fname-a]]
-:attrtype2  :: [[fname-b]]
-:attrtype3  ::  [[fname-c]]
+`:attrtype-1 :: [[fname-a]]
+:attrtype-2  :: [[fname-b]]
+:attrtype-3  ::  [[fname-c]]
 `,
     html:
 `<aside class="attrbox">
 <span class="attrbox-title">Attributes</span>
 <dl>
-<dt>attrtype1</dt>
-<dd><a class="attr wiki reftype__attrtype1" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
-<dt>attrtype2</dt>
-<dd><a class="attr wiki reftype__attrtype2" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></dd>
+<dt>attrtype-1</dt>
+<dd><a class="attr wiki reftype__attrtype-1" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
+<dt>attrtype-2</dt>
+<dd><a class="attr wiki reftype__attrtype-2" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></dd>
 </dl>
 </aside>
-<p>:attrtype3  ::  <a class="wiki link" href="/tests/fixtures/fname-c" data-href="/tests/fixtures/fname-c">title c</a></p>
+<p>:attrtype-3  ::  <a class="wiki link" href="/tests/fixtures/fname-c" data-href="/tests/fixtures/fname-c">title c</a></p>
 `,
   },
   {
-    descr: 'wikiattr; prefixed; single; multi; duplicate attrtypes',
+    descr: 'wikiattr; prefixed; single; multi; merge; no duplicates',
+    mkdn:
+`:attrtype-1::[[fname-a]]
+:attrtype-2::[[fname-b]]
+`,
+    html:
+`<aside class="attrbox">
+<span class="attrbox-title">Attributes</span>
+<dl>
+<dt>attrtype-1</dt>
+<dd><a class="attr wiki reftype__attrtype-1" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
+<dt>attrtype-2</dt>
+<dd><a class="attr wiki reftype__attrtype-2" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></dd>
+</dl>
+</aside>
+`,
+  },
+  {
+    descr: 'wikiattr; prefixed; single; multi; merge; duplicate attrtypes (merged), different filenames (preserved)',
     mkdn:
 `:attrtype::[[fname-a]]
 :attrtype::[[fname-b]]
@@ -276,7 +294,7 @@ export const wikiAttrPrefixedCases: WikiRefTestCase[] = [
 `,
   },
   {
-    descr: 'wikiattr; prefixed; single; multi; attrtype merged, duplicate filenames preserved',
+    descr: 'wikiattr; prefixed; single; multi; merge; duplicate attrtype (merged), duplicate filenames (preserved)',
     mkdn: 
 `:attrtype::[[fname-a]]
 :attrtype::[[fname-a]]
@@ -293,21 +311,41 @@ export const wikiAttrPrefixedCases: WikiRefTestCase[] = [
 `,
   },
   {
-    descr: 'wikiattr; prefixed; single; multi; can start on line other than first line; w/ space',
+    descr: 'wikiattr; prefixed; single; multi; merge; with text in between',
     mkdn:
-`some random text.
-
-:attrtype1::[[fname-a]]
-:attrtype2::[[fname-b]]
+`:attrtype-1::[[fname-a]]
+some in between text
+:attrtype-2::[[fname-b]]
 `,
     html:
 `<aside class="attrbox">
 <span class="attrbox-title">Attributes</span>
 <dl>
-<dt>attrtype1</dt>
-<dd><a class="attr wiki reftype__attrtype1" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
-<dt>attrtype2</dt>
-<dd><a class="attr wiki reftype__attrtype2" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></dd>
+<dt>attrtype-1</dt>
+<dd><a class="attr wiki reftype__attrtype-1" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
+<dt>attrtype-2</dt>
+<dd><a class="attr wiki reftype__attrtype-2" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></dd>
+</dl>
+</aside>
+<p>some in between text</p>
+`,
+  },
+  {
+    descr: 'wikiattr; prefixed; single; multi; can start on line other than first line; w/ space',
+    mkdn:
+`some random text.
+
+:attrtype-1::[[fname-a]]
+:attrtype-2::[[fname-b]]
+`,
+    html:
+`<aside class="attrbox">
+<span class="attrbox-title">Attributes</span>
+<dl>
+<dt>attrtype-1</dt>
+<dd><a class="attr wiki reftype__attrtype-1" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
+<dt>attrtype-2</dt>
+<dd><a class="attr wiki reftype__attrtype-2" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></dd>
 </dl>
 </aside>
 <p>some random text.</p>
@@ -317,40 +355,20 @@ export const wikiAttrPrefixedCases: WikiRefTestCase[] = [
     descr: 'wikiattr; prefixed; single; multi; can start on line other than first line; w/o space',
     mkdn:
 `some random text.
-:attrtype1::[[fname-a]]
-:attrtype2::[[fname-b]]
+:attrtype-1::[[fname-a]]
+:attrtype-2::[[fname-b]]
 `,
     html:
 `<aside class="attrbox">
 <span class="attrbox-title">Attributes</span>
 <dl>
-<dt>attrtype1</dt>
-<dd><a class="attr wiki reftype__attrtype1" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
-<dt>attrtype2</dt>
-<dd><a class="attr wiki reftype__attrtype2" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></dd>
+<dt>attrtype-1</dt>
+<dd><a class="attr wiki reftype__attrtype-1" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
+<dt>attrtype-2</dt>
+<dd><a class="attr wiki reftype__attrtype-2" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></dd>
 </dl>
 </aside>
 <p>some random text.</p>
-`,
-  },
-  {
-    descr: 'wikiattr; prefixed; single; multi; multi singles, with text in between',
-    mkdn:
-`:attrtype1::[[fname-a]]
-some in between text
-:attrtype2::[[fname-b]]
-`,
-    html:
-`<aside class="attrbox">
-<span class="attrbox-title">Attributes</span>
-<dl>
-<dt>attrtype1</dt>
-<dd><a class="attr wiki reftype__attrtype1" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
-<dt>attrtype2</dt>
-<dd><a class="attr wiki reftype__attrtype2" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></dd>
-</dl>
-</aside>
-<p>some in between text</p>
 `,
   },
   // list
@@ -416,6 +434,86 @@ some in between text
 `,
   },
   {
+    descr: 'wikiattr; prefixed; list; comma-separated; multi; merge; no duplicates',
+    mkdn:
+`:attrtype-1::[[fname-a]],[[fname-b]]
+:attrtype-2::[[fname-c]],[[fname-d]]
+`,
+    html:
+`<aside class="attrbox">
+<span class="attrbox-title">Attributes</span>
+<dl>
+<dt>attrtype-1</dt>
+<dd><a class="attr wiki reftype__attrtype-1" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
+<dd><a class="attr wiki reftype__attrtype-1" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></dd>
+<dt>attrtype-2</dt>
+<dd><a class="attr wiki reftype__attrtype-2" href="/tests/fixtures/fname-c" data-href="/tests/fixtures/fname-c">title c</a></dd>
+<dd><a class="attr wiki reftype__attrtype-2" href="/tests/fixtures/fname-d" data-href="/tests/fixtures/fname-d">title d</a></dd>
+</dl>
+</aside>
+`,
+  },
+  {
+    descr: 'wikiattr; prefixed; list; comma-separated; multi; merge; duplicate attrtypes (merged), different filenames (preserved)',
+    mkdn:
+`:attrtype::[[fname-a]],[[fname-b]]
+:attrtype::[[fname-c]],[[fname-d]]
+`,
+    html:
+`<aside class="attrbox">
+<span class="attrbox-title">Attributes</span>
+<dl>
+<dt>attrtype</dt>
+<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
+<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></dd>
+<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-c" data-href="/tests/fixtures/fname-c">title c</a></dd>
+<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-d" data-href="/tests/fixtures/fname-d">title d</a></dd>
+</dl>
+</aside>
+`,
+  },
+  {
+    descr: 'wikiattr; prefixed; list; comma-separated; multi; merge; duplicate attrtype (merged), duplicate filenames (preserved)',
+    mkdn: 
+`:attrtype::[[fname-a]],[[fname-b]]
+:attrtype::[[fname-a]],[[fname-b]]
+`,
+    html:
+`<aside class="attrbox">
+<span class="attrbox-title">Attributes</span>
+<dl>
+<dt>attrtype</dt>
+<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
+<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></dd>
+<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
+<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></dd>
+</dl>
+</aside>
+`,
+  },
+  {
+    descr: 'wikiattr; prefixed; list; comma-separated; multi; merge; with text in between',
+    mkdn:
+`:attrtype-1::[[fname-a]],[[fname-b]]
+some in between text
+:attrtype-2::[[fname-c]],[[fname-d]]
+`,
+    html:
+`<aside class="attrbox">
+<span class="attrbox-title">Attributes</span>
+<dl>
+<dt>attrtype-1</dt>
+<dd><a class="attr wiki reftype__attrtype-1" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
+<dd><a class="attr wiki reftype__attrtype-1" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></dd>
+<dt>attrtype-2</dt>
+<dd><a class="attr wiki reftype__attrtype-2" href="/tests/fixtures/fname-c" data-href="/tests/fixtures/fname-c">title c</a></dd>
+<dd><a class="attr wiki reftype__attrtype-2" href="/tests/fixtures/fname-d" data-href="/tests/fixtures/fname-d">title d</a></dd>
+</dl>
+</aside>
+<p>some in between text</p>
+`,
+  },
+  {
     descr: 'wikiattr; prefixed; list; comma-separated; immediate text before',
     mkdn:
 `some random text.
@@ -454,6 +552,7 @@ some random text.
   {
     descr: 'wikiattr; prefixed; list; comma-separated; text before, on same line (should not be at attr)',
     error: true,
+    // note: unprefixed has special behavior here -- but not in prefixed!
     mkdn: 'some random text. :attrtype::[[fname-a]],[[fname-b]]\n',
     html: '<p>some random text. <a class="wiki link type reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a>,<a class="wiki link" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></p>\n',
   },
@@ -464,98 +563,6 @@ some random text.
     html: '<p><a class="wiki link type reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a>,<a class="wiki link" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a> some random text.</p>\n',
   },
   // mkdn-separated
-  {
-    descr: 'wikiattr; prefixed; list; mkdn-separated; does not handle lazy lines',
-    error: true,
-    mkdn:
-`:attrtype::
-- [[fname-a]]
-
-- [[fname-b]]
-- [[fname-c]]
-`,
-    html:
-`<aside class="attrbox">
-<span class="attrbox-title">Attributes</span>
-<dl>
-<dt>attrtype</dt>
-<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
-</dl>
-</aside>
-<ul>
-<li><a class="wiki link" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></li>
-<li><a class="wiki link" href="/tests/fixtures/fname-c" data-href="/tests/fixtures/fname-c">title c</a></li>
-</ul>
-`,
-  },
-  {
-    descr: 'wikiattr; prefixed; list; mkdn-separated; ensure not overreaching to lists containing wikilinks',
-    mkdn:
-`:attrtype::
-- [[fname-a]]
-- [[fname-b]]
-
-some random text.
-
-- [[fname-a]]
-- [[fname-b]]
-`,
-    html:
-`<aside class="attrbox">
-<span class="attrbox-title">Attributes</span>
-<dl>
-<dt>attrtype</dt>
-<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
-<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></dd>
-</dl>
-</aside>
-<p>some random text.</p>
-<ul>
-<li><a class="wiki link" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></li>
-<li><a class="wiki link" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></li>
-</ul>
-`,
-  },
-  {
-    descr: 'wikiattr; prefixed; list; mkdn-separated; immediate text before',
-    mkdn:
-`some random text.
-:attrtype::
-- [[fname-a]]
-- [[fname-b]]
-`,
-    html:
-`<aside class="attrbox">
-<span class="attrbox-title">Attributes</span>
-<dl>
-<dt>attrtype</dt>
-<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
-<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></dd>
-</dl>
-</aside>
-<p>some random text.</p>
-`,
-  },
-  {
-    descr: 'wikiattr; prefixed; list; mkdn-separated; immediate text after',
-    mkdn:
-`:attrtype::
-- [[fname-a]]
-- [[fname-b]]
-some random text.
-`,
-    html:
-`<aside class="attrbox">
-<span class="attrbox-title">Attributes</span>
-<dl>
-<dt>attrtype</dt>
-<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
-<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></dd>
-</dl>
-</aside>
-<p>some random text.</p>
-`,
-  },
   {
     descr: 'wikiattr; prefixed; list; mkdn-separated; kind; dash',
     mkdn:
@@ -679,10 +686,10 @@ some random text.
   {
     descr: 'wikiattr; prefixed; list; mkdn-separated; whitespace; pretty (does not trigger indentented code)',
     mkdn:
-`: attrtype ::
-               - [[fname-a]]
-               - [[fname-b]]
-               - [[fname-c]]
+`: attrtype :: 
+              - [[fname-a]]
+              - [[fname-b]]
+              - [[fname-c]]
 `,
     html:
 `<aside class="attrbox">
@@ -700,9 +707,9 @@ some random text.
     descr: 'wikiattr; prefixed; list; mkdn-separated; whitespace; item whitespace prefix; 2 space',
     mkdn:
 `:attrtype::
-- [[fname-a]]
-- [[fname-b]]
-- [[fname-c]]
+  - [[fname-a]]
+  - [[fname-b]]
+  - [[fname-c]]
 `,
     html:
 `<aside class="attrbox">
@@ -721,8 +728,8 @@ some random text.
     mkdn:
 `:attrtype::
 - [[fname-a]]
-- [[fname-b]]
-- [[fname-c]]
+  - [[fname-b]]
+    - [[fname-c]]
 `,
     html:
 `<aside class="attrbox">
@@ -757,7 +764,196 @@ some random text.
 `,
   },
   {
+    descr: 'wikiattr; prefixed; list; mkdn-separated; multi; merge; no duplicates',
+    mkdn:
+`:attrtype-1::
+- [[fname-a]]
+- [[fname-b]]
+:attrtype-2::
+- [[fname-c]]
+- [[fname-d]]
+`,
+    html:
+`<aside class="attrbox">
+<span class="attrbox-title">Attributes</span>
+<dl>
+<dt>attrtype-1</dt>
+<dd><a class="attr wiki reftype__attrtype-1" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
+<dd><a class="attr wiki reftype__attrtype-1" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></dd>
+<dt>attrtype-2</dt>
+<dd><a class="attr wiki reftype__attrtype-2" href="/tests/fixtures/fname-c" data-href="/tests/fixtures/fname-c">title c</a></dd>
+<dd><a class="attr wiki reftype__attrtype-2" href="/tests/fixtures/fname-d" data-href="/tests/fixtures/fname-d">title d</a></dd>
+</dl>
+</aside>
+`,
+  },
+  {
+    descr: 'wikiattr; prefixed; list; mkdn-separated; multi; merge; duplicate attrtypes (merged), different filenames (preserved)',
+    mkdn:
+`:attrtype::
+- [[fname-a]]
+- [[fname-b]]
+:attrtype::
+- [[fname-c]]
+- [[fname-d]]
+`,
+    html:
+`<aside class="attrbox">
+<span class="attrbox-title">Attributes</span>
+<dl>
+<dt>attrtype</dt>
+<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
+<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></dd>
+<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-c" data-href="/tests/fixtures/fname-c">title c</a></dd>
+<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-d" data-href="/tests/fixtures/fname-d">title d</a></dd>
+</dl>
+</aside>
+`,
+  },
+  {
+    descr: 'wikiattr; prefixed; list; mkdn-separated; multi; merge; duplicate attrtype (merged), duplicate filenames (preserved)',
+    mkdn: 
+`:attrtype::
+- [[fname-a]]
+- [[fname-b]]
+:attrtype::
+- [[fname-a]]
+- [[fname-b]]
+`,
+    html:
+`<aside class="attrbox">
+<span class="attrbox-title">Attributes</span>
+<dl>
+<dt>attrtype</dt>
+<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
+<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></dd>
+<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
+<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></dd>
+</dl>
+</aside>
+`,
+  },
+  {
+    descr: 'wikiattr; prefixed; list; mkdn-separated; multi; merge; with text in between',
+    mkdn:
+`:attrtype-1::
+- [[fname-a]]
+- [[fname-b]]
+some in between text
+:attrtype-2::
+- [[fname-c]]
+- [[fname-d]]
+`,
+    html:
+`<aside class="attrbox">
+<span class="attrbox-title">Attributes</span>
+<dl>
+<dt>attrtype-1</dt>
+<dd><a class="attr wiki reftype__attrtype-1" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
+<dd><a class="attr wiki reftype__attrtype-1" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></dd>
+<dt>attrtype-2</dt>
+<dd><a class="attr wiki reftype__attrtype-2" href="/tests/fixtures/fname-c" data-href="/tests/fixtures/fname-c">title c</a></dd>
+<dd><a class="attr wiki reftype__attrtype-2" href="/tests/fixtures/fname-d" data-href="/tests/fixtures/fname-d">title d</a></dd>
+</dl>
+</aside>
+<p>some in between text</p>
+`,
+  },
+  {
+    descr: 'wikiattr; prefixed; list; mkdn-separated; does not handle lazy lines',
+    error: true,
+    mkdn:
+`:attrtype::
+- [[fname-a]]
+
+- [[fname-b]]
+- [[fname-c]]
+`,
+    html:
+`<aside class="attrbox">
+<span class="attrbox-title">Attributes</span>
+<dl>
+<dt>attrtype</dt>
+<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
+</dl>
+</aside>
+<ul>
+<li><a class="wiki link" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></li>
+<li><a class="wiki link" href="/tests/fixtures/fname-c" data-href="/tests/fixtures/fname-c">title c</a></li>
+</ul>
+`,
+  },
+  {
+    descr: 'wikiattr; prefixed; list; mkdn-separated; ensure not overreaching to lists containing wikilinks',
+    mkdn:
+`:attrtype::
+- [[fname-a]]
+- [[fname-b]]
+
+some random text.
+
+- [[fname-a]]
+- [[fname-b]]
+`,
+    html:
+`<aside class="attrbox">
+<span class="attrbox-title">Attributes</span>
+<dl>
+<dt>attrtype</dt>
+<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
+<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></dd>
+</dl>
+</aside>
+<p>some random text.</p>
+<ul>
+<li><a class="wiki link" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></li>
+<li><a class="wiki link" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></li>
+</ul>
+`,
+  },
+  {
+    descr: 'wikiattr; prefixed; list; mkdn-separated; immediate text before',
+    mkdn:
+`some random text.
+:attrtype::
+- [[fname-a]]
+- [[fname-b]]
+`,
+    html:
+`<aside class="attrbox">
+<span class="attrbox-title">Attributes</span>
+<dl>
+<dt>attrtype</dt>
+<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
+<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></dd>
+</dl>
+</aside>
+<p>some random text.</p>
+`,
+  },
+  {
+    descr: 'wikiattr; prefixed; list; mkdn-separated; immediate text after',
+    mkdn:
+`:attrtype::
+- [[fname-a]]
+- [[fname-b]]
+some random text.
+`,
+    html:
+`<aside class="attrbox">
+<span class="attrbox-title">Attributes</span>
+<dl>
+<dt>attrtype</dt>
+<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
+<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></dd>
+</dl>
+</aside>
+<p>some random text.</p>
+`,
+  },
+  {
     descr: 'wikiattr; prefixed; list; mkdn-separated; empty list, turned setext header',
+    error: true,
     mkdn: 
 `:attrtype::
 - 
@@ -1060,122 +1256,122 @@ some random text.
   {
     descr: 'wikiattr; prefixed; malformed; single; multi; w/ extraneous chars and newline',
     mkdn:
-`:attrtype1::[[fname-a]]jj
+`:attrtype-1::[[fname-a]]jj
 
-:attrtype2::[[fname-b]]
-:attrtype3::[[fname-c]]
+:attrtype-2::[[fname-b]]
+:attrtype-3::[[fname-c]]
 `,
     html:
 `<aside class="attrbox">
 <span class="attrbox-title">Attributes</span>
 <dl>
-<dt>attrtype2</dt>
-<dd><a class="attr wiki reftype__attrtype2" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></dd>
-<dt>attrtype3</dt>
-<dd><a class="attr wiki reftype__attrtype3" href="/tests/fixtures/fname-c" data-href="/tests/fixtures/fname-c">title c</a></dd>
+<dt>attrtype-2</dt>
+<dd><a class="attr wiki reftype__attrtype-2" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></dd>
+<dt>attrtype-3</dt>
+<dd><a class="attr wiki reftype__attrtype-3" href="/tests/fixtures/fname-c" data-href="/tests/fixtures/fname-c">title c</a></dd>
 </dl>
 </aside>
-<p><a class="wiki link type reftype__attrtype1" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a>jj</p>
+<p><a class="wiki link type reftype__attrtype-1" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a>jj</p>
 `,
   },
   {
     descr: 'wikiattr; prefixed; malformed; single; multi; w/ extraneous chars and no newline',
     mkdn: 
-`:attrtype1::[[fname-a]]jj
-:attrtype2::[[fname-b]]
-:attrtype3::[[fname-c]]
+`:attrtype-1::[[fname-a]]jj
+:attrtype-2::[[fname-b]]
+:attrtype-3::[[fname-c]]
 `,
     html:
 `<aside class="attrbox">
 <span class="attrbox-title">Attributes</span>
 <dl>
-<dt>attrtype2</dt>
-<dd><a class="attr wiki reftype__attrtype2" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></dd>
-<dt>attrtype3</dt>
-<dd><a class="attr wiki reftype__attrtype3" href="/tests/fixtures/fname-c" data-href="/tests/fixtures/fname-c">title c</a></dd>
+<dt>attrtype-2</dt>
+<dd><a class="attr wiki reftype__attrtype-2" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></dd>
+<dt>attrtype-3</dt>
+<dd><a class="attr wiki reftype__attrtype-3" href="/tests/fixtures/fname-c" data-href="/tests/fixtures/fname-c">title c</a></dd>
 </dl>
 </aside>
-<p><a class="wiki link type reftype__attrtype1" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a>jj</p>
+<p><a class="wiki link type reftype__attrtype-1" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a>jj</p>
 `,
   },
   {
     descr: 'wikiattr; prefixed; malformed; single; multi; w/ a blank value',
     mkdn:
-`:attrtype1::
-:attrtype2::[[fname-b]]
-:attrtype3::[[fname-c]]
+`:attrtype-1::
+:attrtype-2::[[fname-b]]
+:attrtype-3::[[fname-c]]
 `,
     html:
 `<aside class="attrbox">
 <span class="attrbox-title">Attributes</span>
 <dl>
-<dt>attrtype2</dt>
-<dd><a class="attr wiki reftype__attrtype2" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></dd>
-<dt>attrtype3</dt>
-<dd><a class="attr wiki reftype__attrtype3" href="/tests/fixtures/fname-c" data-href="/tests/fixtures/fname-c">title c</a></dd>
+<dt>attrtype-2</dt>
+<dd><a class="attr wiki reftype__attrtype-2" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></dd>
+<dt>attrtype-3</dt>
+<dd><a class="attr wiki reftype__attrtype-3" href="/tests/fixtures/fname-c" data-href="/tests/fixtures/fname-c">title c</a></dd>
 </dl>
 </aside>
-<p>:attrtype1::</p>
+<p>:attrtype-1::</p>
 `,
   },
   {
     descr: 'wikiattr; prefixed; malformed; single; multi; single square brackets, first',
     mkdn:
-`:attrtype1::[fname-a]
-:attrtype2::[[fname-b]]
-:attrtype3::[[fname-c]]
+`:attrtype-1::[fname-a]
+:attrtype-2::[[fname-b]]
+:attrtype-3::[[fname-c]]
 `,
     html:
 `<aside class="attrbox">
 <span class="attrbox-title">Attributes</span>
 <dl>
-<dt>attrtype2</dt>
-<dd><a class="attr wiki reftype__attrtype2" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></dd>
-<dt>attrtype3</dt>
-<dd><a class="attr wiki reftype__attrtype3" href="/tests/fixtures/fname-c" data-href="/tests/fixtures/fname-c">title c</a></dd>
+<dt>attrtype-2</dt>
+<dd><a class="attr wiki reftype__attrtype-2" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></dd>
+<dt>attrtype-3</dt>
+<dd><a class="attr wiki reftype__attrtype-3" href="/tests/fixtures/fname-c" data-href="/tests/fixtures/fname-c">title c</a></dd>
 </dl>
 </aside>
-<p>:attrtype1::[fname-a]</p>
+<p>:attrtype-1::[fname-a]</p>
 `,
   },
   {
     descr: 'wikiattr; prefixed; malformed; single; multi; single square brackets, second',
     mkdn:
-`:attrtype1::[[fname-a]]
-:attrtype2::[fname-b]
-:attrtype3::[[fname-c]]
+`:attrtype-1::[[fname-a]]
+:attrtype-2::[fname-b]
+:attrtype-3::[[fname-c]]
 `,
     html:
 `<aside class="attrbox">
 <span class="attrbox-title">Attributes</span>
 <dl>
-<dt>attrtype1</dt>
-<dd><a class="attr wiki reftype__attrtype1" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
-<dt>attrtype3</dt>
-<dd><a class="attr wiki reftype__attrtype3" href="/tests/fixtures/fname-c" data-href="/tests/fixtures/fname-c">title c</a></dd>
+<dt>attrtype-1</dt>
+<dd><a class="attr wiki reftype__attrtype-1" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
+<dt>attrtype-3</dt>
+<dd><a class="attr wiki reftype__attrtype-3" href="/tests/fixtures/fname-c" data-href="/tests/fixtures/fname-c">title c</a></dd>
 </dl>
 </aside>
-<p>:attrtype2::[fname-b]</p>
+<p>:attrtype-2::[fname-b]</p>
 `,
   },
   {
     descr: 'wikiattr; prefixed; malformed; list; comma-separated; items not [[bracketed]]',
     mkdn:
-`:attrtype3::string,string
+`:attrtype-3::string,string
 `,
     html:
-`<p>:attrtype3::string,string</p>
+`<p>:attrtype-3::string,string</p>
 `,
   },
   {
     descr: 'wikiattr; prefixed; malformed; list; mkdn-separated; items not [[bracketed]]',
     mkdn:
-`:attrtype3::
+`:attrtype-3::
 - string
 - string
 `,
     html:
-`<p>:attrtype3::</p>
+`<p>:attrtype-3::</p>
 <ul>
 <li>string</li>
 <li>string</li>
