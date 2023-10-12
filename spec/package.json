@@ -1,6 +1,6 @@
 {
   "name": "wikirefs-spec",
-  "version": "0.0.3",
+  "version": "0.0.4-spec",
   "description": "A collection of tests to validate markdown parser output against the wikirefs spec",
   "license": "GPL-3.0",
   "author": {
