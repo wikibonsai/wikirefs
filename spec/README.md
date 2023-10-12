@@ -52,11 +52,11 @@ describe('render wikirefs; mkdn -> html', () => {
 
 ## WikiAttrs
 
-**"Wikiattrs"** are block constructs whose content is the only content on a given line. They are identical to typed wikilinks except they expect a newline after the closing square brackets `]]`. They may be located anywhere in a markdown file, but are collected and rendered at the top of the file (if so desired), much like how footnotes are collected and rendered at the bottom of a markdown file. (Generated HTML is reminiscent of wikipedia-style info boxes and can be turned off in the scenario where only metadata is desired).
+**"Wikiattrs"** are block constructs whose content is the only content on a given line. They are identical to [typed wikilinks](#typed) except they expect a newline after the closing square brackets `]]`. They may be located anywhere in a markdown file, but are collected and rendered at the top of the file if desired -- much like how footnotes are collected and rendered at the bottom of a markdown file. (Generated HTML is reminiscent of wikipedia-style info boxes and can be turned off in the scenario where only metadata is desired).
 
 Wikiattrs are meant to be compatible with [caml](https://github.com/wikibonsai/caml) metadata attributes.
 
-Wikiattrs do not support labels.
+Wikiattrs do not support [labels](#labelled).
 
 ### Single
 
@@ -171,6 +171,35 @@ Resulting HTML:
 </aside>
 ```
 
+WikiAttrs expect unqiue attributes per file and unique filenames per attribute. If there are duplicates, metadata will merge all duplicates into a single hash or dictionary-like structure and render will display merged attrtypes with filenames grouped and duplicates preserved. This overall behavior is to make wikiattrs as hash-like as possible -- with unique keys (attrtypes)
+
+For example, this markdown might generate the following `json` data and `html`:
+
+```markdown
+: attrtype :: [[fname-a]]
+: attrtype :: [[fname-a]], [[fname-b]]
+```
+
+```json
+{
+  // no duplicates in metadata
+  'attrtype': [ 'fname-a', 'fname-b' ],
+}
+```
+
+```html
+<aside class="attrbox">
+  <span class="attrbox-title">Attributes</span>
+    <dl>
+      <dt>attrtype</dt>
+      <!-- filename duplicates preserved here -->
+        <dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
+        <dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
+        <dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></dd>
+    </dl>
+</aside>
+```
+
 Lists also support flexible whitespacing: Attrtype text may be prefixed (between first colon `:` and attrtype text) or suffixed (between attrtype text and double colon `::`) by one space. List item prefix whitespace (space before the bullet `-*+`) can have any number of spaces.
 
 The result allows for pretty-printed wikiattrs:
@@ -178,12 +207,12 @@ The result allows for pretty-printed wikiattrs:
 ```markdown
 : type             :: [[fname-a]]
 : med-type         :: 
-                      - [[fname-b]]
-                      - [[fname-c]]
+                     - [[fname-b]]
+                     - [[fname-c]]
 : longer-type-text :: 
-                      - [[fname-d]]
-                      - [[fname-e]]
-                      - [[fname-f]]
+                     - [[fname-d]]
+                     - [[fname-e]]
+                     - [[fname-f]]
 ```
 
 ## WikiLinks
@@ -224,13 +253,13 @@ A typed wikilink is a wikilink with linktype information. It should render simil
 Markdown:
 
 ```markdown
-:linktype::[[filename]]
+:linktype::[[filename]].
 ```
 
 Resulting HTML:
 
 ```html
-<a class="wiki link type reftype__linktype" href="url" data-href="url">title</a>
+<a class="wiki link type reftype__linktype" href="url" data-href="url">title</a>.
 ```
 
 ### Labelled
