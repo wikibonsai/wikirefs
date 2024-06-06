@@ -14,16 +14,16 @@ describe('RGX', () => {
   const testRegex = (params: any) => () => {
     const regex: RegExp = params.regex;
     const content: string = params.content;
-    const match: RegExpMatchArray = params.match;
+    const expdMatch: RegExpMatchArray = params.match;
     const actlMatch = regex.exec(content);
     if ((!actlMatch || actlMatch.length === 0)
-    || (!match || match.length === 0)) {
-      assert.strictEqual(actlMatch, match);
+    || (!expdMatch || expdMatch.length === 0)) {
+      assert.strictEqual(actlMatch, expdMatch);
     } else {
-      const eql: boolean = checkArrayEqual(actlMatch, match);
+      const eql: boolean = checkArrayEqual(actlMatch, expdMatch);
       if (!eql) {
         console.error('actual match: ', JSON.stringify(actlMatch));
-        console.error('expected match: ', JSON.stringify(match));
+        console.error('expected match: ', JSON.stringify(expdMatch));
       }
       assert.strictEqual(eql, true);
     }
@@ -31,6 +31,7 @@ describe('RGX', () => {
 
   describe('ATTR_UTIL', () => {
 
+    // note: comma-separated lists have to be extracted manually from full match string
     describe('LIST_COMMA', () => {
 
       it('prefixed; list; comma', testRegex({
