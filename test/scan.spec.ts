@@ -310,26 +310,284 @@ this is an untyped [[fname-a]].
 
   });
 
-  describe('target specific file', () => {
+  describe('opts', () => {
 
-    it('wikiattr; single; multi', testScan({
-      mkdn: `
+    describe('target specific file', () => {
+
+      it('wikiattr; single; multi', testScan({
+        mkdn: `
 :reftype::[[fname-a]]
 :attrtype::[[fname-b]]
 `,
-      opts: { filename: 'fname-a' },
-      expdData: [
-        {
-          kind: 'wikiattr',
-          text: ':reftype::[[fname-a]]\n',
-          start: 1,
-          type: ['reftype', 2],
-          filenames: [ ['fname-a', 13] ],
-          listFormat: 'none',
-        }
-        // note: 'fname-b' is left out
-      ],
-    }));
+        opts: { filename: 'fname-a' },
+        expdData: [
+          {
+            kind: 'wikiattr',
+            text: ':reftype::[[fname-a]]\n',
+            start: 1,
+            type: ['reftype', 2],
+            filenames: [ ['fname-a', 13] ],
+            listFormat: 'none',
+          }
+          // note: 'fname-b' is left out
+        ],
+      }));
+
+      it('wikiattr; list; comma', testScan({
+        mkdn: `
+:reftype::[[fname-a]],[[fname-b]]
+`,
+        opts: { filename: 'fname-a' },
+        expdData: [
+          {
+            kind: 'wikiattr',
+            text: ':reftype::[[fname-a]],[[fname-b]]\n',
+            start: 1,
+            type: ['reftype', 2],
+            filenames: [ ['fname-a', 13] ],
+            listFormat: 'comma',
+          }
+          // note: 'fname-b' is left out
+        ],
+      }));
+
+      it('wikiattr; list; mkdn (clean)', testScan({
+        mkdn: `
+:reftype::
+- [[fname-a]]
+- [[fname-b]]
+`,
+        opts: { filename: 'fname-a' },
+        expdData: [
+          {
+            kind: 'wikiattr',
+            text: ':reftype::\n- [[fname-a]]\n- [[fname-b]]\n',
+            start: 1,
+            type: ['reftype', 2],
+            filenames: [ ['fname-a', 16] ],
+            listFormat: 'mkdn',
+          }
+          // note: 'fname-b' is left out
+        ],
+      }));
+
+      it('wikiattr; list; mkdn (pretty)', testScan({
+        mkdn: `
+: reftype ::
+            - [[fname-a]]
+            - [[fname-b]]
+`,
+        opts: { filename: 'fname-a' },
+        expdData: [
+          {
+            kind: 'wikiattr',
+            text: ': reftype ::\n            - [[fname-a]]\n            - [[fname-b]]\n',
+            start: 1,
+            type: ['reftype', 3],
+            filenames: [ ['fname-a', 30] ],
+            listFormat: 'mkdn',
+          }
+          // note: 'fname-b' is left out
+        ],
+      }));
+
+    });
+
+    describe('specific wikiref kind', () => {
+
+      const input: string = `
+:type1::[[wikiattr-single]]
+:type2::[[wikiattr-list-comma-1]], [[wikiattr-list-comma-2]]
+:type3::
+- [[wikiattr-list-mkdn-clean-1]]
+- [[wikiattr-list-mkdn-clean-2]]
+: type4 ::
+          - [[wikiattr-list-mkdn-pretty-1]]
+          - [[wikiattr-list-mkdn-pretty-2]]
+
+Then there is a :typed::[[wikilink-typed]] and [[wikilink-untyped]].
+
+![[wikiembed-mkdn]]
+![[wikiembed-img.png]]
+![[wikiembed-aud.mp3]]
+![[wikiembed-vid.mp4]]
+
+`;
+
+      it('wikiattr (single, list-comma, list-mkdn)', testScan({
+        mkdn: input,
+        opts: { kind: 'wikiattr' },
+        expdData: [
+          {
+            filenames: [
+              [
+                "wikiattr-single",
+                11
+              ]
+            ],
+            kind: "wikiattr",
+            listFormat: "none",
+            start: 1,
+            text: ":type1::[[wikiattr-single]]\n",
+            type: [
+              "type1",
+              2
+            ]
+          },
+          {
+            "filenames": [
+              [
+                "wikiattr-list-comma-1",
+                39
+              ],
+              [
+                "wikiattr-list-comma-2",
+                66
+              ]
+            ],
+            kind: "wikiattr",
+            listFormat: "comma",
+            start: 29,
+            text: ":type2::[[wikiattr-list-comma-1]], [[wikiattr-list-comma-2]]\n",
+            type: [
+              "type2",
+              30
+            ]
+          },
+          {
+            "filenames": [
+              [
+                "wikiattr-list-mkdn-clean-1",
+                103
+              ],
+              [
+                "wikiattr-list-mkdn-clean-2",
+                136
+              ]
+            ],
+            kind: "wikiattr",
+            listFormat: "mkdn",
+            start: 90,
+            text: ":type3::\n- [[wikiattr-list-mkdn-clean-1]]\n- [[wikiattr-list-mkdn-clean-2]]\n",
+             type: [
+               "type3",
+               91
+             ]
+           },
+           {
+            filenames: [
+              [
+                'wikiattr-list-mkdn-pretty-1',
+                190
+              ],
+              [
+                'wikiattr-list-mkdn-pretty-2',
+                234
+              ]
+            ],
+            kind: 'wikiattr',
+            listFormat: 'mkdn',
+            start: 165,
+            text:
+`: type4 ::
+          - [[wikiattr-list-mkdn-pretty-1]]
+          - [[wikiattr-list-mkdn-pretty-2]]
+`,
+            type: [
+              'type4',
+              167
+             ]
+           }
+        ],
+      }));
+
+      it('wikilink (untyped, typed)', testScan({
+        mkdn: input,
+        opts: { kind: 'wikilink' },
+        expdData: [
+          {
+            filename: [
+              'wikilink-typed',
+              291
+            ],
+            kind: 'wikilink',
+            label: [],
+            start: 281,
+            text: ':typed::[[wikilink-typed]]',
+            type: [
+              'typed',
+              282
+            ]
+          },
+          {
+            filename: [
+              'wikilink-untyped',
+              314
+            ],
+            kind: 'wikilink',
+            label: [],
+            start: 312,
+            text: '[[wikilink-untyped]]',
+            type: []
+          }
+        ],
+      }));
+
+      it('wikiembed (md, img, aud, vid)', testScan({
+        mkdn: input,
+        opts: { kind: 'wikiembed' },
+        expdData: [
+          {
+            filename: [
+              'wikiembed-mkdn',
+              338
+            ],
+            kind: 'wikiembed',
+            media: 'markdown',
+            start: 335,
+            text: '![[wikiembed-mkdn]]'
+          },
+          {
+            filename: [
+              'wikiembed-img.png',
+              358
+            ],
+            kind: 'wikiembed',
+            media: 'image',
+            start: 355,
+            text: '![[wikiembed-img.png]]'
+          },
+          {
+            filename: [
+              'wikiembed-aud.mp3',
+              381
+            ],
+            kind: 'wikiembed',
+            media: 'audio',
+            start: 378,
+            text: '![[wikiembed-aud.mp3]]'
+          },
+          {
+            filename: [
+              'wikiembed-vid.mp4',
+              404
+            ],
+            kind: 'wikiembed',
+            media: 'video',
+            start: 401,
+            text: '![[wikiembed-vid.mp4]]'
+          }
+        ],
+      }));
+
+      it.skip('base (traditional [[wikilinks]])', testScan({
+        mkdn: input,
+        opts: { kind: 'wikilink' },
+        expdData: [
+        ]
+      }));
+
+    });
 
   });
 
