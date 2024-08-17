@@ -1,7 +1,10 @@
 import assert from 'node:assert/strict';
+import sinon from 'sinon';
 
 import * as wikirefs from '../src';
 
+
+let fakeConsoleWarn: sinon.SinonSpy;
 
 const testMkdnToWiki = (params: any) => () => {
   const input: string = params.icontent;
@@ -9,6 +12,14 @@ const testMkdnToWiki = (params: any) => () => {
   const opts: any = params.opts ? params.opts : {};
   const actlOutput: any = wikirefs.mkdnToWiki(input, opts);
   assert.deepStrictEqual(actlOutput, expdOutput);
+  if (params.warn) {
+    assert.strictEqual(fakeConsoleWarn.callCount, 1);
+    assert.strictEqual(
+      fakeConsoleWarn.firstCall.args[0],
+      params.warn,
+    );
+    assert.ok(fakeConsoleWarn.calledWith(params.warn));
+  }
 };
 
 const testWikiToMkdn = (params: any) => () => {
@@ -17,6 +28,14 @@ const testWikiToMkdn = (params: any) => () => {
   const opts: any = params.opts ? params.opts : {};
   const actlOutput: any = wikirefs.wikiToMkdn(input, opts);
   assert.deepStrictEqual(actlOutput, expdOutput);
+  if (params.warn) {
+    assert.strictEqual(fakeConsoleWarn.callCount, 1);
+    assert.strictEqual(
+      fakeConsoleWarn.firstCall.args[0],
+      params.warn,
+    );
+    assert.ok(fakeConsoleWarn.calledWith(params.warn));
+  }
 };
 
 describe('convert', () => {
@@ -123,6 +142,15 @@ describe('convert', () => {
 
       describe('opts', () => {
 
+        beforeEach(() => {
+          console.warn = (msg) => msg + '\n';
+          fakeConsoleWarn = sinon.spy(console, 'warn');
+        });
+
+        afterEach(() => {
+          fakeConsoleWarn.restore();
+        });
+
         describe('kind', () => {
 
           it.skip('only wikiattrs', testMkdnToWiki({
@@ -155,6 +183,7 @@ describe('convert', () => {
               kind: 'noop',
             },
             ocontent: ':attrtype:: [[fname-a]]\nhere is a link: [[fname-a]]\nand an embed: ![[img.png]]',
+            warn: 'invalid kind: "noop"; using default instead: "wikiref"',
           }));
 
         });
@@ -183,6 +212,7 @@ describe('convert', () => {
               format: 'noop',
             },
             ocontent: 'here is a link: [[fname-a]]',
+            warn: 'invalid uri format: "noop"; using default instead: "filename"',
           }));
 
         });

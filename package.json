@@ -37,6 +37,7 @@
     "@rollup/plugin-commonjs": "^23.0.2",
     "@types/mocha": "^9.1.1",
     "@types/node": "^18.0.0",
+    "@types/sinon": "^17.0.3",
     "@typescript-eslint/eslint-plugin": "^5.42.1",
     "@typescript-eslint/parser": "^5.42.1",
     "del-cli": "^5.0.0",
@@ -45,6 +46,7 @@
     "nyc": "^15.1.0",
     "rollup": "2.70.1",
     "rollup-plugin-ts": "^3.0.2",
+    "sinon": "^18.0.0",
     "ts-node": "^10.7.0",
     "typescript": "^4.5.5"
   },
