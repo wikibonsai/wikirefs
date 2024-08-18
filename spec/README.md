@@ -215,7 +215,7 @@ For example, this markdown might generate the following `json` data and `html`:
 ```json
 {
   // no duplicates in metadata
-  'attrtype': [ 'fname-a', 'fname-b' ],
+  "attrtype": [ "fname-a", "fname-b" ],
 }
 ```
 
