@@ -65,7 +65,7 @@ export function scan(content: string, opts?: ScanOpts): (WikiAttrResult | WikiLi
           if (!filename || (filename === filenameText)) {
             /* eslint-disable indent */
             // override indented code blocks for wikiattr-lists-mkdn-pretty
-            const noEscLists: boolean = /:: *\n *- /.test(matchText);
+            const noEscLists: boolean = /:: *\n *[-+*] /.test(matchText);
             const escaped: boolean = isStrEscaped(
                                                     filenameText, content,
                                                     filenameOffset, escdIndices,

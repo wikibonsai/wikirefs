@@ -501,6 +501,32 @@ Then there is a :typed::[[wikilink-typed]] and [[wikilink-untyped]].
         ],
       }));
 
+      it('wikiattr (mixed bullet point kinds)', testScan({
+        mkdn: `
+:mixed-list::
+- [[item-dash]]
++ [[item-plus]]
+* [[item-asterisk]]
+`,
+        opts: { kind: 'wikiattr' },
+        expdData: [
+          {
+            kind: 'wikiattr',
+            text: ':mixed-list::\n- [[item-dash]]\n+ [[item-plus]]\n* [[item-asterisk]]\n',
+            start: 1,
+            type: ['mixed-list', 2],
+            filenames: [
+              ['item-dash', 19],
+              ['item-plus', 35],
+              ['item-asterisk', 51],
+            ],
+            listFormat: 'mkdn',
+          }
+        ],
+      }));
+
+      it.skip('wikilink (labelled)');
+
       it('wikilink (untyped, typed)', testScan({
         mkdn: input,
         opts: { kind: 'wikilink' },
