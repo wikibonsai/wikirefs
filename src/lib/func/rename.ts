@@ -10,9 +10,8 @@ export function renameFileName(
   newFileName: string,
   content: string,
 ): string {
-  if (content.length < oldFileName.length) {
-    return 'wikirefs.renameFileName() error: content \'content\' is shorter than \'oldFileName\', aborting.';
-  }
   const wikiTextFilename: RegExp = new RegExp(RGX.GET.FILENAME, 'g');
   return string.replace(wikiTextFilename, oldFileName, newFileName, content);
 }
+
+// todo: rename #headers

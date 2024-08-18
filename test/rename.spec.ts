@@ -15,21 +15,6 @@ describe('renameFileName()', () => {
     assert.strictEqual(actlMkdn, expdMkdn);
   };
 
-  describe('error', () => {
-
-    describe('protect against mis-ordered function params', () => {
-
-      it('\'content\' string should be longer than \'oldFileName\'', () => {
-        const mkdn: string = 'Here is some content with a [[wikiref]].';
-        const expdMkdn: string = 'wikirefs.renameFileName() error: content \'content\' is shorter than \'oldFileName\', aborting.';
-        const actlMkdn: string = wikirefs.renameFileName(mkdn, 'wikilink.pdf', 'hello-world.pdf');
-        assert.strictEqual(actlMkdn, expdMkdn);
-      });
-
-    });
-
-  });
-
   it('replace only wikitext, not regular text', testRenameFileName({
     mkdn: 'Rename the wikilink in this [[wikilink]].',
     expdMkdn: 'Rename the wikilink in this [[hello-world]].',

@@ -15,21 +15,6 @@ describe('retypeRefType()', () => {
     assert.strictEqual(actlMkdn, expdMkdn);
   };
 
-  describe('error', () => {
-
-    describe('protect against mis-ordered function params', () => {
-
-      it('\'content\' string should be longer than \'oldRefType\'', () => {
-        const mkdn: string = 'Here is some content with a [[wikiref]].';
-        const expdMkdn: string = 'wikirefs.retypeRefType() error: content \'content\' is shorter than \'oldRefType\', aborting.';
-        const actlMkdn: string = wikirefs.retypeRefType(mkdn, 'wikilink.pdf', 'hello-world.pdf');
-        assert.strictEqual(actlMkdn, expdMkdn);
-      });
-
-    });
-
-  });
-
   describe('link', () => {
 
     it('untyped -- no change', testRetypeRefType({
@@ -119,21 +104,6 @@ describe('retypeAttrType()', () => {
       const actlMkdn: string = wikirefs.retypeAttrType(oldRefType, newRefType, mkdn);
       assert.strictEqual(actlMkdn, expdMkdn);
     };
-
-  describe('error', () => {
-
-    describe('protect against mis-ordered function params', () => {
-
-      it('\'content\' string should be longer than \'oldAttrType\'', () => {
-        const mkdn: string = 'Here is some content with a [[wikiref]].';
-        const expdMkdn: string = 'wikirefs.retypeAttrType() error: content \'content\' is shorter than \'oldAttrType\', aborting.';
-        const actlMkdn: string = wikirefs.retypeAttrType(mkdn, 'wikilink.pdf', 'hello-world.pdf');
-        assert.strictEqual(actlMkdn, expdMkdn);
-      });
-
-    });
-
-  });
 
   it('replace exact reftype match', testRetypeAttrType({
     mkdn: ':old-reftype::[[wikilink]]\n:old-reftype-ing::[[wikilinking]]\n',
@@ -252,21 +222,6 @@ describe('retypeLinkType()', () => {
       const actlMkdn: string = wikirefs.retypeLinkType(oldRefType, newRefType, mkdn);
       assert.strictEqual(actlMkdn, expdMkdn);
     };
-
-  describe('error', () => {
-
-    describe('protect against mis-ordered function params', () => {
-
-      it('\'content\' string should be longer than \'oldLinkType\'', () => {
-        const mkdn: string = 'Here is some content with a [[wikiref]].';
-        const expdMkdn: string = 'wikirefs.retypeLinkType() error: content \'content\' is shorter than \'oldLinkType\', aborting.';
-        const actlMkdn: string = wikirefs.retypeLinkType(mkdn, 'wikilink.pdf', 'hello-world.pdf');
-        assert.strictEqual(actlMkdn, expdMkdn);
-      });
-
-    });
-
-  });
 
   it('replace only reftypetext, not regular text', testRetypeLinkType({
     mkdn: 'Rename the old-reftype in this :old-reftype::[[wikilink]].',
