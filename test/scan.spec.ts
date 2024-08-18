@@ -421,60 +421,60 @@ Then there is a :typed::[[wikilink-typed]] and [[wikilink-untyped]].
           {
             filenames: [
               [
-                "wikiattr-single",
+                'wikiattr-single',
                 11
               ]
             ],
-            kind: "wikiattr",
-            listFormat: "none",
+            kind: 'wikiattr',
+            listFormat: 'none',
             start: 1,
-            text: ":type1::[[wikiattr-single]]\n",
+            text: ':type1::[[wikiattr-single]]\n',
             type: [
-              "type1",
+              'type1',
               2
             ]
           },
           {
-            "filenames": [
+            'filenames': [
               [
-                "wikiattr-list-comma-1",
+                'wikiattr-list-comma-1',
                 39
               ],
               [
-                "wikiattr-list-comma-2",
+                'wikiattr-list-comma-2',
                 66
               ]
             ],
-            kind: "wikiattr",
-            listFormat: "comma",
+            kind: 'wikiattr',
+            listFormat: 'comma',
             start: 29,
-            text: ":type2::[[wikiattr-list-comma-1]], [[wikiattr-list-comma-2]]\n",
+            text: ':type2::[[wikiattr-list-comma-1]], [[wikiattr-list-comma-2]]\n',
             type: [
-              "type2",
+              'type2',
               30
             ]
           },
           {
-            "filenames": [
+            'filenames': [
               [
-                "wikiattr-list-mkdn-clean-1",
+                'wikiattr-list-mkdn-clean-1',
                 103
               ],
               [
-                "wikiattr-list-mkdn-clean-2",
+                'wikiattr-list-mkdn-clean-2',
                 136
               ]
             ],
-            kind: "wikiattr",
-            listFormat: "mkdn",
+            kind: 'wikiattr',
+            listFormat: 'mkdn',
             start: 90,
-            text: ":type3::\n- [[wikiattr-list-mkdn-clean-1]]\n- [[wikiattr-list-mkdn-clean-2]]\n",
-             type: [
-               "type3",
-               91
-             ]
-           },
-           {
+            text: ':type3::\n- [[wikiattr-list-mkdn-clean-1]]\n- [[wikiattr-list-mkdn-clean-2]]\n',
+            type: [
+              'type3',
+              91
+            ]
+          },
+          {
             filenames: [
               [
                 'wikiattr-list-mkdn-pretty-1',
@@ -496,8 +496,8 @@ Then there is a :typed::[[wikilink-typed]] and [[wikilink-untyped]].
             type: [
               'type4',
               167
-             ]
-           }
+            ]
+          }
         ],
       }));
 
