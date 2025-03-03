@@ -52,7 +52,7 @@ describe('render wikirefs; mkdn -> html', () => {
 
 ## WikiAttrs
 
-**"Wikiattrs"** are block constructs whose content is the only content on a given line. They are identical to [typed wikilinks](#typed) except they expect a newline after the closing square brackets `]]`. They may be located anywhere in a markdown file, but are collected and rendered at the top of the file if desired -- much like how footnotes are collected and rendered at the bottom of a markdown file. (Generated HTML is reminiscent of wikipedia-style info boxes and can be turned off in the scenario where only metadata is desired).
+**"Wikiattrs"** are block constructs whose content is the only content on a given line. They are identical to [typed wikilinks](#typed) except they expect a newline or end of content after the closing square brackets `]]`. They may be located anywhere in a markdown file, but are collected and rendered at the top of the file if desired -- much like how footnotes are collected and rendered at the bottom of a markdown file. (Generated HTML is reminiscent of wikipedia-style info boxes and can be turned off in the scenario where only metadata is desired).
 
 Wikiattrs are meant to be compatible with [caml](https://github.com/wikibonsai/caml) metadata attributes.
 
