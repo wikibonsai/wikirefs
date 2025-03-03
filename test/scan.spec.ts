@@ -43,7 +43,7 @@ describe('scan()', () => {
     }));
 
     it('typed', testScan({
-      mkdn: ':linktype::[[wikilink]]',
+      mkdn: ':linktype::[[wikilink]].',
       expdData:[{
         kind: 'wikilink',
         text: ':linktype::[[wikilink]]',

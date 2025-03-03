@@ -160,14 +160,14 @@ export namespace RGX {
                                       + '(?:'
                                         + '(?<!\n)'
                                         + ATTR_UTIL.LIST_COMMA.source                                    // only captures first and last item
-                                        + '\n'
+                                        + '(?:\n|$)'
                                       + ')'
                                       + '|'
                                       // mkdwn-list-separated
                                       + '\n'
                                       + '(?:'
                                         + ATTR_LINE.LIST_ITEM.source                                     // only captures last item
-                                        + '\n'
+                                        + '(?:\n|$)'
                                       + ')+'
                                     + ')'
                                   , 'im'),
