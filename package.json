@@ -1,6 +1,6 @@
 {
   "name": "wikirefs",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "wikiref utilities (including [[wikilinks]]).",
   "license": "GPL-3.0",
   "author": {
