@@ -255,7 +255,21 @@ describe('RGX', () => {
 
     describe('ATTR', () => {
 
-      it('unprefixed; single', testRegex({
+      it('unprefixed; single; end of line', testRegex({
+        regex: RGX.WIKI.ATTR,
+        content: 'attrtype::[[wikilink]]',
+        match: [
+          'attrtype::[[wikilink]]',
+          'attrtype',
+          'wikilink',
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+        ],
+      }));
+
+      it('unprefixed; single; newline', testRegex({
         regex: RGX.WIKI.ATTR,
         content: 'attrtype::[[wikilink]]\n',
         match: [

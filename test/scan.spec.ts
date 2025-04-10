@@ -114,7 +114,21 @@ describe('scan()', () => {
 
   describe('attr', () => {
 
-    it('unprefixed; single', testScan({
+    it('unprefixed; single; end of line', testScan({
+      mkdn: 'attrtype::[[wikilink]]',
+      expdData:[{
+        kind: 'wikiattr',
+        text: 'attrtype::[[wikilink]]',
+        start: 0,
+        type: ['attrtype', 0],
+        filenames: [
+          ['wikilink', 12],
+        ],
+        listFormat: 'none',
+      }]
+    }));
+
+    it('unprefixed; single; newline', testScan({
       mkdn: 'attrtype::[[wikilink]]\n',
       expdData:[{
         kind: 'wikiattr',

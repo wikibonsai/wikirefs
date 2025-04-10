@@ -1226,7 +1226,7 @@ some random text.
   },
   // nested
   {
-    descr: 'wikiattr; prefixed; w/ other mkdn constructs; nested; list; mkdn-separated; not allowed inside',
+    descr: 'wikiattr; prefixed; w/ other mkdn constructs; nested; list; not allowed inside',
     mkdn: '- :attrtype::[[fname-a]]\n',
     html:
 `<ul>
