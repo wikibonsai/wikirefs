@@ -12,7 +12,7 @@ export namespace RGX {
   //  markdown/wikilink special/reserved characters
   // <------------------------------------------------------------------------>
 
-  export const MARKER = {
+  export const _MKDN = {
     // markdown (originally from kramdown)
     // atx header: https://github.com/gettalong/kramdown/blob/master/lib/kramdown/parser/kramdown/header.rbL29
     ATX_HEADER        : /^#{1,6}[\t ]*([^ \t].*)\n/im,
@@ -22,7 +22,9 @@ export namespace RGX {
     BULLET            : /[^\n\r\S]{0,4}([+*-]) /i,
     // markdown-style block-reference
     // BLOCK          : /".* \^" + BLOCK_ID$/i,
+  } as const;
 
+  export const MARKER = {
     // wikilink (by order of syntactic appearance)
     EMBED             : new RegExp(esc(CONST.MARKER.EMBED)),
     NOT_EMBED         : new RegExp('(?<!' + esc(CONST.MARKER.EMBED) + ')', 'i'),
@@ -104,7 +106,7 @@ export namespace RGX {
                                     + '$'
                                   , 'im'),
     LIST_ITEM         : new RegExp(
-                                    '^' + '(?: *)' + MARKER.BULLET.source
+                                    '^' + '(?: *)' + _MKDN.BULLET.source
                                     + '(' + _CAP_GRP_BASE.source + ')'
                                   , 'im'),
   } as const;
@@ -212,7 +214,7 @@ export namespace RGX {
                                       + '|'
                                       // mkdn-list-separated
                                       + '(?:' + '\n' + '(?:'
-                                        + '^ *' + MARKER.BULLET.source + _BASE.source + '\n'
+                                        + '^ *' + _MKDN.BULLET.source + _BASE.source + '\n'
                                       + ')+' + ')'
                                     + ')'
                                   , 'im'),
