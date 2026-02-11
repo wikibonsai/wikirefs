@@ -12,7 +12,7 @@ export interface wikilink {
   doctype: string;
   linktype: string;
   filename: string;
-  // header: string;
+  header: string;
   // block: string;
   label: string;
 }

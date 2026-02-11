@@ -26,6 +26,7 @@ export interface WikiAttrResult extends ScanResult {
 export interface WikiLinkResult extends ScanResult {
   type: [string, number] | [];
   filename: [string, number];
+  header: [string, number] | [];
   label: [string, number] | [];
 }
 
@@ -165,12 +166,14 @@ export function scan(content: string, opts?: ScanOpts): (WikiAttrResult | WikiLi
         const matchText      : string = linkMatch[0];
         const linkTypeText   : string = linkMatch[1];
         const fileNameText   : string = linkMatch[2];
-        // const headerText     : string = linkMatch[4];
-        const labelText      : string = linkMatch[3];
+        const headerText     : string = linkMatch[3];
+        const labelText      : string = linkMatch[4];
 
         const wikilinkOffset = linkMatch.index;
         const linkTypeOffset = matchText.indexOf(linkTypeText);
         const filenameOffset = matchText.indexOf(fileNameText);
+        const headerOffset   = (headerText !== undefined) ? 
+          (headerText === '' ? matchText.indexOf('#') + 1 : matchText.indexOf(headerText)) : -1;
         const labelOffset    = matchText.indexOf(labelText);
         if (!filename || (filename === fileNameText)) {
           /* eslint-disable indent */
@@ -180,14 +183,16 @@ export function scan(content: string, opts?: ScanOpts): (WikiAttrResult | WikiLi
                                                 );
           /* eslint-enable indent */
           if (skipEsc || !escaped) {
-            const type : [string, number] | [] = (linkTypeText) ? [linkTypeText.trim(), linkMatch.index + linkTypeOffset] : [];
-            const label: [string, number] | [] = (labelText)    ? [labelText, linkMatch.index + labelOffset]              : [];
+            const type  : [string, number] | [] = (linkTypeText) ? [linkTypeText.trim(), linkMatch.index + linkTypeOffset] : [];
+            const header: [string, number] | [] = (headerText !== undefined) ? [headerText, linkMatch.index + headerOffset] : [];
+            const label : [string, number] | [] = (labelText)    ? [labelText, linkMatch.index + labelOffset]            : [];
             res.push({
               kind: CONST.WIKI.LINK,
               text: matchText,
               start: linkMatch.index,
               type: type,
               filename: [fileNameText, wikilinkOffset + filenameOffset],
+              header: header,
               label: label,
             });
           }

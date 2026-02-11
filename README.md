@@ -39,7 +39,18 @@ See [`./src/lib/func`](https://github.com/wikibonsai/wikirefs/tree/main/src/lib/
 
 ### `mkdnToWiki(content: string, opts?: ConvertOpts): string`
 
-In the given `content` string, convert `[markdown](links)` to `[[wikirefs]]` and `![markdown](img-embeds)` to `![[wikiembed-images]]`. File extensions are preserved for media.
+Convert `[markdown](links)` to `[[wikirefs]]` in a given `content` string.
+
+In the given `content` string conversions occur as shown below (File extensions are preserved for media):
+
+| mkdn                      | [[wiki]]                     |
+| ------------------------- | ---------------------------- |
+| `[filename](url)`         | `[[filename]]`               |
+| `[label](url)`            | `[[filename|label]]` *       |
+| `[label](url#header)`     | `[[filename#header|label]]` *|
+| `![alt](img-url)`         | `![[filename]]`              |
+
+\* *Filename is extracted from the URL based on the format option*
 
 Options:
 
@@ -143,6 +154,7 @@ WikiAttrResult extends ScanResult {
 WikiLinkResult extends ScanResult {
   type: [string, number] | [];
   filename: [string, number];
+  header: [string, number] | [];
   label: [string, number] | [];
 }
 WikiEmbedResult extends ScanResult {
@@ -163,7 +175,15 @@ Options:
 
 Convert `[[wikirefs]]` to `[markdown](links)` in a given `content` string.
 
-In the given `content` string, convert `[[wikirefs]]` to `[markdown](links)` and `![[wikiembed-images]]` to `![markdown](img-embeds)`. File extensions are preserved for media and may be optionally removed or left in-place for markdown files.
+In the given `content` string conversions occur as shown below (File extensions are preserved for media):
+
+| [[wiki]]                  | mkdn                      |
+| ------------------------- | ------------------------- |
+| `[[filename]]`            | `[filename](url)`         |
+| `[[filename#header]]`     | `[filename](url#header)`  |
+| `[[filename|label]]`      | `[label](url)`            |
+| `[[filename#header|label]]`| `[label](url#header)`     |
+| `![[filename]]`           | `![](url)`                |
 
 Options:
 
@@ -246,12 +266,13 @@ Note: The wikilink regex results will include single wikiattr constructs that ma
 ```js
 import * as wikirefs from 'wikirefs';
 
-const match = wikirefs.RGX.WIKI.LINK.exec(':linktype::[[wikilink|label]]');
+const match = wikirefs.RGX.WIKI.LINK.exec(':linktype::[[wikilink#header|label]]');
 
-const matchText    : string = match[0]; // ':linktype::[[wikilink|label]]'
+const matchText    : string = match[0]; // ':linktype::[[wikilink#header|label]]'
 const linkTypeText : string = match[1]; // 'linktype'
 const fileNameText : string = match[2]; // 'wikilink'
-const labelText    : string = match[3]; // 'label'
+const headerText   : string = match[3]; // 'header'
+const labelText    : string = match[4]; // 'label'
 ```
 
 ### `RGX.WIKI.EMBED`

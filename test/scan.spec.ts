@@ -38,6 +38,7 @@ describe('scan()', () => {
         start: 0,
         type: [],
         filename: ['wikilink', 2],
+        header: [],
         label: [],
       }]
     }));
@@ -50,6 +51,7 @@ describe('scan()', () => {
         start: 0,
         type: ['linktype', 1],
         filename: ['wikilink', 13],
+        header: [],
         label: [],
       }]
     }));
@@ -64,6 +66,7 @@ describe('scan()', () => {
           start: 0,
           type: [],
           filename: ['wikilink', 2],
+          header: [],
           label: ['label', 11],
         }],
       }));
@@ -76,6 +79,7 @@ describe('scan()', () => {
           start: 0,
           type: ['linktype', 1],
           filename: ['wikilink', 13],
+          header: [],
           label: ['label', 22],
         }],
       }));
@@ -91,6 +95,7 @@ describe('scan()', () => {
           text: '[[wikilink]]',
           start: 15,
           filename:['wikilink', 17],
+          header: [],
           label: [],
           type: [],
         }],
@@ -103,6 +108,7 @@ describe('scan()', () => {
           text: '[[wikilink]]',
           start: 19,
           filename: ['wikilink', 21],
+          header: [],
           label: [],
           type: [],
         }],
@@ -283,6 +289,7 @@ this is an untyped [[fname-a]].
         start: 35,
         type: ['typed', 36],
         filename: ['fname-a', 45],
+        header: [],
         label: [],
       }, {
         kind: 'wikilink',
@@ -290,6 +297,7 @@ this is an untyped [[fname-a]].
         start: 76,
         type: [],
         filename: ['fname-a', 78],
+        header: [],
         label: [],
       }, {
         kind: 'wikiembed',
@@ -551,6 +559,7 @@ Then there is a :typed::[[wikilink-typed]] and [[wikilink-untyped]].
               291
             ],
             kind: 'wikilink',
+            header: [],
             label: [],
             start: 281,
             text: ':typed::[[wikilink-typed]]',
@@ -565,6 +574,7 @@ Then there is a :typed::[[wikilink-typed]] and [[wikilink-untyped]].
               314
             ],
             kind: 'wikilink',
+            header: [],
             label: [],
             start: 312,
             text: '[[wikilink-untyped]]',
@@ -625,6 +635,605 @@ Then there is a :typed::[[wikilink-typed]] and [[wikilink-untyped]].
         opts: { kind: 'wikilink' },
         expdData: [
         ]
+      }));
+
+    });
+
+  });
+
+  describe('escaped', () => {
+
+    describe('code spans', () => {
+
+      it('wikiattr; unprefixed', testScan({
+        mkdn: 'Here is `attrtype::[[fname]]` in code.',
+        expdData: []
+      }));
+
+      it('wikiattr; prefixed', testScan({
+        mkdn: 'Here is `:attrtype::[[fname]]` in code.',
+        expdData: []
+      }));
+
+      it('wikiattr; outside code spans', testScan({
+        mkdn: 'attrtype::[[fname]]\nHere is `some code` text.',
+        expdData: [{
+          kind: 'wikiattr',
+          text: 'attrtype::[[fname]]\n',
+          start: 0,
+          type: ['attrtype', 0],
+          filenames: [['fname', 12]],
+          listFormat: 'none',
+        }]
+      }));
+
+      it('wikilink', testScan({
+        mkdn: 'Here is `[[wikilink]]` in code.',
+        expdData: []
+      }));
+
+      it('wikiembed', testScan({
+        mkdn: 'Here is `![[embed]]` in code.',
+        expdData: []
+      }));
+
+    });
+
+    describe('backslash', () => {
+
+      it('wikiattr; prefixed', testScan({
+        mkdn: ':attrtype\\::\\[[fname-a]]\n',
+        expdData: [{
+          kind: 'wikilink',
+          text: '[[fname-a]]',
+          start: 13,
+          type: [],
+          filename: ['fname-a', 15],
+          header: [],
+          label: [],
+        }]
+      }));
+
+      it('wikiattr; unprefixed', testScan({
+        mkdn: 'attrtype\\::\\[[fname-a]]\n',
+        expdData: [{
+          kind: 'wikilink',
+          text: '[[fname-a]]',
+          start: 12,
+          type: [],
+          filename: ['fname-a', 14],
+          header: [],
+          label: [],
+        }]
+      }));
+
+      it('wikilink; escaped brackets', testScan({
+        mkdn: '\\[[wikilink\\]]',
+        expdData: [{
+          kind: 'wikilink',
+          text: '[[wikilink\\]]',
+          start: 1,
+          type: [],
+          filename: ['wikilink\\', 3],
+          header: [],
+          label: [],
+        }]
+      }));
+
+      it('wikiembed', testScan({
+        mkdn: '!\\[[embed\\]]',
+        expdData: [{
+          kind: 'wikilink',
+          text: '[[embed\\]]',
+          start: 2,
+          type: [],
+          filename: ['embed\\', 4],
+          header: [],
+          label: [],
+        }]
+      }));
+
+    });
+
+    describe('indented code blocks (4+ spaces)', () => {
+
+      it('wikiattr; prefixed', testScan({
+        mkdn: '    :attrtype::[[fname-a]]\n',
+        expdData: []
+      }));
+
+      it('wikiattr; unprefixed', testScan({
+        mkdn: '    attrtype::[[fname-a]]\n',
+        expdData: []
+      }));
+
+      it('wikilink', testScan({
+        mkdn: '    [[wikilink]]',
+        expdData: []
+      }));
+
+      it('wikiembed', testScan({
+        mkdn: '    ![[embed]]',
+        expdData: []
+      }));
+
+    });
+
+  });
+
+  describe('nested in markdown constructs', () => {
+
+    describe('lists', () => {
+
+      it('wikiattr; prefixed; becomes typed wikilink', testScan({
+        mkdn: '- :attrtype::[[fname-a]]\n',
+        expdData: [{
+          kind: 'wikilink',
+          text: ':attrtype::[[fname-a]]',
+          start: 2,
+          type: ['attrtype', 3],
+          filename: ['fname-a', 15],
+          header: [],
+          label: [],
+        }]
+      }));
+
+      it('wikiattr; unprefixed; plain text + wikilink', testScan({
+        mkdn: '- attrtype::[[fname-a]]\n',
+        expdData: [{
+          kind: 'wikiattr',
+          text: '- attrtype::[[fname-a]]\n',
+          start: 0,
+          type: ['- attrtype', 0],
+          filenames: [['fname-a', 14]],
+          listFormat: 'none',
+        }]
+      }));
+
+      it('wikilink; in list item', testScan({
+        mkdn: '- [[wikilink]] in list',
+        expdData: [{
+          kind: 'wikilink',
+          text: '[[wikilink]]',
+          start: 2,
+          type: [],
+          filename: ['wikilink', 4],
+          header: [],
+          label: [],
+        }]
+      }));
+
+      it('wikiembed; in list item', testScan({
+        mkdn: '- ![[embed]] in list',
+        expdData: [{
+          kind: 'wikiembed',
+          text: '![[embed]]',
+          start: 2,
+          filename: ['embed', 5],
+          media: 'markdown',
+        }]
+      }));
+
+    });
+
+    describe('blockquotes', () => {
+
+      it('wikiattr; prefixed; becomes typed wikilink', testScan({
+        mkdn: '> :attrtype::[[fname-a]]\n',
+        expdData: [{
+          kind: 'wikilink',
+          text: ':attrtype::[[fname-a]]',
+          start: 2,
+          type: ['attrtype', 3],
+          filename: ['fname-a', 15],
+          header: [],
+          label: [],
+        }]
+      }));
+
+      it('wikiattr; unprefixed; plain text + wikilink', testScan({
+        mkdn: '> attrtype::[[fname-a]]\n',
+        expdData: [{
+          kind: 'wikiattr',
+          text: '> attrtype::[[fname-a]]\n',
+          start: 0,
+          type: ['> attrtype', 0],
+          filenames: [['fname-a', 14]],
+          listFormat: 'none',
+        }]
+      }));
+
+      it('wikilink; in blockquote', testScan({
+        mkdn: '> [[wikilink]] in quote',
+        expdData: [{
+          kind: 'wikilink',
+          text: '[[wikilink]]',
+          start: 2,
+          type: [],
+          filename: ['wikilink', 4],
+          header: [],
+          label: [],
+        }]
+      }));
+
+      it('wikiembed; in blockquote', testScan({
+        mkdn: '> ![[embed]] in quote',
+        expdData: [{
+          kind: 'wikiembed',
+          text: '![[embed]]',
+          start: 2,
+          filename: ['embed', 5],
+          media: 'markdown',
+        }]
+      }));
+
+    });
+
+  });
+
+  describe('malformed', () => {
+
+    describe('wikiattr', () => {
+
+      it('blank value; unprefixed', testScan({
+        mkdn: 'attrtype::\nattrtype2::[[fname]]\n',
+        expdData: [{
+          kind: 'wikiattr',
+          text: 'attrtype2::[[fname]]\n',
+          start: 11,
+          type: ['attrtype2', 11],
+          filenames: [['fname', 24]],
+          listFormat: 'none',
+        }]
+      }));
+
+      it('blank value; prefixed', testScan({
+        mkdn: ':attrtype::\n:attrtype2::[[fname]]\n',
+        expdData: [{
+          kind: 'wikiattr',
+          text: ':attrtype2::[[fname]]\n',
+          start: 12,
+          type: ['attrtype2', 13],
+          filenames: [['fname', 26]],
+          listFormat: 'none',
+        }]
+      }));
+
+      it('single brackets', testScan({
+        mkdn: ':attrtype::[fname]\n',
+        expdData: []
+      }));
+
+      it('extraneous chars after', testScan({
+        mkdn: ':attrtype::[[fname]]extra\n',
+        expdData: [{
+          kind: 'wikilink',
+          text: ':attrtype::[[fname]]',
+          start: 0,
+          type: ['attrtype', 1],
+          filename: ['fname', 13],
+          header: [],
+          label: [],
+        }]
+      }));
+
+      it('list; comma; not bracketed', testScan({
+        mkdn: ':attrtype::string,string\n',
+        expdData: []
+      }));
+
+      it('list; mkdn; not bracketed', testScan({
+        mkdn: ':attrtype::\n- string\n- string\n',
+        expdData: []
+      }));
+
+    });
+
+    describe('wikilink', () => {
+
+      it('single brackets', testScan({
+        mkdn: '[wikilink]',
+        expdData: []
+      }));
+
+      it('mismatched brackets', testScan({
+        mkdn: '[[wikilink]',
+        expdData: []
+      }));
+
+      it('newline in link', testScan({
+        mkdn: '[[wiki\nlink]]',
+        expdData: []
+      }));
+
+    });
+
+    describe('wikiembed', () => {
+
+      it('single brackets', testScan({
+        mkdn: '![embed]',
+        expdData: []
+      }));
+
+      it('mismatched brackets', testScan({
+        mkdn: '![[embed]',
+        expdData: []
+      }));
+
+    });
+
+  });
+
+  describe('whitespace variations', () => {
+
+    describe('wikiattr', () => {
+
+      it('padded attrtype', testScan({
+        mkdn: ': attrtype :: [[fname]]\n',
+        expdData: [{
+          kind: 'wikiattr',
+          text: ': attrtype :: [[fname]]\n',
+          start: 0,
+          type: ['attrtype', 2],
+          filenames: [['fname', 16]],
+          listFormat: 'none',
+        }]
+      }));
+
+      it('long whitespace before ::', testScan({
+        mkdn: 'attrtype     :: [[fname]]\n',
+        expdData: [{
+          kind: 'wikiattr',
+          text: 'attrtype     :: [[fname]]\n',
+          start: 0,
+          type: ['attrtype', 0],
+          filenames: [['fname', 18]],
+          listFormat: 'none',
+        }]
+      }));
+
+      it('too much whitespace after :: (not valid)', testScan({
+        mkdn: 'attrtype ::     [[fname]]\n',
+        expdData: [{
+          kind: 'wikilink',
+          text: '[[fname]]',
+          start: 16,
+          type: [],
+          filename: ['fname', 18],
+          header: [],
+          label: [],
+        }]
+      }));
+
+      it('list; mkdn; pretty printed', testScan({
+        mkdn: ': attrtype :: \n              - [[fname-a]]\n              - [[fname-b]]\n',
+        expdData: [{
+          kind: 'wikiattr',
+          text: ': attrtype :: \n              - [[fname-a]]\n              - [[fname-b]]\n',
+          start: 0,
+          type: ['attrtype', 2],
+          filenames: [
+            ['fname-a', 33],
+            ['fname-b', 61]
+          ],
+          listFormat: 'mkdn',
+        }]
+      }));
+
+    });
+
+  });
+
+  describe('edge cases', () => {
+
+    it('wikiattr at EOF without newline', testScan({
+      mkdn: 'attrtype::[[fname]]',
+      expdData: [{
+        kind: 'wikiattr',
+        text: 'attrtype::[[fname]]',
+        start: 0,
+        type: ['attrtype', 0],
+        filenames: [['fname', 12]],
+        listFormat: 'none',
+      }]
+    }));
+
+    it('multiple wikiattrs on same line (not valid as attrs)', testScan({
+      mkdn: 'attr1::[[fname1]] attr2::[[fname2]]',
+      expdData: [{
+        kind: 'wikilink',
+        text: '[[fname1]]',
+        start: 7,
+        type: [],
+        filename: ['fname1', 9],
+        header: [],
+        label: [],
+      }, {
+        kind: 'wikilink',
+        text: '[[fname2]]',
+        start: 25,
+        type: [],
+        filename: ['fname2', 27],
+        header: [],
+        label: [],
+      }]
+    }));
+
+    it('wikiattr with text on same line after', testScan({
+      mkdn: 'attrtype::[[fname]] some text\n',
+      expdData: [{
+        kind: 'wikilink',
+        text: '[[fname]]',
+        start: 10,
+        type: [],
+        filename: ['fname', 12],
+        header: [],
+        label: [],
+      }]
+    }));
+
+    it('wikiattr with text on same line before (unprefixed)', testScan({
+      mkdn: 'some text attrtype::[[fname]]\n',
+      expdData: [{
+        kind: 'wikiattr',
+        text: 'some text attrtype::[[fname]]\n',
+        start: 0,
+        type: ['some text attrtype', 0],
+        filenames: [['fname', 22]],
+        listFormat: 'none',
+      }]
+    }));
+
+  });
+
+  describe('header links', () => {
+
+    describe('untyped', () => {
+
+      it('basic header', testScan({
+        mkdn: '[[filename#header]]',
+        expdData: [{
+          kind: 'wikilink',
+          text: '[[filename#header]]',
+          start: 0,
+          type: [],
+          filename: ['filename', 2],
+          header: ['header', 11],
+          label: [],
+        }]
+      }));
+
+      it('header with spaces', testScan({
+        mkdn: '[[filename#Header Title]]',
+        expdData: [{
+          kind: 'wikilink',
+          text: '[[filename#Header Title]]',
+          start: 0,
+          type: [],
+          filename: ['filename', 2],
+          header: ['Header Title', 11],
+          label: [],
+        }]
+      }));
+
+      it('header with kebab-case', testScan({
+        mkdn: '[[filename#header-title-here]]',
+        expdData: [{
+          kind: 'wikilink',
+          text: '[[filename#header-title-here]]',
+          start: 0,
+          type: [],
+          filename: ['filename', 2],
+          header: ['header-title-here', 11],
+          label: [],
+        }]
+      }));
+
+      it('header with special characters', testScan({
+        mkdn: '[[filename#FAQ: Common Questions]]',
+        expdData: [{
+          kind: 'wikilink',
+          text: '[[filename#FAQ: Common Questions]]',
+          start: 0,
+          type: [],
+          filename: ['filename', 2],
+          header: ['FAQ: Common Questions', 11],
+          label: [],
+        }]
+      }));
+
+      it('empty header (treated as no header)', testScan({
+        mkdn: '[[filename#]]',
+        expdData: [{
+          kind: 'wikilink',
+          text: '[[filename#]]',
+          start: 0,
+          type: [],
+          filename: ['filename', 2],
+          header: ['', 11],
+          label: [],
+        }]
+      }));
+
+    });
+
+    describe('typed', () => {
+
+      it('typed with header', testScan({
+        mkdn: ':linktype::[[filename#header]]',
+        expdData: [{
+          kind: 'wikilink',
+          text: ':linktype::[[filename#header]]',
+          start: 0,
+          type: ['linktype', 1],
+          filename: ['filename', 13],
+          header: ['header', 22],
+          label: [],
+        }]
+      }));
+
+    });
+
+    describe('labelled', () => {
+
+      it('header with label', testScan({
+        mkdn: '[[filename#header|Custom Label]]',
+        expdData: [{
+          kind: 'wikilink',
+          text: '[[filename#header|Custom Label]]',
+          start: 0,
+          type: [],
+          filename: ['filename', 2],
+          header: ['header', 11],
+          label: ['Custom Label', 18],
+        }]
+      }));
+
+      it('typed, header, and label', testScan({
+        mkdn: ':linktype::[[filename#header|label]]',
+        expdData: [{
+          kind: 'wikilink',
+          text: ':linktype::[[filename#header|label]]',
+          start: 0,
+          type: ['linktype', 1],
+          filename: ['filename', 13],
+          header: ['header', 22],
+          label: ['label', 29],
+        }]
+      }));
+
+    });
+
+    describe('multiple headers (invalid)', () => {
+
+      it('multiple hash symbols', testScan({
+        mkdn: '[[filename#header1#header2]]',
+        expdData: [{
+          kind: 'wikilink',
+          text: '[[filename#header1#header2]]',
+          start: 0,
+          type: [],
+          filename: ['filename', 2],
+          header: ['header1#header2', 11],
+          label: [],
+        }]
+      }));
+
+    });
+
+    describe('wikiattrs with headers', () => {
+
+      it('wikiattr with header (not supported)', testScan({
+        mkdn: ':attrtype::[[filename#header]]\n',
+        expdData: [{
+          kind: 'wikilink',
+          text: ':attrtype::[[filename#header]]',
+          start: 0,
+          type: ['attrtype', 1],
+          filename: ['filename', 13],
+          header: ['header', 22],
+          label: [],
+        }]
       }));
 
     });

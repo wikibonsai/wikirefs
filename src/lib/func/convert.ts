@@ -2,6 +2,7 @@ import { scan } from './scan';
 import { CONST } from '../var/const';
 import { buildURI, extractFileName } from '../../util/uri';
 import { isValidUriFormat, isValidWikiKind } from '../../util/valid';
+import { slugify } from '../../util/string';
 
 
 // todo:
@@ -27,21 +28,27 @@ export function mkdnToWiki(content: string, opts?: ConvertOpts): string | undefi
   // links (includes attrs)
   if ((kind === CONST.WIKI.REF) || (kind === CONST.WIKI.LINK)) {
     content = content.replace(RGX_MKDN_LINK, (match: string, label: string, uri: string) => {
+      // extract header if present
+      let header: string = '';
+      let cleanUri: string = uri;
+      const hashIndex = uri.indexOf('#');
+      if (hashIndex !== -1) {
+        header = uri.substring(hashIndex + 1);
+        cleanUri = uri.substring(0, hashIndex);
+      }
       /* eslint-disable indent */
-      const filename: string | undefined = Object.keys(uriToFnameHash).includes(uri)
-                                            ? uriToFnameHash[uri]
-                                            : extractFileName(uri, format);
+      const filename: string | undefined = Object.keys(uriToFnameHash).includes(cleanUri)
+                                            ? uriToFnameHash[cleanUri]
+                                            : extractFileName(cleanUri, format);
       /* eslint-disable indent */
       if (filename !== undefined) {
+        const wikiBase = CONST.MARKER.OPEN + filename + (header ? CONST.MARKER.HEADER + header : '');
         // unlabelled
         if (label === filename) {
-          return CONST.MARKER.OPEN
-                + filename
-                + CONST.MARKER.CLOSE;
+          return wikiBase + CONST.MARKER.CLOSE;
         // labelled
         } else {
-          return CONST.MARKER.OPEN
-                + filename
+          return wikiBase
                 + CONST.MARKER.LABEL
                 + label
                 + CONST.MARKER.CLOSE;
@@ -135,13 +142,15 @@ export function wikiToMkdn(content: string, opts?: ConvertOpts): string | undefi
         console.warn('invalid uri from file uri: ', linkedFileUri);
         continue;
       }
+      // append header if present
+      const fullUri = m.header && m.header.length > 0 ? `${uri}#${slugify(m.header[0])}` : uri;
       // unlabelled
       if (m.label.length === 0) {
-        mkdnContent += `[${m.filename[0]}](${uri})`;
+        mkdnContent += `[${m.filename[0]}](${fullUri})`;
         curPos = m.start + m.text.length;
       // labelled
       } else {
-        mkdnContent += `[${m.label[0]}](${uri})`;
+        mkdnContent += `[${m.label[0]}](${fullUri})`;
         curPos = m.start + m.text.length;
       }
     ////

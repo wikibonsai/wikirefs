@@ -43,8 +43,8 @@ export namespace RGX {
 
   export const VALID_CHARS = {
     TYPE              : /[^\n\r!:^|[\]]+/i,
-    FILENAME          : /[^\n\r!:^|[\]]+/i,
-    HEADER            : /[^\n\r!^|[\]]+/i,
+    FILENAME          : /[^\n\r!#:^|[\]]+/i,
+    HEADER            : /[^\n\r!^|[\]]*/i,
     // BLOCK_ID          : /[^\n\r!:^|[\]\/]+/i,
     LABEL             : /.+?(?=\]{2})/i,
   } as const;
@@ -132,13 +132,9 @@ export namespace RGX {
                                       + MARKER.NOT_EMBED.source
                                       + MARKER.OPEN.source
                                         + CAP_GRP.FILENAME.source                                        // 2
-                                        // + '(?:'
-                                        //   + '(?:' + CAP_GRP.HEADER.source + CAP_GRP.HEADER.source + ')?' //
-                                        //   + '|'
-                                        //   + '(?:' + CAP_GRP.BLOCK.source + CAP_GRP.BLOCK_ID.source + ')?'//
-                                        //   + '|'
-                                        // + ')?'
-                                      + '(?:' + MARKER.LABEL.source + CAP_GRP.LABEL.source + ')?'       // 3
+                                        + '(?:' + MARKER.HEADER.source + CAP_GRP.HEADER.source + ')?'   // 3
+                                        // + '(?:' + MARKER.BLOCK.source + CAP_GRP.BLOCK_ID.source + ')?'//
+                                      + '(?:' + MARKER.LABEL.source + CAP_GRP.LABEL.source + ')?'       // 4
                                       + MARKER.CLOSE.source
                                     + ')'
                                   , 'i'),

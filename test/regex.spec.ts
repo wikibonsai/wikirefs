@@ -219,6 +219,7 @@ describe('RGX', () => {
           '[[wikilink|label]]',
           undefined,
           'wikilink',
+          undefined,
           'label',
         ],
       }));
@@ -237,6 +238,7 @@ describe('RGX', () => {
           'linktype',
           'wikilink',
           undefined,
+          undefined,
         ],
       }));
 
@@ -247,6 +249,7 @@ describe('RGX', () => {
           ':linktype::[[wikilink|label]]',
           'linktype',
           'wikilink',
+          undefined,
           'label',
         ],
       }));

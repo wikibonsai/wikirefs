@@ -107,6 +107,7 @@ export namespace CONST {
                 '.flac',
               ]),
     // DOC    : new Set([
+    //           '.html',
     //           '.doc',
     //           '.docx',
     //           '.rtf',

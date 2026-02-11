@@ -13,8 +13,8 @@ WikiRefs refers to several wiki constructs that all fall under the umbrella "wik
 This project expects:
 
 - The text that appears between square brackets should match a filename from a given collection of markdown files (e.g. `[[filename]]` -> `filename.md`).
-- Whitespace is supported in filenames, though it is not preferred.
-- Matching between `[[wikirefs]]` and filenames is case insensitive.
+- Whitespace is supported in filenames, though kebab-case is preferred. For headers, HTML IDs (kebab-case) are preferred over markdown header text with spaces.
+- Matching between `[[wikirefs]]` to filenames and `[[wikiref#headers]]` to header titles is case insensitive.
 - The file's `title` metadata is what gets rendered to the anchor (`a`) tag's inner text. If no title exists, the filename is used instead.
 
 This project's implementation does not enforce the following, but downstream projects in the [`WikiBonsai` project](https://github.com/wikibonsai/wikibonsai) do:
@@ -56,7 +56,7 @@ describe('render wikirefs; mkdn -> html', () => {
 
 Wikiattrs are meant to be compatible with [caml](https://github.com/wikibonsai/caml) metadata attributes.
 
-Wikiattrs do not support [labels](#labelled).
+Since wikiattrs are file-level metadata constructs, they do not support [headers](#header-links) or [labels](#labelled).
 
 ### Single
 
@@ -238,7 +238,7 @@ For example, this markdown might generate the following `json` data and `html`:
 
 ### Untyped
 
-An untyped wikilink should link to another markdown file from a given collection of markdown files. It should render as an anchor tag, where the anchor tag's `href` property points to the markdown file's `url` and the anchor's `innertext` is probably title text generated from the file's metadata. A `data-href` mirroring the `href` will also be added.
+An untyped wikilink should link to another markdown file from a given collection of markdown files. It should render as an anchor tag, where the anchor tag's `href` property points to the markdown file's `url` and the anchor's `innertext` is probably title text generated from the file's metadata. A `data-href` mirroring the `href` will also be added for compatibility with existing systems and syntaxes.
 
 If provided, the markdown file's `doctype` may also be added as a css class to the anchor tag.
 
@@ -300,9 +300,95 @@ Resulting HTML:
 <a class="wiki link type reftype__linktype" href="url" data-href="url">label</a>
 ```
 
+### Header Links
+
+Header links allow linking to specific sections within a document by appending a header identifier after the filename, separated by a `#` character and either the html header id or the markdown header text. The html header id is preferred.
+
+#### Header Level Link, Untyped, HTML ID
+
+Markdown:
+
+```markdown
+[[filename#header-text]]
+```
+
+Resulting HTML:
+
+```html
+<a class="wiki link" href="url#header-text" data-href="url#header-text">title</a>
+```
+
+#### Header Level Link, Untyped, Markdown Text
+
+Markdown:
+
+```markdown
+[[filename#Header Text]]
+```
+
+This should resolve to the same header as `[[filename#header-text]]`.
+
+Resulting HTML:
+
+```html
+<a class="wiki link" href="url#header-text" data-href="url#header-text">title</a>
+```
+
+#### Header Level Link, Typed, HTML ID
+
+Markdown:
+
+```markdown
+:linktype::[[filename#header]]
+```
+
+Resulting HTML:
+
+```html
+<a class="wiki link type reftype__linktype" href="url#header" data-href="url#header">title</a>
+```
+
+#### Header Level Link, Untyped, Labelled, HTML ID
+
+Markdown:
+
+```markdown
+[[filename#conclusion|See Results]]
+```
+
+Resulting HTML:
+
+```html
+<a class="wiki link" href="url#conclusion" data-href="url#conclusion">See Results</a>
+```
+
+#### Special Cases
+
+Multiple header references are not supported. Only one header anchor is allowed per wikilink:
+
+```markdown
+[[filename#header1#header2]]  <!-- Invalid syntax -->
+```
+
+Empty header references are treated as regular wikilinks without headers:
+
+```markdown
+[[filename#]]  <!-- Treated as [[filename]] -->
+```
+
+Header matching is case-insensitive. All of the following resolve to the same header:
+
+```markdown
+[[filename#Introduction]]
+[[filename#introduction]]
+[[filename#INTRODUCTION]]
+```
+
 ## WikiEmbeds
 
 **WikiEmbeds** are also inline constructs, but render as blocks. They provide links to the linked content, but also embed the file's actual content in the current file when rendered. Markdown files, audio, images, and video are all supported.
+
+Wikiembeds do not currently support [headers](#header-links) or [labels](#labelled).
 
 ### Markdown
 
