@@ -170,27 +170,122 @@ describe('RGX', () => {
 
     });
 
-    describe('EMBED', () => {
+    describe('ATTR', () => {
 
-      it('base', testRegex({
-        regex: RGX.WIKI.EMBED,
-        content: '![[wikilink]].',
+      it('unprefixed; single; end of line', testRegex({
+        regex: RGX.WIKI.ATTR,
+        content: 'attrtype::[[wikilink]]',
         match: [
-          '![[wikilink]]',
+          'attrtype::[[wikilink]]',
+          'attrtype',
           'wikilink',
+          undefined,
+          undefined,
+          undefined,
+          undefined,
         ],
       }));
 
-      it('no types', testRegex({
-        regex: RGX.WIKI.EMBED,
-        content: '!:linktype::[[wikilink]].',
+      it('unprefixed; single; newline', testRegex({
+        regex: RGX.WIKI.ATTR,
+        content: 'attrtype::[[wikilink]]\n',
+        match: [
+          'attrtype::[[wikilink]]\n',
+          'attrtype',
+          'wikilink',
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+        ],
+      }));
+
+      it('unprefixed; single; no label', testRegex({
+        regex: RGX.WIKI.ATTR,
+        content: 'attrtype::[[wikilink|label]]\n',
         match: null,
       }));
 
-      it('no labels', testRegex({
-        regex: RGX.WIKI.EMBED,
-        content: '![[wikilink|label]].',
+      it('unprefixed; list; comma', testRegex({
+        regex: RGX.WIKI.ATTR,
+        content: 'attrtype::[[wikilink-1]],[[wikilink-2]],[[wikilink-3]]\n',
+        match: [
+          'attrtype::[[wikilink-1]],[[wikilink-2]],[[wikilink-3]]\n',
+          'attrtype',
+          'wikilink-1',
+          'wikilink-3',
+          undefined,
+          undefined,
+          undefined,
+        ],
+      }));
+
+      it('unprefixed; list; mkdn', testRegex({
+        regex: RGX.WIKI.ATTR,
+        content: 'attrtype::\n'
+        + '- [[wikilink-1]]\n'
+        + '- [[wikilink-2]]\n'
+        + '- [[wikilink-3]]\n',
+        match: [
+          'attrtype::\n- [[wikilink-1]]\n- [[wikilink-2]]\n- [[wikilink-3]]\n',
+          'attrtype',
+          undefined,
+          undefined,
+          '-',
+          '[[wikilink-3]]',
+          'wikilink-3',
+        ],
+      }));
+
+      it('prefixed; single', testRegex({
+        regex: RGX.WIKI.ATTR,
+        content: ':attrtype::[[wikilink]]\n',
+        match: [
+          ':attrtype::[[wikilink]]\n',
+          'attrtype',
+          'wikilink',
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+        ],
+      }));
+
+      it('prefixed; single; no label', testRegex({
+        regex: RGX.WIKI.ATTR,
+        content: ':attrtype::[[wikilink|label]]\n',
         match: null,
+      }));
+
+      it('prefixed; list; comma', testRegex({
+        regex: RGX.WIKI.ATTR,
+        content: ':attrtype::[[wikilink-1]],[[wikilink-2]],[[wikilink-3]]\n',
+        match: [
+          ':attrtype::[[wikilink-1]],[[wikilink-2]],[[wikilink-3]]\n',
+          'attrtype',
+          'wikilink-1',
+          'wikilink-3',
+          undefined,
+          undefined,
+          undefined,
+        ],
+      }));
+
+      it('prefixed; list; mkdn', testRegex({
+        regex: RGX.WIKI.ATTR,
+        content: ':attrtype::\n'
+        + '- [[wikilink-1]]\n'
+        + '- [[wikilink-2]]\n'
+        + '- [[wikilink-3]]\n',
+        match: [
+          ':attrtype::\n- [[wikilink-1]]\n- [[wikilink-2]]\n- [[wikilink-3]]\n',
+          'attrtype',
+          undefined,
+          undefined,
+          '-',
+          '[[wikilink-3]]',
+          'wikilink-3',
+        ],
       }));
 
     });
@@ -316,122 +411,27 @@ describe('RGX', () => {
 
     });
 
-    describe('ATTR', () => {
+    describe('EMBED', () => {
 
-      it('unprefixed; single; end of line', testRegex({
-        regex: RGX.WIKI.ATTR,
-        content: 'attrtype::[[wikilink]]',
+      it('base', testRegex({
+        regex: RGX.WIKI.EMBED,
+        content: '![[wikilink]].',
         match: [
-          'attrtype::[[wikilink]]',
-          'attrtype',
+          '![[wikilink]]',
           'wikilink',
-          undefined,
-          undefined,
-          undefined,
-          undefined,
         ],
       }));
 
-      it('unprefixed; single; newline', testRegex({
-        regex: RGX.WIKI.ATTR,
-        content: 'attrtype::[[wikilink]]\n',
-        match: [
-          'attrtype::[[wikilink]]\n',
-          'attrtype',
-          'wikilink',
-          undefined,
-          undefined,
-          undefined,
-          undefined,
-        ],
-      }));
-
-      it('unprefixed; single; no label', testRegex({
-        regex: RGX.WIKI.ATTR,
-        content: 'attrtype::[[wikilink|label]]\n',
+      it('no types', testRegex({
+        regex: RGX.WIKI.EMBED,
+        content: '!:linktype::[[wikilink]].',
         match: null,
       }));
 
-      it('unprefixed; list; comma', testRegex({
-        regex: RGX.WIKI.ATTR,
-        content: 'attrtype::[[wikilink-1]],[[wikilink-2]],[[wikilink-3]]\n',
-        match: [
-          'attrtype::[[wikilink-1]],[[wikilink-2]],[[wikilink-3]]\n',
-          'attrtype',
-          'wikilink-1',
-          'wikilink-3',
-          undefined,
-          undefined,
-          undefined,
-        ],
-      }));
-
-      it('unprefixed; list; mkdn', testRegex({
-        regex: RGX.WIKI.ATTR,
-        content: 'attrtype::\n'
-        + '- [[wikilink-1]]\n'
-        + '- [[wikilink-2]]\n'
-        + '- [[wikilink-3]]\n',
-        match: [
-          'attrtype::\n- [[wikilink-1]]\n- [[wikilink-2]]\n- [[wikilink-3]]\n',
-          'attrtype',
-          undefined,
-          undefined,
-          '-',
-          '[[wikilink-3]]',
-          'wikilink-3',
-        ],
-      }));
-
-      it('prefixed; single', testRegex({
-        regex: RGX.WIKI.ATTR,
-        content: ':attrtype::[[wikilink]]\n',
-        match: [
-          ':attrtype::[[wikilink]]\n',
-          'attrtype',
-          'wikilink',
-          undefined,
-          undefined,
-          undefined,
-          undefined,
-        ],
-      }));
-
-      it('prefixed; single; no label', testRegex({
-        regex: RGX.WIKI.ATTR,
-        content: ':attrtype::[[wikilink|label]]\n',
+      it('no labels', testRegex({
+        regex: RGX.WIKI.EMBED,
+        content: '![[wikilink|label]].',
         match: null,
-      }));
-
-      it('prefixed; list; comma', testRegex({
-        regex: RGX.WIKI.ATTR,
-        content: ':attrtype::[[wikilink-1]],[[wikilink-2]],[[wikilink-3]]\n',
-        match: [
-          ':attrtype::[[wikilink-1]],[[wikilink-2]],[[wikilink-3]]\n',
-          'attrtype',
-          'wikilink-1',
-          'wikilink-3',
-          undefined,
-          undefined,
-          undefined,
-        ],
-      }));
-
-      it('prefixed; list; mkdn', testRegex({
-        regex: RGX.WIKI.ATTR,
-        content: ':attrtype::\n'
-        + '- [[wikilink-1]]\n'
-        + '- [[wikilink-2]]\n'
-        + '- [[wikilink-3]]\n',
-        match: [
-          ':attrtype::\n- [[wikilink-1]]\n- [[wikilink-2]]\n- [[wikilink-3]]\n',
-          'attrtype',
-          undefined,
-          undefined,
-          '-',
-          '[[wikilink-3]]',
-          'wikilink-3',
-        ],
       }));
 
     });

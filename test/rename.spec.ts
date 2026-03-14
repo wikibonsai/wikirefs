@@ -41,19 +41,49 @@ describe('renameFileName()', () => {
     );
   });
 
-  describe('embed', () => {
+  describe('ref', () => {
 
-    it('base', testRenameFileName({
-      mkdn: 'Here is some content with an embedded ![[wikilink]].',
-      expdMkdn: 'Here is some content with an embedded ![[hello-world]].',
+    it('all', testRenameFileName({
+      mkdn: '\n'
+        + ':attrtype::\n'
+        + '- [[wikilink]]\n'
+        + '- [[wikilink]]\n'
+        + '\n'
+        + 'this is a :typed::[[wikilink]].\n'
+        + '\n'
+        + 'this is an untyped [[wikilink]].\n'
+        + '\n'
+        + '![[wikilink]]\n',
+      expdMkdn: '\n'
+        + ':attrtype::\n'
+        + '- [[hello-world]]\n'
+        + '- [[hello-world]]\n'
+        + '\n'
+        + 'this is a :typed::[[hello-world]].\n'
+        + '\n'
+        + 'this is an untyped [[hello-world]].\n'
+        + '\n'
+        + '![[hello-world]]\n',
     }));
 
-    it('with extension', () => {
-      const mkdn: string = 'Here is some content with an embedded ![[wikilink.pdf]].';
-      const expdMkdn: string = 'Here is some content with an embedded ![[hello-world.pdf]].';
-      const actlMkdn: string = wikirefs.renameFileName('wikilink.pdf', 'hello-world.pdf', mkdn);
-      assert.strictEqual(actlMkdn, expdMkdn);
-    });
+  });
+
+  describe('attr', () => {
+
+    it('single', testRenameFileName({
+      mkdn: 'attrtype::[[wikilink]]\nHere is some content.',
+      expdMkdn: 'attrtype::[[hello-world]]\nHere is some content.',
+    }));
+
+    it('list; comma-separated', testRenameFileName({
+      mkdn: 'attrtype::[[wikilink]],[[another]]\nHere is some content.',
+      expdMkdn: 'attrtype::[[hello-world]],[[another]]\nHere is some content.',
+    }));
+
+    it('list; mkdn-separated', testRenameFileName({
+      mkdn: 'attrtype::\n- [[wikilink]]\n- [[another]]\nHere is some content.',
+      expdMkdn: 'attrtype::\n- [[hello-world]]\n- [[another]]\nHere is some content.',
+    }));
 
   });
 
@@ -75,17 +105,17 @@ describe('renameFileName()', () => {
         mkdn: 'Here is some content with a [[wikilink|label]].',
         expdMkdn: 'Here is some content with a [[hello-world|label]].',
       }));
-  
+
       it('link typed', testRenameFileName({
         mkdn: 'Here is some content with a :linktype::[[wikilink|label]].',
         expdMkdn: 'Here is some content with a :linktype::[[hello-world|label]].',
       }));
-  
+
       it('exact wikitext match', testRenameFileName({
         mkdn: 'Do not rename greedily -- not [[wikilinking|label]], but [[wikilink|label]].',
         expdMkdn: 'Do not rename greedily -- not [[wikilinking|label]], but [[hello-world|label]].',
       }));
-  
+
     });
 
     describe('header (fragment preserved)', () => {
@@ -124,49 +154,19 @@ describe('renameFileName()', () => {
 
   });
 
-  describe('attr', () => {
+  describe('embed', () => {
 
-    it('single', testRenameFileName({
-      mkdn: 'attrtype::[[wikilink]]\nHere is some content.',
-      expdMkdn: 'attrtype::[[hello-world]]\nHere is some content.',
+    it('base', testRenameFileName({
+      mkdn: 'Here is some content with an embedded ![[wikilink]].',
+      expdMkdn: 'Here is some content with an embedded ![[hello-world]].',
     }));
 
-    it('list; comma-separated', testRenameFileName({
-      mkdn: 'attrtype::[[wikilink]],[[another]]\nHere is some content.',
-      expdMkdn: 'attrtype::[[hello-world]],[[another]]\nHere is some content.',
-    }));
-
-    it('list; mkdn-separated', testRenameFileName({
-      mkdn: 'attrtype::\n- [[wikilink]]\n- [[another]]\nHere is some content.',
-      expdMkdn: 'attrtype::\n- [[hello-world]]\n- [[another]]\nHere is some content.',
-    }));
-
-  });
-
-  describe('ref', () => {
-
-    it('all', testRenameFileName({
-      mkdn: '\n'
-        + ':attrtype::\n'
-        + '- [[wikilink]]\n'
-        + '- [[wikilink]]\n'
-        + '\n'
-        + 'this is a :typed::[[wikilink]].\n'
-        + '\n'
-        + 'this is an untyped [[wikilink]].\n'
-        + '\n'
-        + '![[wikilink]]\n',
-      expdMkdn: '\n'
-        + ':attrtype::\n'
-        + '- [[hello-world]]\n'
-        + '- [[hello-world]]\n'
-        + '\n'
-        + 'this is a :typed::[[hello-world]].\n'
-        + '\n'
-        + 'this is an untyped [[hello-world]].\n'
-        + '\n'
-        + '![[hello-world]]\n',
-    }));
+    it('with extension', () => {
+      const mkdn: string = 'Here is some content with an embedded ![[wikilink.pdf]].';
+      const expdMkdn: string = 'Here is some content with an embedded ![[hello-world.pdf]].';
+      const actlMkdn: string = wikirefs.renameFileName('wikilink.pdf', 'hello-world.pdf', mkdn);
+      assert.strictEqual(actlMkdn, expdMkdn);
+    });
 
   });
 
