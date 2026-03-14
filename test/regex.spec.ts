@@ -254,6 +254,70 @@ describe('RGX', () => {
         ],
       }));
 
+      describe('header', () => {
+
+        it('untyped; html id (kebab-case)', testRegex({
+          regex: RGX.WIKI.LINK,
+          content: '[[filename#header-text]].',
+          match: [
+            '[[filename#header-text]]',
+            undefined,
+            'filename',
+            'header-text',
+            undefined,
+          ],
+        }));
+
+        it('untyped; header text (Title Case)', testRegex({
+          regex: RGX.WIKI.LINK,
+          content: '[[filename#Header Text]].',
+          match: [
+            '[[filename#Header Text]]',
+            undefined,
+            'filename',
+            'Header Text',
+            undefined,
+          ],
+        }));
+
+        it('untyped; header and label', testRegex({
+          regex: RGX.WIKI.LINK,
+          content: '[[filename#header-text|See Results]].',
+          match: [
+            '[[filename#header-text|See Results]]',
+            undefined,
+            'filename',
+            'header-text',
+            'See Results',
+          ],
+        }));
+
+        it('typed; html id (kebab-case)', testRegex({
+          regex: RGX.WIKI.LINK,
+          content: ':linktype::[[filename#header-text]].',
+          match: [
+            ':linktype::[[filename#header-text]]',
+            'linktype',
+            'filename',
+            'header-text',
+            undefined,
+          ],
+        }));
+
+        it('typed; header text (Title Case) and label', testRegex({
+          regex: RGX.WIKI.LINK,
+          content: ':linktype::[[filename#Header Text|See Results]].',
+          match: [
+            ':linktype::[[filename#Header Text|See Results]]',
+            'linktype',
+            'filename',
+            'Header Text',
+            'See Results',
+          ],
+        }));
+
+      });
+
     });
 
     describe('ATTR', () => {
@@ -614,6 +678,55 @@ describe('RGX', () => {
         match: [
           '[[wikilink]]',
           'wikilink',
+        ],
+      }));
+
+    });
+
+    describe('HEADER', () => {
+
+      it('untyped; html id (kebab-case)', testRegex({
+        regex: RGX.GET.HEADER,
+        content: '[[filename#header-text]]',
+        match: [
+          '[[filename#header-text]]',
+          'header-text',
+        ],
+      }));
+
+      it('untyped; header text (Title Case)', testRegex({
+        regex: RGX.GET.HEADER,
+        content: '[[filename#Header Text]]',
+        match: [
+          '[[filename#Header Text]]',
+          'Header Text',
+        ],
+      }));
+
+      it('untyped; with label', testRegex({
+        regex: RGX.GET.HEADER,
+        content: '[[filename#header-text|See Results]]',
+        match: [
+          '[[filename#header-text|',
+          'header-text',
+        ],
+      }));
+
+      it('typed', testRegex({
+        regex: RGX.GET.HEADER,
+        content: ':linktype::[[filename#header-text]].',
+        match: [
+          '[[filename#header-text]]',
+          'header-text',
+        ],
+      }));
+
+      it('typed; header text (Title Case) and label', testRegex({
+        regex: RGX.GET.HEADER,
+        content: ':linktype::[[filename#Header Text|See Results]].',
+        match: [
+          '[[filename#Header Text|',
+          'Header Text',
         ],
       }));
 

@@ -88,6 +88,40 @@ describe('renameFileName()', () => {
   
     });
 
+    describe('header (fragment preserved)', () => {
+
+      it('untyped; html id (kebab-case)', testRenameFileName({
+        mkdn: 'See [[wikilink#some-section]] for details.',
+        expdMkdn: 'See [[hello-world#some-section]] for details.',
+      }));
+
+      it('untyped; header text (Title Case)', testRenameFileName({
+        mkdn: 'See [[wikilink#Some Section]] for details.',
+        expdMkdn: 'See [[hello-world#Some Section]] for details.',
+      }));
+
+      it('typed; html id (kebab-case)', testRenameFileName({
+        mkdn: 'See :linktype::[[wikilink#some-section]] for details.',
+        expdMkdn: 'See :linktype::[[hello-world#some-section]] for details.',
+      }));
+
+      it('typed; header text (Title Case)', testRenameFileName({
+        mkdn: 'See :linktype::[[wikilink#Some Section]] for details.',
+        expdMkdn: 'See :linktype::[[hello-world#Some Section]] for details.',
+      }));
+
+      it('untyped; html id (kebab-case); labelled', testRenameFileName({
+        mkdn: 'See [[wikilink#some-section|Jump to section]].',
+        expdMkdn: 'See [[hello-world#some-section|Jump to section]].',
+      }));
+
+      it('typed; html id (kebab-case); labelled', testRenameFileName({
+        mkdn: 'See :linktype::[[wikilink#Some Section|Jump to section]].',
+        expdMkdn: 'See :linktype::[[hello-world#Some Section|Jump to section]].',
+      }));
+
+    });
+
   });
 
   describe('attr', () => {

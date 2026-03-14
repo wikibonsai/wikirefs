@@ -15,80 +15,87 @@ describe('retypeRefType()', () => {
     assert.strictEqual(actlMkdn, expdMkdn);
   };
 
+  describe('attr', () => {
+
+    describe('unprefixed', () => {
+
+      it('single', testRetypeRefType({
+        mkdn: 'old-reftype::[[wikilink]]\nHere is some content.',
+        expdMkdn: 'new-reftype::[[wikilink]]\nHere is some content.',
+      }));
+
+      it('list; comma', testRetypeRefType({
+        mkdn: 'old-reftype::[[wikilink]],[[another]]\nHere is some content.',
+        expdMkdn: 'new-reftype::[[wikilink]],[[another]]\nHere is some content.',
+      }));
+
+      it('list; mkdn', testRetypeRefType({
+        mkdn: 'old-reftype::\n- [[wikilink]]\n- [[another]]\nHere is some content.',
+        expdMkdn: 'new-reftype::\n- [[wikilink]]\n- [[another]]\nHere is some content.',
+      }));
+
+    });
+
+    describe('prefixed', () => {
+
+      it('single', testRetypeRefType({
+        mkdn: ':old-reftype::[[wikilink]]\nHere is some content.',
+        expdMkdn: ':new-reftype::[[wikilink]]\nHere is some content.',
+      }));
+
+      it('single; pad', testRetypeRefType({
+        mkdn: ': old-reftype ::[[wikilink]]\nHere is some content.',
+        expdMkdn: ': new-reftype ::[[wikilink]]\nHere is some content.',
+      }));
+
+      it('single; pretty', testRetypeRefType({
+        mkdn: ': old-reftype    ::[[wikilink]]\nHere is some content.',
+        expdMkdn: ': new-reftype    ::[[wikilink]]\nHere is some content.',
+      }));
+
+      it('list; comma', testRetypeRefType({
+        mkdn: ':old-reftype::[[wikilink]],[[another]]\nHere is some content.',
+        expdMkdn: ':new-reftype::[[wikilink]],[[another]]\nHere is some content.',
+      }));
+
+      it('list; mkdn', testRetypeRefType({
+        mkdn: ':old-reftype::\n- [[wikilink]]\n- [[another]]\nHere is some content.',
+        expdMkdn: ':new-reftype::\n- [[wikilink]]\n- [[another]]\nHere is some content.',
+      }));
+
+    });
+
+  });
+
   describe('link', () => {
 
-    it('untyped -- no change', testRetypeRefType({
-      mkdn: 'Here is some content with a [[wikilink]].',
-      expdMkdn: 'Here is some content with a [[wikilink]].',
-    }));
+    describe('untyped', () => {
 
-    it('typed', testRetypeRefType({
-      mkdn: 'Here is some content with a :old-reftype::[[wikilink]].',
-      expdMkdn: 'Here is some content with a :new-reftype::[[wikilink]].',
-    }));
+      it('base -- no change', testRetypeRefType({
+        mkdn: 'Here is some content with a [[wikilink]].',
+        expdMkdn: 'Here is some content with a [[wikilink]].',
+      }));
 
-    describe('labelled', () => {
-
-      it('link untyped -- no change', testRetypeRefType({
+      it('labelled; base -- no change', testRetypeRefType({
         mkdn: 'Here is some content with a [[wikilink|label]].',
         expdMkdn: 'Here is some content with a [[wikilink|label]].',
       }));
-  
-      it('link typed', testRetypeRefType({
+
+    });
+
+    describe('typed', () => {
+
+      it('base', testRetypeRefType({
+        mkdn: 'Here is some content with a :old-reftype::[[wikilink]].',
+        expdMkdn: 'Here is some content with a :new-reftype::[[wikilink]].',
+      }));
+
+      it('labelled; base', testRetypeRefType({
         mkdn: 'Here is some content with a :old-reftype::[[wikilink|label]].',
         expdMkdn: 'Here is some content with a :new-reftype::[[wikilink|label]].',
       }));
-  
+
     });
-  });
-
-  describe('attr', () => {
-
-    // prefixed
-
-    it('prefixed; single', testRetypeRefType({
-      mkdn: ':old-reftype::[[wikilink]]\nHere is some content.',
-      expdMkdn: ':new-reftype::[[wikilink]]\nHere is some content.',
-    }));
-
-    it('prefixed; list; comma-separated', testRetypeRefType({
-      mkdn: ':old-reftype::[[wikilink]],[[another]]\nHere is some content.',
-      expdMkdn: ':new-reftype::[[wikilink]],[[another]]\nHere is some content.',
-    }));
-
-    it('prefixed; list; mkdn-separated', testRetypeRefType({
-      mkdn: ':old-reftype::\n- [[wikilink]]\n- [[another]]\nHere is some content.',
-      expdMkdn: ':new-reftype::\n- [[wikilink]]\n- [[another]]\nHere is some content.',
-    }));
-
-    // prefixed w/ pad
-
-    it('prefixed; pad; single', testRetypeRefType({
-      mkdn: ': old-reftype ::[[wikilink]]\nHere is some content.',
-      expdMkdn: ': new-reftype ::[[wikilink]]\nHere is some content.',
-    }));
-
-    it('prefixed; pretty; single', testRetypeRefType({
-      mkdn: ': old-reftype    ::[[wikilink]]\nHere is some content.',
-      expdMkdn: ': new-reftype    ::[[wikilink]]\nHere is some content.',
-    }));
-
-    // unprefixed
-
-    it('unprefixed; single', testRetypeRefType({
-      mkdn: 'old-reftype::[[wikilink]]\nHere is some content.',
-      expdMkdn: 'new-reftype::[[wikilink]]\nHere is some content.',
-    }));
-
-    it('unprefixed; list; comma-separated', testRetypeRefType({
-      mkdn: 'old-reftype::[[wikilink]],[[another]]\nHere is some content.',
-      expdMkdn: 'new-reftype::[[wikilink]],[[another]]\nHere is some content.',
-    }));
-
-    it('unprefixed; list; mkdn-separated', testRetypeRefType({
-      mkdn: 'old-reftype::\n- [[wikilink]]\n- [[another]]\nHere is some content.',
-      expdMkdn: 'new-reftype::\n- [[wikilink]]\n- [[another]]\nHere is some content.',
-    }));
 
   });
 
@@ -126,85 +133,93 @@ describe('retypeAttrType()', () => {
     );
   });
 
-  describe('link -- should be no change', () => {
+  describe('attr', () => {
 
-    it('untyped -- no change', testRetypeAttrType({
-      mkdn: 'Here is some content with a [[wikilink]].',
-      expdMkdn: 'Here is some content with a [[wikilink]].',
-    }));
+    describe('unprefixed', () => {
 
-    it('typed -- no change', testRetypeAttrType({
-      mkdn: 'Here is some content with a :old-reftype::[[wikilink]].',
-      expdMkdn: 'Here is some content with a :old-reftype::[[wikilink]].',
-    }));
-
-    describe('labelled', () => {
-
-      it('link untyped -- no change', testRetypeAttrType({
-        mkdn: 'Here is some content with a [[wikilink|label]].',
-        expdMkdn: 'Here is some content with a [[wikilink|label]].',
+      it('single', testRetypeAttrType({
+        mkdn: 'old-reftype::[[wikilink]]\nHere is some content.',
+        expdMkdn: 'new-reftype::[[wikilink]]\nHere is some content.',
       }));
-  
-      it('link typed -- no change', testRetypeAttrType({
-        mkdn: 'Here is some content with a :old-reftype::[[wikilink|label]].',
-        expdMkdn: 'Here is some content with a :old-reftype::[[wikilink|label]].',
+
+      it('list; comma', testRetypeAttrType({
+        mkdn: 'old-reftype::[[wikilink]],[[another]]\nHere is some content.',
+        expdMkdn: 'new-reftype::[[wikilink]],[[another]]\nHere is some content.',
       }));
-  
+
+      it('list; mkdn', testRetypeAttrType({
+        mkdn: 'old-reftype::\n- [[wikilink]]\n- [[another]]\nHere is some content.',
+        expdMkdn: 'new-reftype::\n- [[wikilink]]\n- [[another]]\nHere is some content.',
+      }));
+
+    });
+
+    describe('prefixed', () => {
+
+      it('single', testRetypeAttrType({
+        mkdn: ':old-reftype::[[wikilink]]\nHere is some content.',
+        expdMkdn: ':new-reftype::[[wikilink]]\nHere is some content.',
+      }));
+
+      it('list; comma', testRetypeAttrType({
+        mkdn: ':old-reftype::[[wikilink]],[[another]]\nHere is some content.',
+        expdMkdn: ':new-reftype::[[wikilink]],[[another]]\nHere is some content.',
+      }));
+
+      it('list; mkdn', testRetypeAttrType({
+        mkdn: ':old-reftype::\n- [[wikilink]]\n- [[another]]\nHere is some content.',
+        expdMkdn: ':new-reftype::\n- [[wikilink]]\n- [[another]]\nHere is some content.',
+      }));
+
+      describe('escaped', () => {
+
+        it('single', testRetypeAttrType({
+          mkdn: '```\n:old-reftype::[[wikilink]]\n```\nHere is some content.',
+          expdMkdn: '```\n:old-reftype::[[wikilink]]\n```\nHere is some content.',
+        }));
+
+        it('list; comma', testRetypeAttrType({
+          mkdn: '```\n:old-reftype::[[wikilink]],[[another]]\n```\nHere is some content.',
+          expdMkdn: '```\n:old-reftype::[[wikilink]],[[another]]\n```\nHere is some content.',
+        }));
+
+        it('list; mkdn', testRetypeAttrType({
+          mkdn: '```\n:old-reftype::\n- [[wikilink]]\n- [[another]]\n```\nHere is some content.',
+          expdMkdn: '```\n:old-reftype::\n- [[wikilink]]\n- [[another]]\n```\nHere is some content.',
+        }));
+
+      });
+
     });
 
   });
 
-  describe('attr; unprefixed', () => {
+  describe('link', () => {
 
-    it('single', testRetypeAttrType({
-      mkdn: 'old-reftype::[[wikilink]]\nHere is some content.',
-      expdMkdn: 'new-reftype::[[wikilink]]\nHere is some content.',
-    }));
+    describe('untyped', () => {
 
-    it('list; comma-separated', testRetypeAttrType({
-      mkdn: 'old-reftype::[[wikilink]],[[another]]\nHere is some content.',
-      expdMkdn: 'new-reftype::[[wikilink]],[[another]]\nHere is some content.',
-    }));
-
-    it('list; mkdn-separated', testRetypeAttrType({
-      mkdn: 'old-reftype::\n- [[wikilink]]\n- [[another]]\nHere is some content.',
-      expdMkdn: 'new-reftype::\n- [[wikilink]]\n- [[another]]\nHere is some content.',
-    }));
-
-  });
-
-  describe('attr; prefixed', () => {
-
-    it('single', testRetypeAttrType({
-      mkdn: ':old-reftype::[[wikilink]]\nHere is some content.',
-      expdMkdn: ':new-reftype::[[wikilink]]\nHere is some content.',
-    }));
-
-    it('list; comma-separated', testRetypeAttrType({
-      mkdn: ':old-reftype::[[wikilink]],[[another]]\nHere is some content.',
-      expdMkdn: ':new-reftype::[[wikilink]],[[another]]\nHere is some content.',
-    }));
-
-    it('list; mkdn-separated', testRetypeAttrType({
-      mkdn: ':old-reftype::\n- [[wikilink]]\n- [[another]]\nHere is some content.',
-      expdMkdn: ':new-reftype::\n- [[wikilink]]\n- [[another]]\nHere is some content.',
-    }));
-
-    describe('escaped; attr; prefixed', () => {
-
-      it('single', testRetypeAttrType({
-        mkdn: '```\n:old-reftype::[[wikilink]]\n```\nHere is some content.',
-        expdMkdn: '```\n:old-reftype::[[wikilink]]\n```\nHere is some content.',
+      it('base -- no change', testRetypeAttrType({
+        mkdn: 'Here is some content with a [[wikilink]].',
+        expdMkdn: 'Here is some content with a [[wikilink]].',
       }));
 
-      it('list; comma-separated', testRetypeAttrType({
-        mkdn: '```\n:old-reftype::[[wikilink]],[[another]]\n```\nHere is some content.',
-        expdMkdn: '```\n:old-reftype::[[wikilink]],[[another]]\n```\nHere is some content.',
+      it('labelled; base -- no change', testRetypeAttrType({
+        mkdn: 'Here is some content with a [[wikilink|label]].',
+        expdMkdn: 'Here is some content with a [[wikilink|label]].',
       }));
 
-      it('list; mkdn-separated', testRetypeAttrType({
-        mkdn: '```\n:old-reftype::\n- [[wikilink]]\n- [[another]]\n```\nHere is some content.',
-        expdMkdn: '```\n:old-reftype::\n- [[wikilink]]\n- [[another]]\n```\nHere is some content.',
+    });
+
+    describe('typed', () => {
+
+      it('base -- no change', testRetypeAttrType({
+        mkdn: 'Here is some content with a :old-reftype::[[wikilink]].',
+        expdMkdn: 'Here is some content with a :old-reftype::[[wikilink]].',
+      }));
+
+      it('labelled; base -- no change', testRetypeAttrType({
+        mkdn: 'Here is some content with a :old-reftype::[[wikilink|label]].',
+        expdMkdn: 'Here is some content with a :old-reftype::[[wikilink|label]].',
       }));
 
     });
@@ -249,50 +264,58 @@ describe('retypeLinkType()', () => {
     );
   });
 
-  describe('link', () => {
+  describe('attr', () => {
 
-    it('untyped -- no change', testRetypeLinkType({
-      mkdn: 'Here is some content with a [[wikilink]].',
-      expdMkdn: 'Here is some content with a [[wikilink]].',
-    }));
+    describe('unprefixed', () => {
 
-    it('typed', testRetypeLinkType({
-      mkdn: 'Here is some content with a :old-reftype::[[wikilink]].',
-      expdMkdn: 'Here is some content with a :new-reftype::[[wikilink]].',
-    }));
-
-    describe('labelled', () => {
-
-      it('link untyped -- no change', testRetypeLinkType({
-        mkdn: 'Here is some content with a [[wikilink|label]].',
-        expdMkdn: 'Here is some content with a [[wikilink|label]].',
+      it('single -- no change', testRetypeLinkType({
+        mkdn: 'old-reftype::[[wikilink]]\nHere is some content.',
+        expdMkdn: 'old-reftype::[[wikilink]]\nHere is some content.',
       }));
-  
-      it('link typed', testRetypeLinkType({
-        mkdn: 'Here is some content with a :old-reftype::[[wikilink|label]].',
-        expdMkdn: 'Here is some content with a :new-reftype::[[wikilink|label]].',
+
+      it('list; comma -- no change', testRetypeLinkType({
+        mkdn: 'old-reftype::[[wikilink]],[[another]]\nHere is some content.',
+        expdMkdn: 'old-reftype::[[wikilink]],[[another]]\nHere is some content.',
       }));
-  
+
+      it('list; mkdn -- no change', testRetypeLinkType({
+        mkdn: 'old-reftype::\n- [[wikilink]]\n- [[another]]\nHere is some content.',
+        expdMkdn: 'old-reftype::\n- [[wikilink]]\n- [[another]]\nHere is some content.',
+      }));
+
     });
 
   });
 
-  describe('attr', () => {
+  describe('link', () => {
 
-    it('single -- no change', testRetypeLinkType({
-      mkdn: 'old-reftype::[[wikilink]]\nHere is some content.',
-      expdMkdn: 'old-reftype::[[wikilink]]\nHere is some content.',
-    }));
+    describe('untyped', () => {
 
-    it('list; comma-separated -- no change', testRetypeLinkType({
-      mkdn: 'old-reftype::[[wikilink]],[[another]]\nHere is some content.',
-      expdMkdn: 'old-reftype::[[wikilink]],[[another]]\nHere is some content.',
-    }));
+      it('base -- no change', testRetypeLinkType({
+        mkdn: 'Here is some content with a [[wikilink]].',
+        expdMkdn: 'Here is some content with a [[wikilink]].',
+      }));
 
-    it('list; mkdn-separated -- no change', testRetypeLinkType({
-      mkdn: 'old-reftype::\n- [[wikilink]]\n- [[another]]\nHere is some content.',
-      expdMkdn: 'old-reftype::\n- [[wikilink]]\n- [[another]]\nHere is some content.',
-    }));
+      it('labelled; base -- no change', testRetypeLinkType({
+        mkdn: 'Here is some content with a [[wikilink|label]].',
+        expdMkdn: 'Here is some content with a [[wikilink|label]].',
+      }));
+
+    });
+
+    describe('typed', () => {
+
+      it('base', testRetypeLinkType({
+        mkdn: 'Here is some content with a :old-reftype::[[wikilink]].',
+        expdMkdn: 'Here is some content with a :new-reftype::[[wikilink]].',
+      }));
+
+      it('labelled; base', testRetypeLinkType({
+        mkdn: 'Here is some content with a :old-reftype::[[wikilink|label]].',
+        expdMkdn: 'Here is some content with a :new-reftype::[[wikilink|label]].',
+      }));
+
+    });
 
   });
 

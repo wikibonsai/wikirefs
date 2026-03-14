@@ -76,7 +76,7 @@ Some more text.
 
 ```
 
-(Optional colon prefixes)
+Colon prefixes are optional (though preferred).
 
 ```markdown
 attrtype::[[filename]]

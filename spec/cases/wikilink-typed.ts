@@ -115,6 +115,32 @@ export const wikiLinkTypedCases: WikiRefTestCase[] = [
     mkdn: 'Here are :linktype::[[fname-a]] :linktype::[[fname-a]].',
     html: '<p>Here are <a class="wiki link type reftype__linktype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a> <a class="wiki link type reftype__linktype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a>.</p>\n',
   },
+  // header
+  {
+    descr: 'wikilink; typed; header; base; kebab-case',
+    mkdn: ':linktype::[[fname-a#header-text]].',
+    html: '<p><a class="wiki link type reftype__linktype" href="/tests/fixtures/fname-a#header-text" data-href="/tests/fixtures/fname-a#header-text">title a</a>.</p>\n',
+  },
+  {
+    descr: 'wikilink; typed; header; base; Title Case',
+    mkdn: ':linktype::[[fname-a#Header Text]].',
+    html: '<p><a class="wiki link type reftype__linktype" href="/tests/fixtures/fname-a#header-text" data-href="/tests/fixtures/fname-a#header-text">title a</a>.</p>\n',
+  },
+  {
+    descr: 'wikilink; typed; header; labelled; kebab-case',
+    mkdn: ':linktype::[[fname-a#header-text|label]].',
+    html: '<p><a class="wiki link type reftype__linktype" href="/tests/fixtures/fname-a#header-text" data-href="/tests/fixtures/fname-a#header-text">label</a>.</p>\n',
+  },
+  {
+    descr: 'wikilink; typed; header; labelled; Title Case',
+    mkdn: ':linktype::[[fname-a#Header Text|label]].',
+    html: '<p><a class="wiki link type reftype__linktype" href="/tests/fixtures/fname-a#header-text" data-href="/tests/fixtures/fname-a#header-text">label</a>.</p>\n',
+  },
+  {
+    descr: 'wikilink; typed; header; empty',
+    mkdn: ':linktype::[[fname-a#]].',
+    html: '<p><a class="wiki link type reftype__linktype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a>.</p>\n',
+  },
   // labelled
   {
     descr: 'wikilink; typed; labelled; base',
@@ -135,32 +161,6 @@ export const wikiLinkTypedCases: WikiRefTestCase[] = [
     descr: 'wikilink; typed; labelled; w/ newline should not trigger attr',
     mkdn: ':linktype::[[fname-a|label]]\n',
     html: '<p><a class="wiki link type reftype__linktype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">label</a></p>\n',
-  },
-  // header
-  {
-    descr: 'wikilink; typed; header; base; kebab-case',
-    mkdn: ':linktype::[[fname-a#header-text]].',
-    html: '<p><a class="wiki link type reftype__linktype" href="/tests/fixtures/fname-a#header-text" data-href="/tests/fixtures/fname-a#header-text">title a</a>.</p>\n',
-  },
-  {
-    descr: 'wikilink; typed; header; base; Title Case',
-    mkdn: ':linktype::[[fname-a#Header Text]].',
-    html: '<p><a class="wiki link type reftype__linktype" href="/tests/fixtures/fname-a#header-text" data-href="/tests/fixtures/fname-a#header-text">title a</a>.</p>\n',
-  },
-  {
-    descr: 'wikilink; typed; header; labelled; kebab-case',
-    mkdn: ':linktype::[[fname-a#header-text|See Results]].',
-    html: '<p><a class="wiki link type reftype__linktype" href="/tests/fixtures/fname-a#header-text" data-href="/tests/fixtures/fname-a#header-text">See Results</a>.</p>\n',
-  },
-  {
-    descr: 'wikilink; typed; header; labelled; Title Case',
-    mkdn: ':linktype::[[fname-a#Header Text|See Results]].',
-    html: '<p><a class="wiki link type reftype__linktype" href="/tests/fixtures/fname-a#header-text" data-href="/tests/fixtures/fname-a#header-text">See Results</a>.</p>\n',
-  },
-  {
-    descr: 'wikilink; typed; header; empty',
-    mkdn: ':linktype::[[fname-a#]].',
-    html: '<p><a class="wiki link type reftype__linktype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a>.</p>\n',
   },
   // alongside/within other markdown constructs
   {
