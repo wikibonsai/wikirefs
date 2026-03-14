@@ -220,6 +220,18 @@ Options:
 
 `opts.fnameToUriHash: Record<string, string>`: a hash table explicitly defining what filename maps to what uri.
 
+### `slugify(text: string): string`
+
+Normalize a string into a URL-safe slug (e.g. for filenames or header fragments). Lowercases, trims, replaces spaces with `-`, strips non-word characters except hyphen, and collapses multiple dashes.
+
+```js
+import { slugify } from 'wikirefs';
+
+slugify('File Name');         // 'filen-ame'
+slugify('Header Text ');      // 'header-text'
+slugify('  Some Section  ');  // 'some-section'
+```
+
 ### Regex API
 
 Regex utilities for extracting wiki constructs from strings. All regexes are case insensitive and the `g` option may be added to find all instances of a wiki construct.

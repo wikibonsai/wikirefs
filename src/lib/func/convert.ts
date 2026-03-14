@@ -2,7 +2,7 @@ import { scan } from './scan';
 import { CONST } from '../var/const';
 import { buildURI, extractFileName } from '../../util/uri';
 import { isValidUriFormat, isValidWikiKind } from '../../util/valid';
-import { slugify } from '../../util/string';
+import { slugify } from '../util';
 
 
 // todo:
