@@ -98,10 +98,58 @@ describe('convert', () => {
           ocontent: 'here is a link: [[fname-a]]',
         }));
 
+        it('header', testMkdnToWiki({
+          icontent: '[fname-a](/fname-a#header)',
+          opts: {},
+          ocontent: '[[fname-a#header]]',
+        }));
+
         it('label', testMkdnToWiki({
           icontent: '[label](/fname-a)',
           opts: {},
           ocontent: '[[fname-a|label]]',
+        }));
+
+        it('label with header', testMkdnToWiki({
+          icontent: '[label](/fname-a#header)',
+          opts: {},
+          ocontent: '[[fname-a#header|label]]',
+        }));
+
+        it('header; kebab-case', testMkdnToWiki({
+          icontent: '[fname-a](/fname-a#my-header)',
+          opts: {},
+          ocontent: '[[fname-a#my-header]]',
+        }));
+
+        it('header; spaces', testMkdnToWiki({
+          icontent: '[fname-a](/fname-a#my header)',
+          opts: {},
+          ocontent: '[[fname-a#my header]]',
+        }));
+
+        it('filename format; nested path', testMkdnToWiki({
+          icontent: '[fname-a](/path/to/fname-a)',
+          opts: {},
+          ocontent: '[[fname-a]]',
+        }));
+
+        it('filename format; no leading slash', testMkdnToWiki({
+          icontent: '[fname-a](fname-a)',
+          opts: {},
+          ocontent: '[[fname-a]]',
+        }));
+
+        it('label; with spaces', testMkdnToWiki({
+          icontent: '[my label](/fname-a)',
+          opts: {},
+          ocontent: '[[fname-a|my label]]',
+        }));
+
+        it('label; matches filename (unlabelled)', testMkdnToWiki({
+          icontent: '[fname-a](/fname-a)',
+          opts: {},
+          ocontent: '[[fname-a]]',
         }));
 
         it('zombie (defaults to filename format)', testMkdnToWiki({
@@ -122,6 +170,12 @@ describe('convert', () => {
 
         it('image', testMkdnToWiki({
           icontent: '![](/img.png)',
+          opts: {},
+          ocontent: '![[img.png]]',
+        }));
+
+        it('image; nested path', testMkdnToWiki({
+          icontent: '![](/images/img.png)',
           opts: {},
           ocontent: '![[img.png]]',
         }));
@@ -299,6 +353,30 @@ describe('convert', () => {
           icontent: 'here is a link: [[fname-a|label]]',
           opts: {},
           ocontent: 'here is a link: [label](/fname-a)',
+        }));
+
+        it('header', testWikiToMkdn({
+          icontent: '[[fname-a#header]]',
+          opts: {},
+          ocontent: '[fname-a](/fname-a#header)',
+        }));
+
+        it('header with label', testWikiToMkdn({
+          icontent: '[[fname-a#header|label]]',
+          opts: {},
+          ocontent: '[label](/fname-a#header)',
+        }));
+
+        it('header; spaces slugified', testWikiToMkdn({
+          icontent: '[[fname-a#My Header]]',
+          opts: {},
+          ocontent: '[fname-a](/fname-a#my-header)',
+        }));
+
+        it('header with label; spaces slugified', testWikiToMkdn({
+          icontent: '[[fname-a#My Header|label]]',
+          opts: {},
+          ocontent: '[label](/fname-a#my-header)',
         }));
 
         it('zombie (defaults to filename format)', testWikiToMkdn({

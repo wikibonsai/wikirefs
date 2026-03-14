@@ -249,15 +249,16 @@ export namespace RGX {
                                       + MARKER.CLOSE.source
                                     + ')'
                                   , 'i'),
-    // HEADER           : new RegExp(MARKER.LINK_LEFT.source
-    //                               + '(?:' + VALID_CHARS.FILENAME.source + ')'
-    //                               + MARKER.HEADER.source 
-    //                               + CAP_GRP.HEADER.source
-    //                               + '(?:'
-    //                                 + MARKER.LINK_LABEL.source
-    //                                 + '|' + MARKER.LINK_RIGHT.source
-    //                               + ')'
-    //                               , 'i'),
+    HEADER            : new RegExp(
+                                    MARKER.OPEN.source
+                                    + '(?:' + VALID_CHARS.FILENAME.source + ')'
+                                    + MARKER.HEADER.source
+                                    + CAP_GRP.HEADER.source                                            // 1
+                                    + '(?:'
+                                      + MARKER.LABEL.source
+                                      + '|' + MARKER.CLOSE.source
+                                    + ')'
+                                  , 'i'),
     // BLOCK_ID         : new RegExp(MARKER.LINK_LEFT.source
     //                               + '(?:' + VALID_CHARS.FILENAME.source + ')'
     //                               + MARKER.BLOCK.source 

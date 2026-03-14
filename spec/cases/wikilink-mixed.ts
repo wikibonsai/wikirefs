@@ -16,5 +16,10 @@ export const wikiLinkMixedCases: WikiRefTestCase[] = [
     descr: 'wikilink; mixed; typed first, with regular text sprinkled in',
     mkdn: 'some :linktype::[[fname-a]] link [[fname-a]].\n',
     html: '<p>some <a class="wiki link type reftype__linktype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a> link <a class="wiki link" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a>.</p>\n',
-  }
+  },
+  {
+    descr: 'wikilink; mixed; header and non-header',
+    mkdn: 'see [[fname-a#header]] and [[fname-b]].\n',
+    html: '<p>see <a class="wiki link" href="/tests/fixtures/fname-a#header" data-href="/tests/fixtures/fname-a#header">title a</a> and <a class="wiki link" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a>.</p>\n',
+  },
 ];

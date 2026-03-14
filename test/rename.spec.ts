@@ -158,3 +158,79 @@ this is an untyped [[hello-world]].
   });
 
 });
+
+const oldHeader: string = 'old-header';
+const newHeader: string = 'new-header';
+const filename: string = 'filename';
+
+describe('renameHeader()', () => {
+
+  describe('with filename option (scoped)', () => {
+
+    const testRenameHeader = (params: any) => () => {
+      const mkdn: string = params.mkdn;
+      const expdMkdn: string = params.expdMkdn;
+      const actlMkdn: string = wikirefs.renameHeader(oldHeader, newHeader, mkdn, { filename });
+      assert.strictEqual(actlMkdn, expdMkdn);
+    };
+
+    it('basic', testRenameHeader({
+      mkdn: 'Here is a [[filename#old-header]].',
+      expdMkdn: 'Here is a [[filename#new-header]].',
+    }));
+
+    it('with label', testRenameHeader({
+      mkdn: 'Here is a [[filename#old-header|label]].',
+      expdMkdn: 'Here is a [[filename#new-header|label]].',
+    }));
+
+    it('typed', testRenameHeader({
+      mkdn: 'Here is a :linktype::[[filename#old-header]].',
+      expdMkdn: 'Here is a :linktype::[[filename#new-header]].',
+    }));
+
+    it('scoped to filename; other filenames unchanged', testRenameHeader({
+      mkdn: 'Here is a [[other-file#old-header]] and [[filename#old-header]].',
+      expdMkdn: 'Here is a [[other-file#old-header]] and [[filename#new-header]].',
+    }));
+
+    it('multiple occurrences', testRenameHeader({
+      mkdn: 'First [[filename#old-header]] and second [[filename#old-header]].',
+      expdMkdn: 'First [[filename#new-header]] and second [[filename#new-header]].',
+    }));
+
+  });
+
+  describe('without filename option (global)', () => {
+
+    const testRenameHeaderGlobal = (params: any) => () => {
+      const mkdn: string = params.mkdn;
+      const expdMkdn: string = params.expdMkdn;
+      const actlMkdn: string = wikirefs.renameHeader(oldHeader, newHeader, mkdn);
+      assert.strictEqual(actlMkdn, expdMkdn);
+    };
+
+    it('renames header across all filenames', testRenameHeaderGlobal({
+      mkdn: 'Both [[file-a#old-header]] and [[file-b#old-header]] get renamed.',
+      expdMkdn: 'Both [[file-a#new-header]] and [[file-b#new-header]] get renamed.',
+    }));
+
+  });
+
+  describe('shared', () => {
+
+    it('no match passthrough', () => {
+      const mkdn: string = 'There are no matching headers here [[filename#other-header]].';
+      const actlMkdn: string = wikirefs.renameHeader(oldHeader, newHeader, mkdn, { filename });
+      assert.strictEqual(actlMkdn, mkdn);
+    });
+
+    it('escaped; wikilinks inside code blocks are not renamed', () => {
+      const mkdn: string = '```\n[[filename#old-header]]\n```\nHere is some content.';
+      const actlMkdn: string = wikirefs.renameHeader(oldHeader, newHeader, mkdn, { filename });
+      assert.strictEqual(actlMkdn, mkdn);
+    });
+
+  });
+
+});

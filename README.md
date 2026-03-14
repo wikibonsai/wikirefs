@@ -41,16 +41,17 @@ See [`./src/lib/func`](https://github.com/wikibonsai/wikirefs/tree/main/src/lib/
 
 Convert `[markdown](links)` to `[[wikirefs]]` in a given `content` string.
 
-In the given `content` string conversions occur as shown below (File extensions are preserved for media):
+In the given `content` string conversions occur as shown below (file extensions are preserved for media):
 
-| mkdn                      | [[wiki]]                     |
-| ------------------------- | ---------------------------- |
-| `[filename](url)`         | `[[filename]]`               |
-| `[label](url)`            | `[[filename|label]]` *       |
-| `[label](url#header)`     | `[[filename#header|label]]` *|
-| `![alt](img-url)`         | `![[filename]]`              |
+| mkdn                       | [[wiki]]                      |
+| -------------------------- | ----------------------------- |
+| `[filename](url)`          | `[[filename]]`                |
+| `[label](url)`             | `[[filename\|label]]`         |
+| `[filename](url#header)`   | `[[filename#header]]`         |
+| `[label](url#header)`      | `[[filename#header\|label]]`  |
+| `![alt](img-url)`          | `![[filename]]`               |
 
-\* *Filename is extracted from the URL based on the format option*
+*Filename is extracted from the URL based on the format option.*
 
 Options:
 
@@ -77,6 +78,30 @@ The new filename string to be added.
 ##### `content: string`
 
 The content string to make the file rename.
+
+### `renameHeader(oldHeader: string, newHeader: string, content: string, opts?: { filename?: string }): string`
+
+For all header references in a given `content` string which match the `oldHeader`, rename them to the `newHeader`; ignores escaped instances.
+
+If `opts.filename` is provided, only header references in wikilinks matching that filename are renamed (scoped). Otherwise, headers are renamed across all filenames (global).
+
+#### Parameters
+
+##### `oldHeader: string`
+
+The old header string to be removed.
+
+##### `newHeader: string`
+
+The new header string to be added.
+
+##### `content: string`
+
+The content string to make the header rename.
+
+##### `opts.filename: string` (optional)
+
+If provided, only rename headers in wikilinks matching this filename.
 
 ### `retypeRefType(oldRefType: string, newRefType: string, content: string): string`
 
@@ -177,13 +202,13 @@ Convert `[[wikirefs]]` to `[markdown](links)` in a given `content` string.
 
 In the given `content` string conversions occur as shown below (File extensions are preserved for media):
 
-| [[wiki]]                  | mkdn                      |
-| ------------------------- | ------------------------- |
-| `[[filename]]`            | `[filename](url)`         |
-| `[[filename#header]]`     | `[filename](url#header)`  |
-| `[[filename|label]]`      | `[label](url)`            |
-| `[[filename#header|label]]`| `[label](url#header)`     |
-| `![[filename]]`           | `![](url)`                |
+| [[wiki]]                    | mkdn                      |
+| --------------------------- | ------------------------- |
+| `[[filename]]`              | `[filename](url)`         |
+| `[[filename\|label]]`       | `[label](url)`            |
+| `[[filename#header]]`       | `[filename](url#header)`  |
+| `[[filename#header\|label]]`| `[label](url#header)`     |
+| `![[filename]]`             | `![](url)`                |
 
 Options:
 
@@ -280,10 +305,10 @@ const labelText    : string = match[4]; // 'label'
 ```js
 import * as wikirefs from 'wikirefs';
 
-const match = wikirefs.RGX.WIKI.EMBED.exec('![[wikiembed]]');
+const match = wikirefs.RGX.WIKI.EMBED.exec('![[filename.ext]]');
 
-const matchText    : string = match[0]; // '![[wikiembed]]'
-const fileNameText : string = match[1]; // 'wikiembed'
+const matchText    : string = match[0]; // '![[filename.ext]]'
+const fileNameText : string = match[1]; // 'filename.ext'
 ```
 
 ## A Note On Terminology

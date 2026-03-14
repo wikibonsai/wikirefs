@@ -300,41 +300,31 @@ Resulting HTML:
 <a class="wiki link type reftype__linktype" href="url" data-href="url">label</a>
 ```
 
-### Header Links
+### Header Level Links
 
-Header links allow linking to specific sections within a document by appending a header identifier after the filename, separated by a `#` character and either the html header id or the markdown header text. The html header id is preferred.
-
-#### Header Level Link, Untyped, HTML ID
+Header level links allow linking to specific sections within a document by appending a header identifier after the filename, separated by a `#` character and either the html header id or the markdown header text. The html header id is preferred as it is guaranteed to be unique.
 
 Markdown:
+
+ID format.
 
 ```markdown
 [[filename#header-text]]
 ```
 
-Resulting HTML:
-
-```html
-<a class="wiki link" href="url#header-text" data-href="url#header-text">title</a>
-```
-
-#### Header Level Link, Untyped, Markdown Text
-
-Markdown:
+Raw header text format.
 
 ```markdown
 [[filename#Header Text]]
 ```
 
-This should resolve to the same header as `[[filename#header-text]]`.
-
 Resulting HTML:
 
 ```html
 <a class="wiki link" href="url#header-text" data-href="url#header-text">title</a>
 ```
 
-#### Header Level Link, Typed, HTML ID
+Headers work with linktypes.
 
 Markdown:
 
@@ -348,47 +338,35 @@ Resulting HTML:
 <a class="wiki link type reftype__linktype" href="url#header" data-href="url#header">title</a>
 ```
 
-#### Header Level Link, Untyped, Labelled, HTML ID
+Headers work with labels.
 
 Markdown:
 
 ```markdown
-[[filename#conclusion|See Results]]
+[[filename#conclusion|label]]
 ```
 
 Resulting HTML:
 
 ```html
-<a class="wiki link" href="url#conclusion" data-href="url#conclusion">See Results</a>
+<a class="wiki link" href="url#conclusion" data-href="url#conclusion">label</a>
 ```
 
-#### Special Cases
-
-Multiple header references are not supported. Only one header anchor is allowed per wikilink:
+Empty header references are treated as file level wikilinks without headers:
 
 ```markdown
-[[filename#header1#header2]]  <!-- Invalid syntax -->
+[[filename#]]
 ```
 
-Empty header references are treated as regular wikilinks without headers:
-
-```markdown
-[[filename#]]  <!-- Treated as [[filename]] -->
-```
-
-Header matching is case-insensitive. All of the following resolve to the same header:
-
-```markdown
-[[filename#Introduction]]
-[[filename#introduction]]
-[[filename#INTRODUCTION]]
+```html
+<a class="wiki link" href="url" data-href="url">title</a>
 ```
 
 ## WikiEmbeds
 
 **WikiEmbeds** are also inline constructs, but render as blocks. They provide links to the linked content, but also embed the file's actual content in the current file when rendered. Markdown files, audio, images, and video are all supported.
 
-Wikiembeds do not currently support [headers](#header-links) or [labels](#labelled).
+Wikiembeds do not currently support [headers](#header-level-links) or [labels](#labelled).
 
 ### Markdown
 
@@ -533,6 +511,15 @@ If a document type (`doctype`) for the referenced markdown file is given, its sl
 </p>
 ```
 
+## Valid Characters
+
+Characters are defined by what is **not** allowed (exclusion). All matching is case-insensitive.
+
+- [**Type**](../src/lib/var/regex.ts#L45) — all characters except: `\n` `\r` `!` `:` `^` `|` `[` `]`
+- [**Filename**](../src/lib/var/regex.ts#L46) — all characters except: `\n` `\r` `!` `#` `:` `^` `|` `[` `]`
+- [**Header**](../src/lib/var/regex.ts#L47) — all characters except: `\n` `\r` `!` `^` `|` `[` `]`
+- [**Label**](../src/lib/var/regex.ts#L49) — any character up to the closing `]]`
+
 ## Tests
 
 For more on syntax, see the [test cases](https://github.com/wikibonsai/wikirefs/tree/main/spec/cases).
@@ -556,7 +543,13 @@ graph TD;
 
 ## Customization
 
-Sometimes certain aspects of a spec test do not match target expectations. They can be altered in a test suite in the following manner -- this example is taken from [markdown-it-wikirefs](https://github.com/wikibonsai/markdown-it-wikirefs):
+Downstream implementations may need to adjust spec test expectations due to differences in how markdown renderers handle non-standardized features. Common reasons include:
+
+- **Non-standardized HTML output** — Features like GFM strikethroughs (`<del>` vs `<s>`) and footnotes vary across renderers since they are not part of the core CommonMark specification.
+- **Renderer-specific behavior** — Some renderers add extra attributes, wrap elements differently, or handle whitespace in ways that differ from the spec's expected HTML.
+- **Platform-specific requirements** — Target environments may need additional attributes (e.g., `target="_blank"`) or different URL formats.
+
+They can be altered in a test suite in the following manner -- this example is taken from [markdown-it-wikirefs](https://github.com/wikibonsai/markdown-it-wikirefs):
 
 ```js
 import { wikiRefCases } from 'wikirefs-spec';

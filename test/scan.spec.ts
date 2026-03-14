@@ -83,7 +83,59 @@ describe('scan()', () => {
           label: ['label', 22],
         }],
       }));
-  
+
+      it('untyped; header; labelled; kebab-case', testScan({
+        mkdn: '[[filename#header-text|See Results]]',
+        expdData: [{
+          kind: 'wikilink',
+          text: '[[filename#header-text|See Results]]',
+          start: 0,
+          type: [],
+          filename: ['filename', 2],
+          header: ['header-text', 11],
+          label: ['See Results', 23],
+        }],
+      }));
+
+      it('untyped; header; labelled; Title Case', testScan({
+        mkdn: '[[filename#Header Text|See Results]]',
+        expdData: [{
+          kind: 'wikilink',
+          text: '[[filename#Header Text|See Results]]',
+          start: 0,
+          type: [],
+          filename: ['filename', 2],
+          header: ['Header Text', 11],
+          label: ['See Results', 23],
+        }],
+      }));
+
+      it('typed; header; labelled; kebab-case', testScan({
+        mkdn: ':linktype::[[filename#header-text|See Results]]',
+        expdData: [{
+          kind: 'wikilink',
+          text: ':linktype::[[filename#header-text|See Results]]',
+          start: 0,
+          type: ['linktype', 1],
+          filename: ['filename', 13],
+          header: ['header-text', 22],
+          label: ['See Results', 34],
+        }],
+      }));
+
+      it('typed; header; labelled; Title Case', testScan({
+        mkdn: ':linktype::[[filename#Header Text|See Results]]',
+        expdData: [{
+          kind: 'wikilink',
+          text: ':linktype::[[filename#Header Text|See Results]]',
+          start: 0,
+          type: ['linktype', 1],
+          filename: ['filename', 13],
+          header: ['Header Text', 22],
+          label: ['See Results', 34],
+        }],
+      }));
+
     });
 
     describe('malformed; attr-like but not an attr', () => {
@@ -1090,59 +1142,33 @@ Then there is a :typed::[[wikilink-typed]] and [[wikilink-untyped]].
 
     describe('untyped', () => {
 
-      it('basic header', testScan({
-        mkdn: '[[filename#header]]',
+      it('base; kebab-case', testScan({
+        mkdn: '[[filename#header-text]]',
         expdData: [{
           kind: 'wikilink',
-          text: '[[filename#header]]',
+          text: '[[filename#header-text]]',
           start: 0,
           type: [],
           filename: ['filename', 2],
-          header: ['header', 11],
+          header: ['header-text', 11],
           label: [],
         }]
       }));
 
-      it('header with spaces', testScan({
-        mkdn: '[[filename#Header Title]]',
+      it('base; Title Case', testScan({
+        mkdn: '[[filename#Header Text]]',
         expdData: [{
           kind: 'wikilink',
-          text: '[[filename#Header Title]]',
+          text: '[[filename#Header Text]]',
           start: 0,
           type: [],
           filename: ['filename', 2],
-          header: ['Header Title', 11],
+          header: ['Header Text', 11],
           label: [],
         }]
       }));
 
-      it('header with kebab-case', testScan({
-        mkdn: '[[filename#header-title-here]]',
-        expdData: [{
-          kind: 'wikilink',
-          text: '[[filename#header-title-here]]',
-          start: 0,
-          type: [],
-          filename: ['filename', 2],
-          header: ['header-title-here', 11],
-          label: [],
-        }]
-      }));
-
-      it('header with special characters', testScan({
-        mkdn: '[[filename#FAQ: Common Questions]]',
-        expdData: [{
-          kind: 'wikilink',
-          text: '[[filename#FAQ: Common Questions]]',
-          start: 0,
-          type: [],
-          filename: ['filename', 2],
-          header: ['FAQ: Common Questions', 11],
-          label: [],
-        }]
-      }));
-
-      it('empty header (treated as no header)', testScan({
+      it('empty', testScan({
         mkdn: '[[filename#]]',
         expdData: [{
           kind: 'wikilink',
@@ -1159,46 +1185,42 @@ Then there is a :typed::[[wikilink-typed]] and [[wikilink-untyped]].
 
     describe('typed', () => {
 
-      it('typed with header', testScan({
-        mkdn: ':linktype::[[filename#header]]',
+      it('base; kebab-case', testScan({
+        mkdn: ':linktype::[[filename#header-text]]',
         expdData: [{
           kind: 'wikilink',
-          text: ':linktype::[[filename#header]]',
+          text: ':linktype::[[filename#header-text]]',
           start: 0,
           type: ['linktype', 1],
           filename: ['filename', 13],
-          header: ['header', 22],
+          header: ['header-text', 22],
           label: [],
         }]
       }));
 
-    });
-
-    describe('labelled', () => {
-
-      it('header with label', testScan({
-        mkdn: '[[filename#header|Custom Label]]',
+      it('base; Title Case', testScan({
+        mkdn: ':linktype::[[filename#Header Text]]',
         expdData: [{
           kind: 'wikilink',
-          text: '[[filename#header|Custom Label]]',
-          start: 0,
-          type: [],
-          filename: ['filename', 2],
-          header: ['header', 11],
-          label: ['Custom Label', 18],
-        }]
-      }));
-
-      it('typed, header, and label', testScan({
-        mkdn: ':linktype::[[filename#header|label]]',
-        expdData: [{
-          kind: 'wikilink',
-          text: ':linktype::[[filename#header|label]]',
+          text: ':linktype::[[filename#Header Text]]',
           start: 0,
           type: ['linktype', 1],
           filename: ['filename', 13],
-          header: ['header', 22],
-          label: ['label', 29],
+          header: ['Header Text', 22],
+          label: [],
+        }]
+      }));
+
+      it('empty', testScan({
+        mkdn: ':linktype::[[filename#]]',
+        expdData: [{
+          kind: 'wikilink',
+          text: ':linktype::[[filename#]]',
+          start: 0,
+          type: ['linktype', 1],
+          filename: ['filename', 13],
+          header: ['', 22],
+          label: [],
         }]
       }));
 
@@ -1223,7 +1245,7 @@ Then there is a :typed::[[wikilink-typed]] and [[wikilink-untyped]].
 
     describe('wikiattrs with headers', () => {
 
-      it('wikiattr with header (not supported)', testScan({
+      it('wikiattr with header (falls through as wikilink)', testScan({
         mkdn: ':attrtype::[[filename#header]]\n',
         expdData: [{
           kind: 'wikilink',
