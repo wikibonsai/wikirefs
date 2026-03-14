@@ -24,16 +24,14 @@ describe('jekyll bug', () => {
       // not sure what the precise reason was for this error...
       // but the actual text is close to what an actual jekyll blog caught
       it('jekyll bug', testRenameFileName({
-        mkdn: `
-name-space-reftype::[[name-space-link]]
-
-The [[name-space-link]] functionality is provided by the jekyll-wikilinks plugin. See the [docs](https://github.com/wikibonsai/jekyll-wikirefs) for more details.
-`,
-        expdMkdn: `
-name-space-reftype::[[wikilink]]
-
-The [[wikilink]] functionality is provided by the jekyll-wikilinks plugin. See the [docs](https://github.com/wikibonsai/jekyll-wikirefs) for more details.
-`,
+        mkdn: '\n'
+        + 'name-space-reftype::[[name-space-link]]\n'
+        + '\n'
+        + 'The [[name-space-link]] functionality is provided by the jekyll-wikilinks plugin. See the [docs](https://github.com/wikibonsai/jekyll-wikirefs) for more details.\n',
+        expdMkdn: '\n'
+        + 'name-space-reftype::[[wikilink]]\n'
+        + '\n'
+        + 'The [[wikilink]] functionality is provided by the jekyll-wikilinks plugin. See the [docs](https://github.com/wikibonsai/jekyll-wikirefs) for more details.\n',
       }));
 
     });

@@ -146,28 +146,26 @@ describe('renameFileName()', () => {
   describe('ref', () => {
 
     it('all', testRenameFileName({
-      mkdn: `
-:attrtype::
-- [[wikilink]]
-- [[wikilink]]
-
-this is a :typed::[[wikilink]].
-
-this is an untyped [[wikilink]].
-
-![[wikilink]]
-`,
-      expdMkdn: `
-:attrtype::
-- [[hello-world]]
-- [[hello-world]]
-
-this is a :typed::[[hello-world]].
-
-this is an untyped [[hello-world]].
-
-![[hello-world]]
-`,
+      mkdn: '\n'
+        + ':attrtype::\n'
+        + '- [[wikilink]]\n'
+        + '- [[wikilink]]\n'
+        + '\n'
+        + 'this is a :typed::[[wikilink]].\n'
+        + '\n'
+        + 'this is an untyped [[wikilink]].\n'
+        + '\n'
+        + '![[wikilink]]\n',
+      expdMkdn: '\n'
+        + ':attrtype::\n'
+        + '- [[hello-world]]\n'
+        + '- [[hello-world]]\n'
+        + '\n'
+        + 'this is a :typed::[[hello-world]].\n'
+        + '\n'
+        + 'this is an untyped [[hello-world]].\n'
+        + '\n'
+        + '![[hello-world]]\n',
     }));
 
   });

@@ -16,15 +16,14 @@ describe('scan()', () => {
   describe('ref', () => {
 
     it('all; same fname', testScan({
-      mkdn: `
-:attrtype::[[fname-a]]
-
-this is a :typed::[[fname-a]].
-
-this is an untyped [[fname-a]].
-
-![[fname-a]]
-`,
+      mkdn: '\n'
+        + ':attrtype::[[fname-a]]\n'
+        + '\n'
+        + 'this is a :typed::[[fname-a]].\n'
+        + '\n'
+        + 'this is an untyped [[fname-a]].\n'
+        + '\n'
+        + '![[fname-a]]\n',
       expdData: [{
         kind: 'wikiattr',
         text: ':attrtype::[[fname-a]]\n',
@@ -58,10 +57,9 @@ this is an untyped [[fname-a]].
     }));
 
     it('wikiattr; single; multi', testScan({
-      mkdn: `
-:reftype::[[fname-a]]
-:attrtype::[[fname-b]]
-`,
+      mkdn: '\n'
+        + ':reftype::[[fname-a]]\n'
+        + ':attrtype::[[fname-b]]\n',
       expdData: [{
         kind: 'wikiattr',
         text: ':reftype::[[fname-a]]\n',
@@ -493,10 +491,9 @@ this is an untyped [[fname-a]].
     describe('target specific file', () => {
 
       it('wikiattr; single; multi', testScan({
-        mkdn: `
-:reftype::[[fname-a]]
-:attrtype::[[fname-b]]
-`,
+        mkdn: '\n'
+        + ':reftype::[[fname-a]]\n'
+        + ':attrtype::[[fname-b]]\n',
         opts: { filename: 'fname-a' },
         expdData: [
           {
@@ -512,9 +509,8 @@ this is an untyped [[fname-a]].
       }));
 
       it('wikiattr; list; comma', testScan({
-        mkdn: `
-:reftype::[[fname-a]],[[fname-b]]
-`,
+        mkdn: '\n'
+        + ':reftype::[[fname-a]],[[fname-b]]\n',
         opts: { filename: 'fname-a' },
         expdData: [
           {
@@ -530,11 +526,10 @@ this is an untyped [[fname-a]].
       }));
 
       it('wikiattr; list; mkdn (clean)', testScan({
-        mkdn: `
-:reftype::
-- [[fname-a]]
-- [[fname-b]]
-`,
+        mkdn: '\n'
+        + ':reftype::\n'
+        + '- [[fname-a]]\n'
+        + '- [[fname-b]]\n',
         opts: { filename: 'fname-a' },
         expdData: [
           {
@@ -550,11 +545,10 @@ this is an untyped [[fname-a]].
       }));
 
       it('wikiattr; list; mkdn (pretty)', testScan({
-        mkdn: `
-: reftype ::
-            - [[fname-a]]
-            - [[fname-b]]
-`,
+        mkdn: '\n'
+        + ': reftype ::\n'
+        + '            - [[fname-a]]\n'
+        + '            - [[fname-b]]\n',
         opts: { filename: 'fname-a' },
         expdData: [
           {
@@ -680,12 +674,11 @@ Then there is a :typed::[[wikilink-typed]] and [[wikilink-untyped]].
       }));
 
       it('wikiattr (mixed bullet point kinds)', testScan({
-        mkdn: `
-:mixed-list::
-- [[item-dash]]
-+ [[item-plus]]
-* [[item-asterisk]]
-`,
+        mkdn: '\n'
+        + ':mixed-list::\n'
+        + '- [[item-dash]]\n'
+        + '+ [[item-plus]]\n'
+        + '* [[item-asterisk]]\n',
         opts: { kind: 'wikiattr' },
         expdData: [
           {

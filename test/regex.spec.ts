@@ -46,12 +46,10 @@ describe('RGX', () => {
 
       it('prefixed; list; mkdn -- matches single', testRegex({
         regex: RGX.ATTR_UTIL.LIST_COMMA,
-        content:
-`:attrtype::
-- [[wikilink-1]]
-- [[wikilink-2]]
-- [[wikilink-3]]
-`,
+        content: ':attrtype::\n'
+        + '- [[wikilink-1]]\n'
+        + '- [[wikilink-2]]\n'
+        + '- [[wikilink-3]]\n',
         match: [
           '[[wikilink-1]]',
           'wikilink-1',
@@ -82,12 +80,10 @@ describe('RGX', () => {
 
       it('prefixed; list; mkdn', testRegex({
         regex: RGX.ATTR_UTIL.PREFIX,
-        content:
-`:attrtype::
-- [[wikilink-1]]
-- [[wikilink-2]]
-- [[wikilink-3]]
-`,
+        content: ':attrtype::\n'
+        + '- [[wikilink-1]]\n'
+        + '- [[wikilink-2]]\n'
+        + '- [[wikilink-3]]\n',
         match: [
           ':attrtype::',
           'attrtype',
@@ -372,12 +368,10 @@ describe('RGX', () => {
 
       it('unprefixed; list; mkdn', testRegex({
         regex: RGX.WIKI.ATTR,
-        content:
-`attrtype::
-- [[wikilink-1]]
-- [[wikilink-2]]
-- [[wikilink-3]]
-`,
+        content: 'attrtype::\n'
+        + '- [[wikilink-1]]\n'
+        + '- [[wikilink-2]]\n'
+        + '- [[wikilink-3]]\n',
         match: [
           'attrtype::\n- [[wikilink-1]]\n- [[wikilink-2]]\n- [[wikilink-3]]\n',
           'attrtype',
@@ -425,12 +419,10 @@ describe('RGX', () => {
 
       it('prefixed; list; mkdn', testRegex({
         regex: RGX.WIKI.ATTR,
-        content:
-`:attrtype::
-- [[wikilink-1]]
-- [[wikilink-2]]
-- [[wikilink-3]]
-`,
+        content: ':attrtype::\n'
+        + '- [[wikilink-1]]\n'
+        + '- [[wikilink-2]]\n'
+        + '- [[wikilink-3]]\n',
         match: [
           ':attrtype::\n- [[wikilink-1]]\n- [[wikilink-2]]\n- [[wikilink-3]]\n',
           'attrtype',
@@ -452,28 +444,22 @@ describe('RGX', () => {
 
       it('attr; prefixed; list; mkdn', testRegex({
         regex: RGX.GET.LINKTYPE,
-        content:
-`:reftype::
-- [[wikilink]]
-`,
+        content: ':reftype::\n'
+        + '- [[wikilink]]\n',
         match: null,
       }));
 
       it('attr; prefixed; list; mkdn; pad', testRegex({
         regex: RGX.GET.LINKTYPE,
-        content:
-`: reftype ::
-- [[wikilink]]
-`,
+        content: ': reftype ::\n'
+        + '- [[wikilink]]\n',
         match: null,
       }));
 
       it('attr; unprefixed; list; mkdn', testRegex({
         regex: RGX.GET.LINKTYPE,
-        content:
-`reftype::
-- [[wikilink]]
-`,
+        content: 'reftype::\n'
+        + '- [[wikilink]]\n',
         match: null,
       }));
 
@@ -498,10 +484,8 @@ describe('RGX', () => {
 
       it('attr; prefixed; list; mkdn', testRegex({
         regex: RGX.GET.ATTRTYPE,
-        content:
-`:reftype::
-- [[wikilink]]
-`,
+        content: ':reftype::\n'
+        + '- [[wikilink]]\n',
         match: [
           ':reftype::\n- [[wikilink]]\n',
           'reftype',
@@ -510,10 +494,8 @@ describe('RGX', () => {
 
       it('attr; prefixed; list; mkdn; pad', testRegex({
         regex: RGX.GET.ATTRTYPE,
-        content:
-`: reftype ::
-- [[wikilink]]
-`,
+        content: ': reftype ::\n'
+        + '- [[wikilink]]\n',
         match: [
           ': reftype ::\n- [[wikilink]]\n',
           'reftype ',
@@ -524,10 +506,8 @@ describe('RGX', () => {
 
       it('attr; unprefixed; list; mkdn', testRegex({
         regex: RGX.GET.ATTRTYPE,
-        content:
-`reftype::
-- [[wikilink]]
-`,
+        content: 'reftype::\n'
+        + '- [[wikilink]]\n',
         match: [
           'reftype::\n- [[wikilink]]\n',
           'reftype'
@@ -552,10 +532,8 @@ describe('RGX', () => {
 
       it('attr; prefixed; list; mkdn', testRegex({
         regex: RGX.GET.REFTYPE,
-        content:
-`:reftype::
-- [[wikilink]]
-`,
+        content: ':reftype::\n'
+        + '- [[wikilink]]\n',
         match: [
           ':reftype::',
           'reftype',
@@ -565,10 +543,8 @@ describe('RGX', () => {
 
       it('attr; prefixed; list; mkdn; pad', testRegex({
         regex: RGX.GET.REFTYPE,
-        content:
-`: reftype ::
-- [[wikilink]]
-`,
+        content: ': reftype ::\n'
+        + '- [[wikilink]]\n',
         match: [
           ': reftype ::',
           'reftype ',
@@ -578,10 +554,8 @@ describe('RGX', () => {
 
       it('attr; unprefixed; list; mkdn', testRegex({
         regex: RGX.GET.REFTYPE,
-        content:
-`reftype::
-- [[wikilink]]
-`,
+        content: 'reftype::\n'
+        + '- [[wikilink]]\n',
         match: [
           'reftype::',
           'reftype',
@@ -641,10 +615,8 @@ describe('RGX', () => {
 
       it('attr; prefixed; list; mkdn', testRegex({
         regex: RGX.GET.FILENAME,
-        content:
-`:reftype::
-- [[wikilink]]
-`,
+        content: ':reftype::\n'
+        + '- [[wikilink]]\n',
         match: [
           '[[wikilink]]',
           'wikilink',
@@ -653,10 +625,8 @@ describe('RGX', () => {
 
       it('attr; unprefixed; list; mkdn', testRegex({
         regex: RGX.GET.FILENAME,
-        content:
-`reftype::
-- [[wikilink]]
-`,
+        content: 'reftype::\n'
+        + '- [[wikilink]]\n',
         match: [
           '[[wikilink]]',
           'wikilink',

@@ -10,15 +10,13 @@ export const wikiLinkTypedCases: WikiRefTestCase[] = [
   {
     descr: 'wikilink; typed; base -- this is actually a valid wikiattr!',
     mkdn: ':attrtype::[[fname-a]]',
-    html:
-`<aside class="attrbox">
-<span class="attrbox-title">Attributes</span>
-<dl>
-<dt>attrtype</dt>
-<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
-</dl>
-</aside>
-`,
+    html: '<aside class="attrbox">\n'
+        + '<span class="attrbox-title">Attributes</span>\n'
+        + '<dl>\n'
+        + '<dt>attrtype</dt>\n'
+        + '<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
+        + '</dl>\n'
+        + '</aside>\n',
   },
   {
     descr: 'wikilink; typed; base (safe)',
@@ -190,24 +188,20 @@ export const wikiLinkTypedCases: WikiRefTestCase[] = [
   },
   {
     descr: 'wikilink; typed; w/ other mkdn constructs; reference markdown links',
-    mkdn:
-`:linktype::[[fname-a]] and [a link][ref-link]
-
-[ref-link]: <www.example.com>`,
+    mkdn: ':linktype::[[fname-a]] and [a link][ref-link]\n'
+        + '\n'
+        + '[ref-link]: <www.example.com>',
     html: '<p><a class="wiki link type reftype__linktype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a> and <a href="www.example.com">a link</a></p>\n',
   },
   {
     descr: 'wikilink; typed; w/ other mkdn constructs; headers',
-    mkdn:
-`# :linktype::[[fname-a]]
-`,
+    mkdn: '\n'
+        + '# :linktype::[[fname-a]]\n',
     html: '<h1><a class="wiki link type reftype__linktype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></h1>\n',
   },
   {
     descr: 'wikilink; typed; w/ other mkdn constructs; headers; no \'htmlHref\'',
-    mkdn:
-`# :linktype::[[no-html-href]]
-`,
+    mkdn: '# :linktype::[[no-html-href]]\n',
     html: '<h1><a class="wiki link invalid">:linktype::[[no-html-href]]</a></h1>\n',
   },
 //   {
@@ -233,46 +227,34 @@ export const wikiLinkTypedCases: WikiRefTestCase[] = [
   {
     descr: 'wikilink; typed; w/ other mkdn constructs; blockquote',
     mkdn: '> :linktype::[[fname-a]]',
-    html:
-`<blockquote>
-<p><a class="wiki link type reftype__linktype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></p>
-</blockquote>
-`,
+    html: '<blockquote>\n'
+        + '<p><a class="wiki link type reftype__linktype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></p>\n'
+        + '</blockquote>\n',
   },
   {
     descr: 'wikilink; typed; w/ other mkdn constructs; blockquote; no \'htmlHref\'',
     mkdn: '> :linktype::[[no-html-href]]',
-    html:
-`<blockquote>
-<p><a class="wiki link invalid">:linktype::[[no-html-href]]</a></p>
-</blockquote>
-`,
+    html: '<blockquote>\n'
+        + '<p><a class="wiki link invalid">:linktype::[[no-html-href]]</a></p>\n'
+        + '</blockquote>\n',
   },
   {
     descr: 'wikilink; typed; w/ other mkdn constructs; list',
-    mkdn:
-`- :linktype::[[fname-a]]
-- some text.
-`,
-    html:
-`<ul>
-<li><a class="wiki link type reftype__linktype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></li>
-<li>some text.</li>
-</ul>
-`,
+    mkdn: '- :linktype::[[fname-a]]\n'
+        + '- some text.\n',
+    html: '<ul>\n'
+        + '<li><a class="wiki link type reftype__linktype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></li>\n'
+        + '<li>some text.</li>\n'
+        + '</ul>\n',
   },
   {
     descr: 'wikilink; typed; w/ other mkdn constructs; list; no \'htmlHref\'',
-    mkdn:
-`- :linktype::[[no-html-href]]
-- some text.
-`,
-    html:
-`<ul>
-<li><a class="wiki link invalid">:linktype::[[no-html-href]]</a></li>
-<li>some text.</li>
-</ul>
-`,
+    mkdn: '- :linktype::[[no-html-href]]\n'
+        + '- some text.\n',
+    html: '<ul>\n'
+        + '<li><a class="wiki link invalid">:linktype::[[no-html-href]]</a></li>\n'
+        + '<li>some text.</li>\n'
+        + '</ul>\n',
   },
   // gfm
   {
@@ -287,29 +269,50 @@ export const wikiLinkTypedCases: WikiRefTestCase[] = [
   },
   {
     descr: 'wikilink; typed; w/ other mkdn constructs; gfm; footnote',
-    mkdn:
-`Here is[^1] :linktype1::[[fname-a]].
-
-[^1]: A footnote with :linktype2::[[fname-b]].`,
+    mkdn: 'Here is[^1] :linktype1::[[fname-a]].\n'
+        + '\n'
+        + '[^1]: A footnote with :linktype2::[[fname-b]].',
     html: 'warn: markdown footnotes don\'t seem to have a standardized html format -- please supply target footnote html here',
   },
   {
     descr: 'wikilink; typed; w/ other mkdn constructs; gfm; tables',
-    mkdn:
-`| :linktype1::[[fname-a]]      | Text Descr |
-| ---------------------------- | ---------- |
-| :linktype2::[[fname-b]]      | Title      |
-`,
-    html: '<table>\n<thead>\n<tr>\n<th><a class="wiki link type reftype__linktype1" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></th>\n<th>Text Descr</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><a class="wiki link type reftype__linktype2" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></td>\n<td>Title</td>\n</tr>\n</tbody>\n</table>\n',
+    mkdn: '| :linktype1::[[fname-a]]      | Text Descr |\n'
+        + '| ---------------------------- | ---------- |\n'
+        + '| :linktype2::[[fname-b]]      | Title      |\n',
+    html: '<table>\n'
+        +   '<thead>\n'
+        +     '<tr>\n'
+        +       '<th><a class="wiki link type reftype__linktype1" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></th>\n'
+        +       '<th>Text Descr</th>\n'
+        +     '</tr>\n'
+        +   '</thead>\n'
+        +   '<tbody>\n'
+        +     '<tr>\n'
+        +       '<td><a class="wiki link type reftype__linktype2" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></td>\n'
+        +       '<td>Title</td>\n'
+        +     '</tr>\n'
+        +   '</tbody>\n'
+        + '</table>\n',
   },
   {
     descr: 'wikilink; typed; w/ other mkdn constructs; gfm; tables; no \'htmlHref\'',
-    mkdn:
-`| :linktype1::[[no-html-href]] | Text Descr |
-| ---------------------------- | ---------- |
-| :linktype2::[[no-html-href]] | Text       |
-`,
-    html: '<table>\n<thead>\n<tr>\n<th><a class="wiki link invalid">:linktype1::[[no-html-href]]</a></th>\n<th>Text Descr</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><a class="wiki link invalid">:linktype2::[[no-html-href]]</a></td>\n<td>Text</td>\n</tr>\n</tbody>\n</table>\n',
+    mkdn: '| :linktype1::[[no-html-href]] | Text Descr |\n'
+        + '| ---------------------------- | ---------- |\n'
+        + '| :linktype2::[[no-html-href]] | Text       |\n',
+    html: '<table>\n'
+        +   '<thead>\n'
+        +     '<tr>\n'
+        +       '<th><a class="wiki link invalid">:linktype1::[[no-html-href]]</a></th>\n'
+        +       '<th>Text Descr</th>\n'
+        +     '</tr>\n'
+        +   '</thead>\n'
+        +   '<tbody>\n'
+        +     '<tr>\n'
+        +       '<td><a class="wiki link invalid">:linktype2::[[no-html-href]]</a></td>\n'
+        +       '<td>Text</td>\n'
+        +     '</tr>\n'
+        +   '</tbody>\n'
+        + '</table>\n',
   },
   // malformed
   {

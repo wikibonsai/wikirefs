@@ -167,69 +167,56 @@ export const wikiLinkUntypedCases: WikiRefTestCase[] = [
   },
   {
     descr: 'wikilink; untyped; w/ other mkdn constructs; reference markdown links',
-    mkdn:
-`[[fname-a]] and [a link][ref-link]
-
-[ref-link]: <www.example.com>`,
+    mkdn: '[[fname-a]] and [a link][ref-link]\n'
+        + '\n'
+        + '[ref-link]: <www.example.com>',
     html: '<p><a class="wiki link" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a> and <a href="www.example.com">a link</a></p>\n',
   },
   {
     descr: 'wikilink; untyped; w/ other mkdn constructs; headers',
-    mkdn: `
-# [[fname-a]]
-  `,
+    mkdn: '\n'
+        + '# [[fname-a]]\n',
     html: '<h1><a class="wiki link" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></h1>\n',
   },
   {
     descr: 'wikilink; untyped; w/ other mkdn constructs; headers; no \'htmlHref\'',
-    mkdn: `
-# [[no-html-href]]
-  `,
+    mkdn: '\n'
+        + '# [[no-html-href]]\n',
     html: '<h1><a class="wiki link invalid">[[no-html-href]]</a></h1>\n',
   },
   {
     descr: 'wikilink; untyped; w/ other mkdn constructs; blockquote',
     mkdn: '> [[fname-a]]',
-    html:
-`<blockquote>
-<p><a class="wiki link" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></p>
-</blockquote>
-`,
+    html: '<blockquote>\n'
+        + '<p><a class="wiki link" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></p>\n'
+        + '</blockquote>\n',
   },
   {
     descr: 'wikilink; untyped; w/ other mkdn constructs; blockquote; no \'htmlHref\'',
     mkdn: '> [[no-html-href]]',
-    html:
-`<blockquote>
-<p><a class="wiki link invalid">[[no-html-href]]</a></p>
-</blockquote>
-`,
+    html: '<blockquote>\n'
+        + '<p><a class="wiki link invalid">[[no-html-href]]</a></p>\n'
+        + '</blockquote>\n',
   },
   {
     descr: 'wikilink; untyped; w/ other mkdn constructs; list',
-    mkdn: `
-- [[fname-a]]
-- some text.
-`,
-    html:
-`<ul>
-<li><a class="wiki link" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></li>
-<li>some text.</li>
-</ul>
-`,
+    mkdn: '\n'
+        + '- [[fname-a]]\n'
+        + '- some text.\n',
+    html: '<ul>\n'
+        + '<li><a class="wiki link" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></li>\n'
+        + '<li>some text.</li>\n'
+        + '</ul>\n',
   },
   {
     descr: 'wikilink; untyped; w/ other mkdn constructs; list; no \'htmlHref\'',
-    mkdn: `
-- [[no-html-href]]
-- some text.
-`,
-    html:
-`<ul>
-<li><a class="wiki link invalid">[[no-html-href]]</a></li>
-<li>some text.</li>
-</ul>
-`,
+    mkdn: '\n'
+        + '- [[no-html-href]]\n'
+        + '- some text.\n',
+    html: '<ul>\n'
+        + '<li><a class="wiki link invalid">[[no-html-href]]</a></li>\n'
+        + '<li>some text.</li>\n'
+        + '</ul>\n',
   },
   // gfm
   {
@@ -244,29 +231,50 @@ export const wikiLinkUntypedCases: WikiRefTestCase[] = [
   },
   {
     descr: 'wikilink; untyped; w/ other mkdn constructs; gfm; footnote',
-    mkdn:
-`Here is[^1] [[fname-a]].
-
-[^1]: A footnote with [[fname-b]].`,
+    mkdn: 'Here is[^1] [[fname-a]].\n'
+        + '\n'
+        + '[^1]: A footnote with [[fname-b]].',
     html: 'warn: markdown footnotes don\'t seem to have a standardized html format -- please supply target footnote html here',
   },
   {
     descr: 'wikilink; untyped; w/ other mkdn constructs; gfm; tables; valid wikilink',
-    mkdn: 
-`| [[fname-a]]      | Text Descr |
-| ---------------- | ---------- |
-| [[fname-b]]      | Title      |
-`,
-    html: '<table>\n<thead>\n<tr>\n<th><a class="wiki link" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></th>\n<th>Text Descr</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><a class="wiki link" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></td>\n<td>Title</td>\n</tr>\n</tbody>\n</table>\n',
+    mkdn: '| [[fname-a]]      | Text Descr |\n'
+        + '| ---------------- | ---------- |\n'
+        + '| [[fname-b]]      | Title      |\n',
+    html: '<table>\n'
+        +   '<thead>\n'
+        +     '<tr>\n'
+        +       '<th><a class="wiki link" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></th>\n'
+        +       '<th>Text Descr</th>\n'
+        +     '</tr>\n'
+        +   '</thead>\n'
+        +   '<tbody>\n'
+        +     '<tr>\n'
+        +       '<td><a class="wiki link" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></td>\n'
+        +       '<td>Title</td>\n'
+        +     '</tr>\n'
+        +   '</tbody>\n'
+        + '</table>\n',
   },
   {
     descr: 'wikilink; untyped; w/ other mkdn constructs; gfm; tables; invalid wikilink',
-    mkdn: 
-`| [[no-html-href]]  | Text Descr |
-| ----------------- | ---------- |
-| [[no-html-href]]  | Text       |
-`,
-    html: '<table>\n<thead>\n<tr>\n<th><a class="wiki link invalid">[[no-html-href]]</a></th>\n<th>Text Descr</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><a class="wiki link invalid">[[no-html-href]]</a></td>\n<td>Text</td>\n</tr>\n</tbody>\n</table>\n',
+    mkdn: '| [[no-html-href]]  | Text Descr |\n'
+        + '| ----------------- | ---------- |\n'
+        + '| [[no-html-href]]  | Text       |\n',
+    html: '<table>\n'
+        +   '<thead>\n'
+        +     '<tr>\n'
+        +       '<th><a class="wiki link invalid">[[no-html-href]]</a></th>\n'
+        +       '<th>Text Descr</th>\n'
+        +     '</tr>\n'
+        +   '</thead>\n'
+        +   '<tbody>\n'
+        +     '<tr>\n'
+        +       '<td><a class="wiki link invalid">[[no-html-href]]</a></td>\n'
+        +       '<td>Text</td>\n'
+        +     '</tr>\n'
+        +   '</tbody>\n'
+        + '</table>\n',
   },
   // malformed
   {
