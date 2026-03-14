@@ -127,18 +127,18 @@ describe('renameFileName()', () => {
   describe('attr', () => {
 
     it('single', testRenameFileName({
-      mkdn: 'linktype::[[wikilink]]\nHere is some content.',
-      expdMkdn: 'linktype::[[hello-world]]\nHere is some content.',
+      mkdn: 'attrtype::[[wikilink]]\nHere is some content.',
+      expdMkdn: 'attrtype::[[hello-world]]\nHere is some content.',
     }));
 
     it('list; comma-separated', testRenameFileName({
-      mkdn: 'linktype::[[wikilink]],[[another]]\nHere is some content.',
-      expdMkdn: 'linktype::[[hello-world]],[[another]]\nHere is some content.',
+      mkdn: 'attrtype::[[wikilink]],[[another]]\nHere is some content.',
+      expdMkdn: 'attrtype::[[hello-world]],[[another]]\nHere is some content.',
     }));
 
     it('list; mkdn-separated', testRenameFileName({
-      mkdn: 'linktype::\n- [[wikilink]]\n- [[another]]\nHere is some content.',
-      expdMkdn: 'linktype::\n- [[hello-world]]\n- [[another]]\nHere is some content.',
+      mkdn: 'attrtype::\n- [[wikilink]]\n- [[another]]\nHere is some content.',
+      expdMkdn: 'attrtype::\n- [[hello-world]]\n- [[another]]\nHere is some content.',
     }));
 
   });
