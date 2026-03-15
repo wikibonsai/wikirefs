@@ -389,6 +389,55 @@ export const wikiEmbedCases: WikiRefTestCase[] = [
         +   '</p>\n'
         + '</p>\n',
   },
+  // setext-style headers (=== h1, --- h2)
+  {
+    descr: 'wikiembed; w/ other mkdn constructs; header; setext h1 (=)',
+    mkdn: '![[embed-doc-setext#setext-h1]]',
+    html: '<p>\n'
+        +   '<p>\n'
+        +     '<div class="embed-wrapper">\n'
+        +       '<div class="embed-title">\n'
+        +         '<a class="wiki embed" href="/tests/fixtures/embed-doc-setext#setext-h1" data-href="/tests/fixtures/embed-doc-setext#setext-h1">\n'
+        +           'embed doc setext headers\n'
+        +         '</a>\n'
+        +       '</div>\n'
+        +       '<div class="embed-link">\n'
+        +         '<a class="embed-link-icon" href="/tests/fixtures/embed-doc-setext#setext-h1" data-href="/tests/fixtures/embed-doc-setext#setext-h1">\n'
+        +           '<i class="link-icon"></i>\n'
+        +         '</a>\n'
+        +       '</div>\n'
+        +       '<div class="embed-content">\n'
+        +         '<p>body for setext h1.</p>\n'
+        +         '\n'
+        +       '</div>\n'
+        +     '</div>\n'
+        +   '</p>\n'
+        + '</p>\n',
+  },
+  {
+    descr: 'wikiembed; w/ other mkdn constructs; header; setext h2 (-)',
+    mkdn: '![[embed-doc-setext#setext-h2]]',
+    html: '<p>\n'
+        +   '<p>\n'
+        +     '<div class="embed-wrapper">\n'
+        +       '<div class="embed-title">\n'
+        +         '<a class="wiki embed" href="/tests/fixtures/embed-doc-setext#setext-h2" data-href="/tests/fixtures/embed-doc-setext#setext-h2">\n'
+        +           'embed doc setext headers\n'
+        +         '</a>\n'
+        +       '</div>\n'
+        +       '<div class="embed-link">\n'
+        +         '<a class="embed-link-icon" href="/tests/fixtures/embed-doc-setext#setext-h2" data-href="/tests/fixtures/embed-doc-setext#setext-h2">\n'
+        +           '<i class="link-icon"></i>\n'
+        +         '</a>\n'
+        +       '</div>\n'
+        +       '<div class="embed-content">\n'
+        +         '<p>body for setext h2.</p>\n'
+        +         '\n'
+        +       '</div>\n'
+        +     '</div>\n'
+        +   '</p>\n'
+        + '</p>\n',
+  },
   // render other markdown constructs
   {
     descr: 'wikiembed; w/ other mkdn constructs; header; section w/ bold',

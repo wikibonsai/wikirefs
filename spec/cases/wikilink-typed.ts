@@ -125,6 +125,16 @@ export const wikiLinkTypedCases: WikiRefTestCase[] = [
     html: '<p><a class="wiki link type reftype__linktype" href="/tests/fixtures/fname-a#header-text" data-href="/tests/fixtures/fname-a#header-text">title a</a>.</p>\n',
   },
   {
+    descr: 'wikilink; typed; header; setext; kebab-case',
+    mkdn: ':linktype::[[fname-a#setext-h1]].',
+    html: '<p><a class="wiki link type reftype__linktype" href="/tests/fixtures/fname-a#setext-h1" data-href="/tests/fixtures/fname-a#setext-h1">title a</a>.</p>\n',
+  },
+  {
+    descr: 'wikilink; typed; header; setext; Title Case',
+    mkdn: ':linktype::[[fname-a#Setext H1]].',
+    html: '<p><a class="wiki link type reftype__linktype" href="/tests/fixtures/fname-a#setext-h1" data-href="/tests/fixtures/fname-a#setext-h1">title a</a>.</p>\n',
+  },
+  {
     descr: 'wikilink; typed; header; labelled; kebab-case',
     mkdn: ':linktype::[[fname-a#header-text|label]].',
     html: '<p><a class="wiki link type reftype__linktype" href="/tests/fixtures/fname-a#header-text" data-href="/tests/fixtures/fname-a#header-text">label</a>.</p>\n',

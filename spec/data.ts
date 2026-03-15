@@ -151,6 +151,20 @@ export const fileDataMap: TestFileData[] = [
     content: 'Here is some content.\n\n## Header Text\n\nHeader content.',
     media: 'markdown',
   },
+  // setext-style headers (=== h1, --- h2)
+  {
+    filename: 'embed-doc-setext',
+    title: 'Embed Doc Setext Headers',
+    href: '/tests/fixtures/embed-doc-setext',
+    content: 'Preamble.\n\n'
+      + 'Setext H1\n'
+      + '=========\n\n'
+      + 'body for setext h1.\n\n'
+      + 'Setext H2\n'
+      + '---------\n\n'
+      + 'body for setext h2.\n',
+    media: 'markdown',
+  },
   {
     filename: 'embed-doc-header-mkdn',
     title: 'Embed Doc Header Constructs',

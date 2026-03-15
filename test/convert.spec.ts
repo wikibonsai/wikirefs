@@ -128,6 +128,12 @@ describe('convert', () => {
           ocontent: '[[fname-a#my header]]',
         }));
 
+        it('header; setext', testMkdnToWiki({
+          icontent: '[fname-a](/fname-a#setext-h1)',
+          opts: {},
+          ocontent: '[[fname-a#setext-h1]]',
+        }));
+
         it('filename format; nested path', testMkdnToWiki({
           icontent: '[fname-a](/path/to/fname-a)',
           opts: {},
@@ -184,6 +190,12 @@ describe('convert', () => {
           icontent: '![](/fname-a#header-text)',
           opts: { kind: 'wikiembed' },
           ocontent: '![[fname-a#header-text]]',
+        }));
+
+        it('embed; header; setext', testMkdnToWiki({
+          icontent: '![](/fname-a#setext-h1)',
+          opts: { kind: 'wikiembed' },
+          ocontent: '![[fname-a#setext-h1]]',
         }));
 
         it.skip('audio', testMkdnToWiki({
@@ -385,6 +397,12 @@ describe('convert', () => {
           ocontent: '[label](/fname-a#my-header)',
         }));
 
+        it('header; setext', testWikiToMkdn({
+          icontent: '[[fname-a#setext-h1]]',
+          opts: {},
+          ocontent: '[fname-a](/fname-a#setext-h1)',
+        }));
+
         it('zombie (defaults to filename format)', testWikiToMkdn({
           icontent: 'here is a link: [[zombie]]',
           opts: {},
@@ -417,6 +435,12 @@ describe('convert', () => {
           icontent: '![[fname-a#Header Text]]',
           opts: {},
           ocontent: '[fname-a](/fname-a#header-text)',
+        }));
+
+        it('embed; header; setext', testWikiToMkdn({
+          icontent: 'here is an embed: ![[fname-a#setext-h1]]',
+          opts: {},
+          ocontent: 'here is an embed: [fname-a](/fname-a#setext-h1)',
         }));
 
         it.skip('audio', testWikiToMkdn({

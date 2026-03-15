@@ -22,4 +22,9 @@ export const wikiLinkMixedCases: WikiRefTestCase[] = [
     mkdn: 'see [[fname-a#header]] and [[fname-b]].\n',
     html: '<p>see <a class="wiki link" href="/tests/fixtures/fname-a#header" data-href="/tests/fixtures/fname-a#header">title a</a> and <a class="wiki link" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a>.</p>\n',
   },
+  {
+    descr: 'wikilink; mixed; header and non-header; setext',
+    mkdn: 'see [[fname-a#setext-h1]] and [[fname-b]].\n',
+    html: '<p>see <a class="wiki link" href="/tests/fixtures/fname-a#setext-h1" data-href="/tests/fixtures/fname-a#setext-h1">title a</a> and <a class="wiki link" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a>.</p>\n',
+  },
 ];

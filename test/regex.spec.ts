@@ -407,6 +407,30 @@ describe('RGX', () => {
           ],
         }));
 
+        it('untyped; setext; html id (kebab-case)', testRegex({
+          regex: RGX.WIKI.LINK,
+          content: '[[filename#setext-h1]].',
+          match: [
+            '[[filename#setext-h1]]',
+            undefined,
+            'filename',
+            'setext-h1',
+            undefined,
+          ],
+        }));
+
+        it('untyped; setext; header text (Title Case)', testRegex({
+          regex: RGX.WIKI.LINK,
+          content: '[[filename#Setext H1]].',
+          match: [
+            '[[filename#Setext H1]]',
+            undefined,
+            'filename',
+            'Setext H1',
+            undefined,
+          ],
+        }));
+
       });
 
     });
@@ -464,6 +488,26 @@ describe('RGX', () => {
             '![[embed-doc#]]',
             'embed-doc',
             '',
+          ],
+        }));
+
+        it('setext; html id (kebab-case)', testRegex({
+          regex: RGX.WIKI.EMBED,
+          content: '![[embed-doc#setext-h1]].',
+          match: [
+            '![[embed-doc#setext-h1]]',
+            'embed-doc',
+            'setext-h1',
+          ],
+        }));
+
+        it('setext; header text (Title Case)', testRegex({
+          regex: RGX.WIKI.EMBED,
+          content: '![[embed-doc#Setext H1]].',
+          match: [
+            '![[embed-doc#Setext H1]]',
+            'embed-doc',
+            'Setext H1',
           ],
         }));
 
@@ -733,6 +777,24 @@ describe('RGX', () => {
         match: [
           '#Header Text|',
           'Header Text',
+        ],
+      }));
+
+      it('untyped; setext; html id (kebab-case)', testRegex({
+        regex: RGX.GET.HEADER,
+        content: '[[filename#setext-h1]]',
+        match: [
+          '#setext-h1]]',
+          'setext-h1',
+        ],
+      }));
+
+      it('untyped; setext; header text (Title Case)', testRegex({
+        regex: RGX.GET.HEADER,
+        content: '[[filename#Setext H1]]',
+        match: [
+          '#Setext H1]]',
+          'Setext H1',
         ],
       }));
 

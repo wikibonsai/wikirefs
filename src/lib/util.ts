@@ -37,12 +37,13 @@ function getHeaders(content: string): HeaderMatch[] {
         start: lineStart,
         end: lineEnd,
       });
-    } else if (i > 0 && /^[-=][-=]*\s*$/.test(line)) {
-      // setext: previous line is header text; = is h1, - is h2
+    } else if (i > 0 && /^\s{0,3}[-=][-=]*\s*$/.test(line)) {
+      // setext: previous line is header text; = is h1, - is h2 (CommonMark allows 0–3 leading spaces on underline)
       const prev: string = lines[i - 1].trim();
       if (prev) {
+        const underline = line.trimStart();
         headers.push({
-          level: line.startsWith('=') ? 1 : 2,
+          level: underline.startsWith('=') ? 1 : 2,
           text: prev,
           start: prevLineStart,
           end: lineEnd,

@@ -150,6 +150,21 @@ describe('renameFileName()', () => {
         expdMkdn: 'See :linktype::[[hello-world#Some Section|Jump to section]].',
       }));
 
+      it('untyped; setext; html id (kebab-case)', testRenameFileName({
+        mkdn: 'See [[wikilink#setext-h1]] for details.',
+        expdMkdn: 'See [[hello-world#setext-h1]] for details.',
+      }));
+
+      it('untyped; setext; header text (Title Case)', testRenameFileName({
+        mkdn: 'See [[wikilink#Setext H1]] for details.',
+        expdMkdn: 'See [[hello-world#Setext H1]] for details.',
+      }));
+
+      it('typed; setext; html id (kebab-case)', testRenameFileName({
+        mkdn: 'See :linktype::[[wikilink#setext-h1]] for details.',
+        expdMkdn: 'See :linktype::[[hello-world#setext-h1]] for details.',
+      }));
+
     });
 
   });
@@ -245,6 +260,13 @@ describe('renameHeader()', () => {
       mkdn: 'Link [[filename#old-header]] and embed ![[filename#old-header]].',
       expdMkdn: 'Link [[filename#new-header]] and embed ![[filename#new-header]].',
     }));
+
+    it('setext header (kebab)', () => {
+      const mkdn = 'Here is a [[filename#setext-h1]].';
+      const expdMkdn = 'Here is a [[filename#setext-h2]].';
+      const actlMkdn = wikirefs.renameHeader('setext-h1', 'setext-h2', mkdn, { filename });
+      assert.strictEqual(actlMkdn, expdMkdn);
+    });
 
   });
 

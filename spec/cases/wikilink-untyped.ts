@@ -104,6 +104,16 @@ export const wikiLinkUntypedCases: WikiRefTestCase[] = [
     html: '<p><a class="wiki link" href="/tests/fixtures/fname-a#header-text" data-href="/tests/fixtures/fname-a#header-text">title a</a>.</p>\n',
   },
   {
+    descr: 'wikilink; untyped; header; setext; kebab-case',
+    mkdn: '[[fname-a#setext-h1]].',
+    html: '<p><a class="wiki link" href="/tests/fixtures/fname-a#setext-h1" data-href="/tests/fixtures/fname-a#setext-h1">title a</a>.</p>\n',
+  },
+  {
+    descr: 'wikilink; untyped; header; setext; Title Case',
+    mkdn: '[[fname-a#Setext H1]].',
+    html: '<p><a class="wiki link" href="/tests/fixtures/fname-a#setext-h1" data-href="/tests/fixtures/fname-a#setext-h1">title a</a>.</p>\n',
+  },
+  {
     descr: 'wikilink; untyped; header; labelled; kebab-case',
     mkdn: '[[fname-a#header-text|label]].',
     html: '<p><a class="wiki link" href="/tests/fixtures/fname-a#header-text" data-href="/tests/fixtures/fname-a#header-text">label</a>.</p>\n',

@@ -342,6 +342,32 @@ describe('scan()', () => {
         }],
       }));
 
+      it('header; setext; html id (kebab-case)', testScan({
+        mkdn: '[[wikilink#setext-h1]]',
+        expdData: [{
+          kind: 'wikilink',
+          text: '[[wikilink#setext-h1]]',
+          start: 0,
+          type: [],
+          filename: ['wikilink', 2],
+          header: ['setext-h1', 11],
+          label: [],
+        }],
+      }));
+
+      it('header; setext; header text (Title Case)', testScan({
+        mkdn: '[[filename#Setext H1]]',
+        expdData: [{
+          kind: 'wikilink',
+          text: '[[filename#Setext H1]]',
+          start: 0,
+          type: [],
+          filename: ['filename', 2],
+          header: ['Setext H1', 11],
+          label: [],
+        }],
+      }));
+
     });
 
     describe('typed', () => {
@@ -437,6 +463,32 @@ describe('scan()', () => {
         }],
       }));
 
+      it('header; setext; html id (kebab-case)', testScan({
+        mkdn: ':linktype::[[wikilink#setext-h1]]',
+        expdData: [{
+          kind: 'wikilink',
+          text: ':linktype::[[wikilink#setext-h1]]',
+          start: 0,
+          type: ['linktype', 1],
+          filename: ['wikilink', 13],
+          header: ['setext-h1', 22],
+          label: [],
+        }],
+      }));
+
+      it('header; setext; header text (Title Case)', testScan({
+        mkdn: ':linktype::[[filename#Setext H1]]',
+        expdData: [{
+          kind: 'wikilink',
+          text: ':linktype::[[filename#Setext H1]]',
+          start: 0,
+          type: ['linktype', 1],
+          filename: ['filename', 13],
+          header: ['Setext H1', 22],
+          label: [],
+        }],
+      }));
+
     });
 
     describe('malformed; attr-like but not an attr', () => {
@@ -520,6 +572,30 @@ describe('scan()', () => {
           filename: ['embed-doc', 3],
           media: 'markdown',
           header: '',
+        }]
+      }));
+
+      it('setext; html id (kebab-case)', testScan({
+        mkdn: '![[embed-doc#setext-h1]]',
+        expdData: [{
+          kind: 'wikiembed',
+          text: '![[embed-doc#setext-h1]]',
+          start: 0,
+          filename: ['embed-doc', 3],
+          media: 'markdown',
+          header: 'setext-h1',
+        }]
+      }));
+
+      it('setext; header text (Title Case)', testScan({
+        mkdn: '![[embed-doc#Setext H1]]',
+        expdData: [{
+          kind: 'wikiembed',
+          text: '![[embed-doc#Setext H1]]',
+          start: 0,
+          filename: ['embed-doc', 3],
+          media: 'markdown',
+          header: 'Setext H1',
         }]
       }));
 

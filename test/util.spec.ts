@@ -165,6 +165,16 @@ describe('getHeaderSection()', () => {
       assert.strictEqual(getHeaderSection(md, 'Setext H2 Title'), 'body for setext h2.');
     });
 
+    it('finds section for setext h1 with leading spaces on underline', () => {
+      const md: string = 'Setext H1 Title\n  ==============\n\nbody for setext h1.';
+      assert.strictEqual(getHeaderSection(md, 'setext-h1-title'), 'body for setext h1.');
+    });
+
+    it('finds section for setext h2 with leading spaces on underline', () => {
+      const md: string = 'Setext H2 Title\n   ---------------\n\nbody for setext h2.';
+      assert.strictEqual(getHeaderSection(md, 'setext-h2-title'), 'body for setext h2.');
+    });
+
   });
 
 });
