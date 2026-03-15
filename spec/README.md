@@ -429,7 +429,7 @@ Here is some content.
 
 # Header Text
 
-Another Section.
+Header content.
 ```
 
 Resulting HTML (section content only in `embed-content`; href/data-href include fragment):
@@ -439,7 +439,7 @@ Resulting HTML (section content only in `embed-content`; href/data-href include 
   <div class="embed-wrapper">
     <div class="embed-title">
       <a class="wiki embed" href="/tests/fixtures/filename#header-text" data-href="/tests/fixtures/filename#header-text">
-        Header Text
+        header text
       </a>
     </div>
     <div class="embed-link">
@@ -448,7 +448,7 @@ Resulting HTML (section content only in `embed-content`; href/data-href include 
       </a>
     </div>
     <div class="embed-content">
-      <p>Another Section.</p>
+      <p>Header content.</p>
     </div>
   </div>
 </p>
@@ -469,7 +469,7 @@ Resulting HTML:
   <div class="embed-wrapper">
     <div class="embed-title">
       <a class="wiki embed" href="/tests/fixtures/embed-doc" data-href="/tests/fixtures/embed-doc">
-        embedded document
+        header text
       </a>
     </div>
     <div class="embed-link">
@@ -479,6 +479,10 @@ Resulting HTML:
     </div>
     <div class="embed-content">
       <p>Here is some content.</p>
+
+      <h2>Header Text</h2>
+
+      <p>Header content.</p>
     </div>
   </div>
 </p>
