@@ -179,7 +179,7 @@ export const wikiEmbedCases: WikiRefTestCase[] = [
         + '</p>\n',
   },
   {
-    descr: 'wikiembed; w/ other mkdn constructs; strikethrough',
+    descr: 'wikiembed; w/ other mkdn constructs; gfm; strikethrough',
     mkdn: '![[embed-doc-mkdn-strikethrough]]',
     html: '<p>\n'
         +   '<p>\n'
@@ -203,12 +203,12 @@ export const wikiEmbedCases: WikiRefTestCase[] = [
         + '</p>\n',
   },
   {
-    descr: 'wikiembed; w/ other mkdn constructs; footnote',
+    descr: 'wikiembed; w/ other mkdn constructs; gfm; footnote',
     mkdn: '![[embed-doc-mkdn-footnote]]',
     html: 'warn: markdown footnotes don\'t seem to have a standardized html format -- please supply target footnote html here',
   },
   {
-    descr: 'wikiembed; w/ other mkdn constructs; table',
+    descr: 'wikiembed; w/ other mkdn constructs; gfm; table',
     mkdn: '![[embed-doc-mkdn-table]]',
     html: '<p>\n'
         +   '<p>\n'
@@ -589,7 +589,7 @@ export const wikiEmbedCases: WikiRefTestCase[] = [
         + '</p>\n',
   },
   {
-    descr: 'wikiembed; w/ other mkdn constructs; header; section w/ strikethrough',
+    descr: 'wikiembed; w/ other mkdn constructs; header; gfm; section w/ strikethrough',
     mkdn: '![[embed-doc-header-mkdn#strikethrough]]',
     html: '<p>\n'
         +   '<p>\n'
@@ -613,12 +613,12 @@ export const wikiEmbedCases: WikiRefTestCase[] = [
         + '</p>\n',
   },
   {
-    descr: 'wikiembed; w/ other mkdn constructs; header; section w/ footnote',
+    descr: 'wikiembed; w/ other mkdn constructs; header; gfm; section w/ footnote',
     mkdn: '![[embed-doc-header-mkdn#footnote]]',
     html: 'warn: markdown footnotes don\'t seem to have a standardized html format -- please supply target footnote html here',
   },
   {
-    descr: 'wikiembed; w/ other mkdn constructs; header; section w/ table',
+    descr: 'wikiembed; w/ other mkdn constructs; header; gfm; section w/ table',
     mkdn: '![[embed-doc-header-mkdn#table]]',
     html: '<p>\n'
         +   '<p>\n'
