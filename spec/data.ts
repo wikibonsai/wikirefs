@@ -65,10 +65,13 @@ export const fileDataMap: TestFileData[] = [
     content: '![[cycle-self-embed-doc]]',
     media: 'markdown',
   },
+  // header level embeds
   {
-    filename: 'document.pdf',
-    href: '/tests/fixtures/document.pdf',
-    media: 'pdf',
+    filename: 'embed-doc-w-header',
+    title: 'Embedded Document with Header Text',
+    href: '/tests/fixtures/embed-doc-w-header',
+    content: 'Here is some content.\n\n## Header Text\n\nHeader content.',
+    media: 'markdown',
   },
   // mkdn; error states
   {
@@ -106,6 +109,12 @@ export const fileDataMap: TestFileData[] = [
     media: 'audio',
   },
   // document
+  // pdf
+  {
+    filename: 'document.pdf',
+    href: '/tests/fixtures/document.pdf',
+    media: 'pdf',
+  },
   // open office
   {
     filename: 'document.odt',

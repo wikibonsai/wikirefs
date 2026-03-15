@@ -28,25 +28,25 @@ export const wikiEmbedCases: WikiRefTestCase[] = [
         + '</p>\n'
         + '</p>\n',
   },
-  // headers
+  // headers (embed-doc-w-header has ## Header Text)
   {
     descr: 'wikiembed; md; header; html id (kebab-case)',
-    mkdn: '![[embed-doc#some-section]]',
+    mkdn: '![[embed-doc-w-header#header-text]]',
     html: '<p>\n'
         + '<p>\n'
         + '<div class="embed-wrapper">\n'
         + '<div class="embed-title">\n'
-        + '<a class="wiki embed" href="/tests/fixtures/embed-doc#some-section" data-href="/tests/fixtures/embed-doc#some-section">\n'
-        + 'embedded document\n'
+        + '<a class="wiki embed" href="/tests/fixtures/embed-doc-w-header#header-text" data-href="/tests/fixtures/embed-doc-w-header#header-text">\n'
+        + 'embedded document with header text\n'
         + '</a>\n'
         + '</div>\n'
         + '<div class="embed-link">\n'
-        + '<a class="embed-link-icon" href="/tests/fixtures/embed-doc#some-section" data-href="/tests/fixtures/embed-doc#some-section">\n'
+        + '<a class="embed-link-icon" href="/tests/fixtures/embed-doc-w-header#header-text" data-href="/tests/fixtures/embed-doc-w-header#header-text">\n'
         + '<i class="link-icon"></i>\n'
         + '</a>\n'
         + '</div>\n'
         + '<div class="embed-content">\n'
-        + '<p>Content of that section only.</p>\n'
+        + '<p>Header content.</p>\n'
         + '\n'
         + '</div>\n'
         + '</div>\n'
@@ -55,22 +55,22 @@ export const wikiEmbedCases: WikiRefTestCase[] = [
   },
   {
     descr: 'wikiembed; md; header; header text (Title Case)',
-    mkdn: '![[embed-doc#Some Section]]',
+    mkdn: '![[embed-doc-w-header#Header Text]]',
     html: '<p>\n'
         + '<p>\n'
         + '<div class="embed-wrapper">\n'
         + '<div class="embed-title">\n'
-        + '<a class="wiki embed" href="/tests/fixtures/embed-doc#some-section" data-href="/tests/fixtures/embed-doc#some-section">\n'
-        + 'embedded document\n'
+        + '<a class="wiki embed" href="/tests/fixtures/embed-doc-w-header#header-text" data-href="/tests/fixtures/embed-doc-w-header#header-text">\n'
+        + 'embedded document with header text\n'
         + '</a>\n'
         + '</div>\n'
         + '<div class="embed-link">\n'
-        + '<a class="embed-link-icon" href="/tests/fixtures/embed-doc#some-section" data-href="/tests/fixtures/embed-doc#some-section">\n'
+        + '<a class="embed-link-icon" href="/tests/fixtures/embed-doc-w-header#header-text" data-href="/tests/fixtures/embed-doc-w-header#header-text">\n'
         + '<i class="link-icon"></i>\n'
         + '</a>\n'
         + '</div>\n'
         + '<div class="embed-content">\n'
-        + '<p>Content of that section only.</p>\n'
+        + '<p>Header content.</p>\n'
         + '\n'
         + '</div>\n'
         + '</div>\n'
@@ -79,22 +79,26 @@ export const wikiEmbedCases: WikiRefTestCase[] = [
   },
   {
     descr: 'wikiembed; md; header; empty (full-doc embed)',
-    mkdn: '![[embed-doc#]]',
+    mkdn: '![[embed-doc-w-header#]]',
     html: '<p>\n'
         + '<p>\n'
         + '<div class="embed-wrapper">\n'
         + '<div class="embed-title">\n'
-        + '<a class="wiki embed" href="/tests/fixtures/embed-doc" data-href="/tests/fixtures/embed-doc">\n'
-        + 'embedded document\n'
+        + '<a class="wiki embed" href="/tests/fixtures/embed-doc-w-header" data-href="/tests/fixtures/embed-doc-w-header">\n'
+        + 'embedded document with header text\n'
         + '</a>\n'
         + '</div>\n'
         + '<div class="embed-link">\n'
-        + '<a class="embed-link-icon" href="/tests/fixtures/embed-doc" data-href="/tests/fixtures/embed-doc">\n'
+        + '<a class="embed-link-icon" href="/tests/fixtures/embed-doc-w-header" data-href="/tests/fixtures/embed-doc-w-header">\n'
         + '<i class="link-icon"></i>\n'
         + '</a>\n'
         + '</div>\n'
         + '<div class="embed-content">\n'
         + '<p>Here is some content.</p>\n'
+        + '\n'
+        + '<h2>Header Text</h2>\n'
+        + '\n'
+        + '<p>Header content.</p>\n'
         + '\n'
         + '</div>\n'
         + '</div>\n'
