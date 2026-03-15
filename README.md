@@ -229,9 +229,32 @@ Normalize a string into a URL-safe slug (e.g. for filenames or header fragments)
 ```js
 import { slugify } from 'wikirefs';
 
-slugify('File Name');         // 'filen-ame'
+slugify('File Name');         // 'file-name'
 slugify('Header Text ');      // 'header-text'
 slugify('  Some Section  ');  // 'some-section'
+```
+
+### `getHeaderSection(content: string, headerRef: string): string | undefined`
+
+Extract the markdown section for a given header, for embed rendering. The section runs from the end of the matching header line until the next header of the same or higher level, or end of content. Supports both ATX (`#`–`######`) and setext (underlined) headers. Returns the section markdown (after the header line), or `undefined` if no matching header.
+
+#### Parameters
+
+##### `content: string`
+
+The full markdown document to search.
+
+##### `headerRef: string`
+
+The header identifier, either as id/slug (e.g. `header-text`) or raw text (e.g. `Header Text`).
+
+```js
+import { getHeaderSection } from 'wikirefs';
+
+const md = 'Here is some content.\n\n## Header Text\n\nHeader content.\n';
+getHeaderSection(md, 'header-text');   // 'Header content.'
+getHeaderSection(md, 'Header Text');  // 'Header content.'
+getHeaderSection(md, 'missing');      // undefined
 ```
 
 ### Regex API
