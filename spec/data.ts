@@ -73,6 +73,46 @@ export const fileDataMap: TestFileData[] = [
     content: 'Here is some content.\n\n## Header Text\n\nHeader content.',
     media: 'markdown',
   },
+  {
+    filename: 'embed-doc-header-mkdn',
+    title: 'Embed Doc Header Constructs',
+    href: '/tests/fixtures/embed-doc-header-mkdn',
+    content: 'Preamble.\n\n'
+      + '## Bold\n\n'
+      + '**bold text**\n\n'
+      + '## Italic\n\n'
+      + '_italic text_\n\n'
+      + '## List Section\n\n'
+      + '- item one\n- item two\n\n'
+      + '## Blockquote\n\n'
+      + '> quoted line\n\n'
+      + '## Markdown Link\n\n'
+      + 'Text with [a link](http://example.com).\n\n'
+      + '## Reference Link\n\n'
+      + 'See [reference][1].\n\n'
+      + '[1]: http://example.com\n\n'
+      + '## Strikethrough\n\n'
+      + '~~strikethrough text~~\n\n'
+      + '## Footnote\n\n'
+      + 'Body[^1].\n\n'
+      + '[^1]: note text\n\n'
+      + '## Table\n\n'
+      + '| A | B |\n'
+      + '| - | - |\n'
+      + '| C | D |\n\n'
+      + '## Code Block\n\n'
+      + '```js\nconst x = 1;\n```\n\n'
+      + '## Nested Embed\n\n'
+      + 'Content with ![[embed-doc]] here.\n',
+    media: 'markdown',
+  },
+  {
+    filename: 'cycle-self-header-embed-doc',
+    title: 'Cycle Self Header Embed Document',
+    href: '/tests/fixtures/cycle-self-header-embed-doc',
+    content: 'Intro.\n\n## Section\n\nContent with ![[cycle-self-header-embed-doc#section]].',
+    media: 'markdown',
+  },
   // mkdn; error states
   {
     filename: 'embed-doc-no-content',
