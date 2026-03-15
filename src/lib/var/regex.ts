@@ -144,6 +144,10 @@ export namespace RGX {
                                       + MARKER.EMBED.source
                                       + MARKER.OPEN.source
                                         + CAP_GRP.FILENAME.source                                        // 1
+                                        + '(?:'
+                                          + MARKER.HEADER.source
+                                          + CAP_GRP.HEADER.source                                         // 2
+                                        + ')?'
                                       + MARKER.CLOSE.source
                                     + ')'
                                   , 'i'),
@@ -250,13 +254,12 @@ export namespace RGX {
                                     + ')'
                                   , 'i'),
     HEADER            : new RegExp(
-                                    MARKER.OPEN.source
-                                    + '(?:' + VALID_CHARS.FILENAME.source + ')'
-                                    + MARKER.HEADER.source
-                                    + CAP_GRP.HEADER.source                                            // 1
+                                    MARKER.HEADER.source
+                                    + CAP_GRP.HEADER.source                                             // 1
                                     + '(?:'
                                       + MARKER.LABEL.source
-                                      + '|' + MARKER.CLOSE.source
+                                      + '|'
+                                      + MARKER.CLOSE.source
                                     + ')'
                                   , 'i'),
     // BLOCK_ID         : new RegExp(MARKER.LINK_LEFT.source

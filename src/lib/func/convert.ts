@@ -61,12 +61,20 @@ export function mkdnToWiki(content: string, opts?: ConvertOpts): string | undefi
   // embeds
   if ((kind === CONST.WIKI.REF) || (kind === CONST.WIKI.EMBED)) {
     content = content.replace(RGX_MKDN_IMAGE, (match: string, label: string, uri: string) => {
-      const filename: string | undefined = extractFileName(uri, format);
+      let header: string = '';
+      let cleanUri: string = uri;
+      const hashIndex = uri.indexOf('#');
+      if (hashIndex !== -1) {
+        header = uri.substring(hashIndex + 1);
+        cleanUri = uri.substring(0, hashIndex);
+      }
+      const filename: string | undefined = extractFileName(cleanUri, format);
       if (filename) {
-        return CONST.MARKER.EMBED
+        const wikiBase = CONST.MARKER.EMBED
               + CONST.MARKER.OPEN
               + filename
-              + CONST.MARKER.CLOSE;
+              + (header ? CONST.MARKER.HEADER + header : '');
+        return wikiBase + CONST.MARKER.CLOSE;
       }
       // simply put back if unable to determine wiki-equivalent
       return `![${label}](${uri})`;
@@ -172,7 +180,8 @@ export function wikiToMkdn(content: string, opts?: ConvertOpts): string | undefi
           console.warn('invalid uri from file uri: ', linkedFileUri);
           continue;
         }
-        mkdnContent += `![](${uri})`;
+        const fullUri: string = m.header ? `${uri}#${slugify(m.header)}` : uri;
+        mkdnContent += `![](${fullUri})`;
         curPos = m.start + m.text.length;
       // convert to markdown link -- markdown, audio, video
       } else if ((m.media === CONST.MEDIA.MD)
@@ -188,7 +197,8 @@ export function wikiToMkdn(content: string, opts?: ConvertOpts): string | undefi
           console.warn('invalid uri from file uri: ', linkedFileUri);
           continue;
         }
-        mkdnContent += `[${m.filename[0]}](${uri})`;
+        const fullUri: string = m.header ? `${uri}#${slugify(m.header)}` : uri;
+        mkdnContent += `[${m.filename[0]}](${fullUri})`;
         curPos = m.start + m.text.length;
       }
     // just add the match back since we are not processing it

@@ -180,6 +180,12 @@ describe('convert', () => {
           ocontent: '![[img.png]]',
         }));
 
+        it('embed; header', testMkdnToWiki({
+          icontent: '![](/fname-a#header-text)',
+          opts: { kind: 'wikiembed' },
+          ocontent: '![[fname-a#header-text]]',
+        }));
+
         it.skip('audio', testMkdnToWiki({
           icontent: '![](/aud.mp3)',
           opts: {},
@@ -399,6 +405,18 @@ describe('convert', () => {
           icontent: '![[img.png]]',
           opts: {},
           ocontent: '![](/img.png)',
+        }));
+
+        it('embed; header', testWikiToMkdn({
+          icontent: 'here is an embed: ![[fname-a#header-text]]',
+          opts: {},
+          ocontent: 'here is an embed: [fname-a](/fname-a#header-text)',
+        }));
+
+        it('embed; header; spaces slugified', testWikiToMkdn({
+          icontent: '![[fname-a#Header Text]]',
+          opts: {},
+          ocontent: '[fname-a](/fname-a#header-text)',
         }));
 
         it.skip('audio', testWikiToMkdn({

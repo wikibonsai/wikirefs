@@ -53,6 +53,7 @@ describe('scan()', () => {
         text: '![[fname-a]]',
         start: 90,
         filename: ['fname-a', 93],
+        header: '',
       }],
     }));
 
@@ -480,8 +481,49 @@ describe('scan()', () => {
         start: 0,
         filename: ['wikiembed', 3],
         media: 'markdown',
+        header: '',
       }]
     }));
+
+    describe('header', () => {
+
+      it('html id (kebab-case)', testScan({
+        mkdn: '![[embed-doc#header-text]]',
+        expdData: [{
+          kind: 'wikiembed',
+          text: '![[embed-doc#header-text]]',
+          start: 0,
+          filename: ['embed-doc', 3],
+          media: 'markdown',
+          header: 'header-text',
+        }]
+      }));
+
+      it('header text (Title Case)', testScan({
+        mkdn: '![[embed-doc#Header Text]]',
+        expdData: [{
+          kind: 'wikiembed',
+          text: '![[embed-doc#Header Text]]',
+          start: 0,
+          filename: ['embed-doc', 3],
+          media: 'markdown',
+          header: 'Header Text',
+        }]
+      }));
+
+      it('empty (full-doc embed)', testScan({
+        mkdn: '![[embed-doc#]]',
+        expdData: [{
+          kind: 'wikiembed',
+          text: '![[embed-doc#]]',
+          start: 0,
+          filename: ['embed-doc', 3],
+          media: 'markdown',
+          header: '',
+        }]
+      }));
+
+    });
 
   });
 
@@ -744,7 +786,8 @@ Then there is a :typed::[[wikilink-typed]] and [[wikilink-untyped]].
             kind: 'wikiembed',
             media: 'markdown',
             start: 335,
-            text: '![[wikiembed-mkdn]]'
+            text: '![[wikiembed-mkdn]]',
+            header: '',
           },
           {
             filename: [
@@ -754,7 +797,8 @@ Then there is a :typed::[[wikilink-typed]] and [[wikilink-untyped]].
             kind: 'wikiembed',
             media: 'image',
             start: 355,
-            text: '![[wikiembed-img.png]]'
+            text: '![[wikiembed-img.png]]',
+            header: '',
           },
           {
             filename: [
@@ -764,7 +808,8 @@ Then there is a :typed::[[wikilink-typed]] and [[wikilink-untyped]].
             kind: 'wikiembed',
             media: 'audio',
             start: 378,
-            text: '![[wikiembed-aud.mp3]]'
+            text: '![[wikiembed-aud.mp3]]',
+            header: '',
           },
           {
             filename: [
@@ -774,7 +819,8 @@ Then there is a :typed::[[wikilink-typed]] and [[wikilink-untyped]].
             kind: 'wikiembed',
             media: 'video',
             start: 401,
-            text: '![[wikiembed-vid.mp4]]'
+            text: '![[wikiembed-vid.mp4]]',
+            header: '',
           }
         ],
       }));
@@ -960,6 +1006,7 @@ Then there is a :typed::[[wikilink-typed]] and [[wikilink-untyped]].
           start: 2,
           filename: ['embed', 5],
           media: 'markdown',
+          header: '',
         }]
       }));
 
@@ -1013,6 +1060,7 @@ Then there is a :typed::[[wikilink-typed]] and [[wikilink-untyped]].
           start: 2,
           filename: ['embed', 5],
           media: 'markdown',
+          header: '',
         }]
       }));
 

@@ -231,6 +231,21 @@ describe('renameHeader()', () => {
       expdMkdn: 'First [[filename#new-header]] and second [[filename#new-header]].',
     }));
 
+    it('embed', testRenameHeader({
+      mkdn: 'Embed section: ![[filename#old-header]].',
+      expdMkdn: 'Embed section: ![[filename#new-header]].',
+    }));
+
+    it('embed and link; scoped to filename', testRenameHeader({
+      mkdn: '[[other#old-header]] and ![[filename#old-header]] and [[filename#old-header]].',
+      expdMkdn: '[[other#old-header]] and ![[filename#new-header]] and [[filename#new-header]].',
+    }));
+
+    it('mixed; link and embed; same filename; both renamed', testRenameHeader({
+      mkdn: 'Link [[filename#old-header]] and embed ![[filename#old-header]].',
+      expdMkdn: 'Link [[filename#new-header]] and embed ![[filename#new-header]].',
+    }));
+
   });
 
   describe('without filename option (global)', () => {
@@ -247,6 +262,16 @@ describe('renameHeader()', () => {
       expdMkdn: 'Both [[file-a#new-header]] and [[file-b#new-header]] get renamed.',
     }));
 
+    it('renames header in links and embeds', testRenameHeaderGlobal({
+      mkdn: 'Link [[file-a#old-header]] and embed ![[file-b#old-header]].',
+      expdMkdn: 'Link [[file-a#new-header]] and embed ![[file-b#new-header]].',
+    }));
+
+    it('mixed; links and embeds; all renamed', testRenameHeaderGlobal({
+      mkdn: '[[file-a#old-header]] and ![[file-a#old-header]] and [[file-b#old-header]] and ![[file-b#old-header]].',
+      expdMkdn: '[[file-a#new-header]] and ![[file-a#new-header]] and [[file-b#new-header]] and ![[file-b#new-header]].',
+    }));
+
   });
 
   describe('shared', () => {
@@ -259,6 +284,12 @@ describe('renameHeader()', () => {
 
     it('escaped; wikilinks inside code blocks are not renamed', () => {
       const mkdn: string = '```\n[[filename#old-header]]\n```\nHere is some content.';
+      const actlMkdn: string = wikirefs.renameHeader(oldHeader, newHeader, mkdn, { filename });
+      assert.strictEqual(actlMkdn, mkdn);
+    });
+
+    it('escaped; wikiembeds inside code blocks are not renamed', () => {
+      const mkdn: string = '```\n![[filename#old-header]]\n```\nHere is some content.';
       const actlMkdn: string = wikirefs.renameHeader(oldHeader, newHeader, mkdn, { filename });
       assert.strictEqual(actlMkdn, mkdn);
     });

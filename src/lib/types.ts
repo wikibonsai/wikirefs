@@ -22,6 +22,7 @@ export interface wikiembed {
   doctype?: string; // only for mkdn
   filename: string;
   media: string;
+  header: string;
 }
 
 // export interface WikiAttrData extends AttrDataItem {

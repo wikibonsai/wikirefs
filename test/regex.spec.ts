@@ -419,6 +419,7 @@ describe('RGX', () => {
         match: [
           '![[wikilink]]',
           'wikilink',
+          undefined,
         ],
       }));
 
@@ -433,6 +434,40 @@ describe('RGX', () => {
         content: '![[wikilink|label]].',
         match: null,
       }));
+
+      describe('header', () => {
+
+        it('html id (kebab-case)', testRegex({
+          regex: RGX.WIKI.EMBED,
+          content: '![[embed-doc#header-text]].',
+          match: [
+            '![[embed-doc#header-text]]',
+            'embed-doc',
+            'header-text',
+          ],
+        }));
+
+        it('header text (Title Case)', testRegex({
+          regex: RGX.WIKI.EMBED,
+          content: '![[embed-doc#Header Text]].',
+          match: [
+            '![[embed-doc#Header Text]]',
+            'embed-doc',
+            'Header Text',
+          ],
+        }));
+
+        it('empty', testRegex({
+          regex: RGX.WIKI.EMBED,
+          content: '![[embed-doc#]].',
+          match: [
+            '![[embed-doc#]]',
+            'embed-doc',
+            '',
+          ],
+        }));
+
+      });
 
     });
 
@@ -655,11 +690,12 @@ describe('RGX', () => {
 
     describe('HEADER', () => {
 
+      // GET.HEADER matches fragment only: #header (group 1) then | or ]]
       it('untyped; html id (kebab-case)', testRegex({
         regex: RGX.GET.HEADER,
         content: '[[filename#header-text]]',
         match: [
-          '[[filename#header-text]]',
+          '#header-text]]',
           'header-text',
         ],
       }));
@@ -668,7 +704,7 @@ describe('RGX', () => {
         regex: RGX.GET.HEADER,
         content: '[[filename#Header Text]]',
         match: [
-          '[[filename#Header Text]]',
+          '#Header Text]]',
           'Header Text',
         ],
       }));
@@ -677,7 +713,7 @@ describe('RGX', () => {
         regex: RGX.GET.HEADER,
         content: '[[filename#header-text|See Results]]',
         match: [
-          '[[filename#header-text|',
+          '#header-text|',
           'header-text',
         ],
       }));
@@ -686,7 +722,7 @@ describe('RGX', () => {
         regex: RGX.GET.HEADER,
         content: ':linktype::[[filename#header-text]].',
         match: [
-          '[[filename#header-text]]',
+          '#header-text]]',
           'header-text',
         ],
       }));
@@ -695,7 +731,7 @@ describe('RGX', () => {
         regex: RGX.GET.HEADER,
         content: ':linktype::[[filename#Header Text|See Results]].',
         match: [
-          '[[filename#Header Text|',
+          '#Header Text|',
           'Header Text',
         ],
       }));

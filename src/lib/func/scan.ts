@@ -33,6 +33,7 @@ export interface WikiLinkResult extends ScanResult {
 export interface WikiEmbedResult extends ScanResult {
   filename: [string, number];
   media: string;
+  header: string;
 }
 
 export function scan(content: string, opts?: ScanOpts): (WikiAttrResult | WikiLinkResult | WikiEmbedResult)[] {
@@ -132,6 +133,7 @@ export function scan(content: string, opts?: ScanOpts): (WikiAttrResult | WikiLi
       if (embedMatch) {
         const matchText      : string = embedMatch[0];
         const fileNameText   : string = embedMatch[1];
+        const headerText     : string | undefined = embedMatch[2];
 
         const wikilinkOffset = embedMatch.index;
         const filenameOffset = matchText.indexOf(fileNameText);
@@ -149,6 +151,7 @@ export function scan(content: string, opts?: ScanOpts): (WikiAttrResult | WikiLi
               start: embedMatch.index,
               filename: [fileNameText, wikilinkOffset + filenameOffset],
               media: getMediaKind(fileNameText),
+              header: headerText !== undefined ? headerText : '',
             });
           }
         }

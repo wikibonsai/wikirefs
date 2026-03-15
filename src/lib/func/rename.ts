@@ -20,23 +20,22 @@ export function renameHeader(
   content: string,
   opts?: { filename?: string },
 ): string {
-  // scoped: only rename headers in wikilinks matching the given filename
+  // Only match #header inside [[...]] or ![[...]] (group 1 = header)
+  const linkOrEmbed: string = '(?:' + RGX.MARKER.EMBED.source + ')?'
+                              + RGX.MARKER.OPEN.source
+                              + '(?:' + RGX.VALID_CHARS.FILENAME.source + ')';
+  let headerRegex: RegExp;
   if (opts?.filename) {
     const escapedFname: string = opts.filename.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    const scopedRegex: RegExp = new RegExp(
-      RGX.MARKER.OPEN.source
-      + '(?:' + escapedFname + ')'
-      + RGX.MARKER.HEADER.source
-      + RGX.CAP_GRP.HEADER.source
-      + '(?:'
-        + RGX.MARKER.LABEL.source
-        + '|' + RGX.MARKER.CLOSE.source
-      + ')'
-    , 'g');
-    return string.replace(scopedRegex, oldHeader, newHeader, content);
-  // global: rename headers across all filenames
+    headerRegex = new RegExp(
+                              '(?:' + RGX.MARKER.EMBED.source + ')?'
+                              + RGX.MARKER.OPEN.source
+                              + '(?:' + escapedFname + ')'
+                              + RGX.GET.HEADER.source,
+                              'gi',
+                            );
   } else {
-    const wikiTextHeader: RegExp = new RegExp(RGX.GET.HEADER, 'g');
-    return string.replace(wikiTextHeader, oldHeader, newHeader, content);
+    headerRegex = new RegExp(linkOrEmbed + RGX.GET.HEADER.source, 'gi');
   }
+  return string.replace(headerRegex, oldHeader, newHeader, content);
 }

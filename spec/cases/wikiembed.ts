@@ -28,6 +28,79 @@ export const wikiEmbedCases: WikiRefTestCase[] = [
         + '</p>\n'
         + '</p>\n',
   },
+  // headers
+  {
+    descr: 'wikiembed; md; header; html id (kebab-case)',
+    mkdn: '![[embed-doc#some-section]]',
+    html: '<p>\n'
+        + '<p>\n'
+        + '<div class="embed-wrapper">\n'
+        + '<div class="embed-title">\n'
+        + '<a class="wiki embed" href="/tests/fixtures/embed-doc#some-section" data-href="/tests/fixtures/embed-doc#some-section">\n'
+        + 'embedded document\n'
+        + '</a>\n'
+        + '</div>\n'
+        + '<div class="embed-link">\n'
+        + '<a class="embed-link-icon" href="/tests/fixtures/embed-doc#some-section" data-href="/tests/fixtures/embed-doc#some-section">\n'
+        + '<i class="link-icon"></i>\n'
+        + '</a>\n'
+        + '</div>\n'
+        + '<div class="embed-content">\n'
+        + '<p>Content of that section only.</p>\n'
+        + '\n'
+        + '</div>\n'
+        + '</div>\n'
+        + '</p>\n'
+        + '</p>\n',
+  },
+  {
+    descr: 'wikiembed; md; header; header text (Title Case)',
+    mkdn: '![[embed-doc#Some Section]]',
+    html: '<p>\n'
+        + '<p>\n'
+        + '<div class="embed-wrapper">\n'
+        + '<div class="embed-title">\n'
+        + '<a class="wiki embed" href="/tests/fixtures/embed-doc#some-section" data-href="/tests/fixtures/embed-doc#some-section">\n'
+        + 'embedded document\n'
+        + '</a>\n'
+        + '</div>\n'
+        + '<div class="embed-link">\n'
+        + '<a class="embed-link-icon" href="/tests/fixtures/embed-doc#some-section" data-href="/tests/fixtures/embed-doc#some-section">\n'
+        + '<i class="link-icon"></i>\n'
+        + '</a>\n'
+        + '</div>\n'
+        + '<div class="embed-content">\n'
+        + '<p>Content of that section only.</p>\n'
+        + '\n'
+        + '</div>\n'
+        + '</div>\n'
+        + '</p>\n'
+        + '</p>\n',
+  },
+  {
+    descr: 'wikiembed; md; header; empty (full-doc embed)',
+    mkdn: '![[embed-doc#]]',
+    html: '<p>\n'
+        + '<p>\n'
+        + '<div class="embed-wrapper">\n'
+        + '<div class="embed-title">\n'
+        + '<a class="wiki embed" href="/tests/fixtures/embed-doc" data-href="/tests/fixtures/embed-doc">\n'
+        + 'embedded document\n'
+        + '</a>\n'
+        + '</div>\n'
+        + '<div class="embed-link">\n'
+        + '<a class="embed-link-icon" href="/tests/fixtures/embed-doc" data-href="/tests/fixtures/embed-doc">\n'
+        + '<i class="link-icon"></i>\n'
+        + '</a>\n'
+        + '</div>\n'
+        + '<div class="embed-content">\n'
+        + '<p>Here is some content.</p>\n'
+        + '\n'
+        + '</div>\n'
+        + '</div>\n'
+        + '</p>\n'
+        + '</p>\n',
+  },
   {
     descr: 'wikiembed; md; nested',
     mkdn: '![[nested-embed-doc]]',

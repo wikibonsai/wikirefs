@@ -50,6 +50,7 @@ In the given `content` string conversions occur as shown below (file extensions 
 | `[filename](url#header)`   | `[[filename#header]]`         |
 | `[label](url#header)`      | `[[filename#header\|label]]`  |
 | `![alt](img-url)`          | `![[filename]]`               |
+| `![alt](img-url#header)`   | `![[filename#header]]`        |
 
 *Filename is extracted from the URL based on the format option.*
 
@@ -185,6 +186,7 @@ WikiLinkResult extends ScanResult {
 WikiEmbedResult extends ScanResult {
   filename: [string, number];
   media: string;
+  header: string;
 }
 ```
 
@@ -317,10 +319,11 @@ const labelText    : string = match[4]; // 'label'
 ```js
 import * as wikirefs from 'wikirefs';
 
-const match = wikirefs.RGX.WIKI.EMBED.exec('![[filename.ext]]');
+const match = wikirefs.RGX.WIKI.EMBED.exec('![[filename#header]]');
 
-const matchText    : string = match[0]; // '![[filename.ext]]'
-const fileNameText : string = match[1]; // 'filename.ext'
+const matchText    : string = match[0]; // '![[filename]]'
+const fileNameText : string = match[1]; // 'filename'
+const headerText   : string = match[2]; // 'header-text'
 ```
 
 ## A Note On Terminology

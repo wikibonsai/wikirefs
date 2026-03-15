@@ -352,11 +352,15 @@ Resulting HTML:
 <a class="wiki link" href="url#conclusion" data-href="url#conclusion">label</a>
 ```
 
-Empty header references are treated as file level wikilinks without headers:
+Empty header references are treated as file level wikilinks without headers.
+
+Markdown:
 
 ```markdown
 [[filename#]]
 ```
+
+Resulting HTML:
 
 ```html
 <a class="wiki link" href="url" data-href="url">title</a>
@@ -364,9 +368,7 @@ Empty header references are treated as file level wikilinks without headers:
 
 ## WikiEmbeds
 
-**WikiEmbeds** are also inline constructs, but render as blocks. They provide links to the linked content, but also embed the file's actual content in the current file when rendered. Markdown files, audio, images, and video are all supported.
-
-Wikiembeds do not currently support [headers](#header-level-links) or [labels](#labelled).
+**WikiEmbeds** are also inline constructs, but render as blocks. They provide links to the linked content, but also embed the file's actual content in the current file when rendered. Markdown files, audio, images, and video are all supported. Wikiembeds do not support [labels](#labelled).
 
 ### Markdown
 
@@ -380,6 +382,84 @@ File to be embedded:
 
 ```markdown
 Here is some content.
+```
+
+Resulting HTML:
+
+```html
+<p>
+  <div class="embed-wrapper">
+    <div class="embed-title">
+      <a class="wiki embed" href="/tests/fixtures/embed-doc" data-href="/tests/fixtures/embed-doc">
+        embedded document
+      </a>
+    </div>
+    <div class="embed-link">
+      <a class="embed-link-icon" href="/tests/fixtures/embed-doc" data-href="/tests/fixtures/embed-doc">
+        <i class="link-icon"></i>
+      </a>
+    </div>
+    <div class="embed-content">
+      <p>Here is some content.</p>
+    </div>
+  </div>
+</p>
+```
+
+### Header Level Embeds
+
+Obsidian-equivalent behavior: appending a `#header` fragment embeds only that section's content (from that header until the next header of the same or higher level, or end of file). The link href and data-href include the fragment so the title/link still target the full file at that section.
+
+ID format (kebab-case, preferred):
+
+```markdown
+![[filename#header-text]]
+```
+
+Header text format:
+
+```markdown
+![[filename#Header Text]]
+```
+
+File to be embedded:
+
+```markdown
+Here is some content.
+
+# Header Text
+
+Another Section.
+```
+
+Resulting HTML (section content only in `embed-content`; href/data-href include fragment):
+
+```html
+<p>
+  <div class="embed-wrapper">
+    <div class="embed-title">
+      <a class="wiki embed" href="/tests/fixtures/filename#header-text" data-href="/tests/fixtures/filename#header-text">
+        Header Text
+      </a>
+    </div>
+    <div class="embed-link">
+      <a class="embed-link-icon" href="/tests/fixtures/filename#header-text" data-href="/tests/fixtures/filename#header-text">
+        <i class="link-icon"></i>
+      </a>
+    </div>
+    <div class="embed-content">
+      <p>Another Section.</p>
+    </div>
+  </div>
+</p>
+```
+
+Empty header references are treated as file level wikiembeds without headers.
+
+Markdown:
+
+```markdown
+[[filename#]]
 ```
 
 Resulting HTML:
