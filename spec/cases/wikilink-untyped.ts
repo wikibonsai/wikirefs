@@ -114,16 +114,6 @@ export const wikiLinkUntypedCases: WikiRefTestCase[] = [
     html: '<p><a class="wiki link" href="/tests/fixtures/fname-a#setext-h1" data-href="/tests/fixtures/fname-a#setext-h1">title a</a>.</p>\n',
   },
   {
-    descr: 'wikilink; untyped; header; labelled; kebab-case',
-    mkdn: '[[fname-a#header-text|label]].',
-    html: '<p><a class="wiki link" href="/tests/fixtures/fname-a#header-text" data-href="/tests/fixtures/fname-a#header-text">label</a>.</p>\n',
-  },
-  {
-    descr: 'wikilink; untyped; header; labelled; Title Case',
-    mkdn: '[[fname-a#Header Text|label]].',
-    html: '<p><a class="wiki link" href="/tests/fixtures/fname-a#header-text" data-href="/tests/fixtures/fname-a#header-text">label</a>.</p>\n',
-  },
-  {
     descr: 'wikilink; untyped; header; empty',
     mkdn: '[[fname-a#]].',
     html: '<p><a class="wiki link" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a>.</p>\n',
@@ -148,6 +138,16 @@ export const wikiLinkUntypedCases: WikiRefTestCase[] = [
     descr: 'wikilink; untyped; labelled; w/ newline does not trigger attr',
     mkdn: '[[fname-a|label]]\n',
     html: '<p><a class="wiki link" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">label</a></p>\n',
+  },
+  {
+    descr: 'wikilink; untyped; labelled; header; kebab-case',
+    mkdn: '[[fname-a#header-text|label]].',
+    html: '<p><a class="wiki link" href="/tests/fixtures/fname-a#header-text" data-href="/tests/fixtures/fname-a#header-text">label</a>.</p>\n',
+  },
+  {
+    descr: 'wikilink; untyped; labelled; header; Title Case',
+    mkdn: '[[fname-a#Header Text|label]].',
+    html: '<p><a class="wiki link" href="/tests/fixtures/fname-a#header-text" data-href="/tests/fixtures/fname-a#header-text">label</a>.</p>\n',
   },
   // alongside/within other markdown constructs
   {

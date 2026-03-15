@@ -371,7 +371,7 @@ describe('RGX', () => {
           ],
         }));
 
-        it('untyped; header and label', testRegex({
+        it('untyped; labelled; header; kebab-case', testRegex({
           regex: RGX.WIKI.LINK,
           content: '[[filename#header-text|See Results]].',
           match: [
@@ -395,7 +395,7 @@ describe('RGX', () => {
           ],
         }));
 
-        it('typed; header text (Title Case) and label', testRegex({
+        it('typed; labelled; header; Title Case', testRegex({
           regex: RGX.WIKI.LINK,
           content: ':linktype::[[filename#Header Text|See Results]].',
           match: [
@@ -771,7 +771,7 @@ describe('RGX', () => {
         ],
       }));
 
-      it('typed; header text (Title Case) and label', testRegex({
+      it('typed; labelled; header; Title Case', testRegex({
         regex: RGX.GET.HEADER,
         content: ':linktype::[[filename#Header Text|See Results]].',
         match: [

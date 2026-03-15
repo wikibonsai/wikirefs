@@ -110,7 +110,7 @@ describe('convert', () => {
           ocontent: '[[fname-a|label]]',
         }));
 
-        it('label with header', testMkdnToWiki({
+        it('labelled; header', testMkdnToWiki({
           icontent: '[label](/fname-a#header)',
           opts: {},
           ocontent: '[[fname-a#header|label]]',
@@ -379,7 +379,7 @@ describe('convert', () => {
           ocontent: '[fname-a](/fname-a#header)',
         }));
 
-        it('header with label', testWikiToMkdn({
+        it('labelled; header', testWikiToMkdn({
           icontent: '[[fname-a#header|label]]',
           opts: {},
           ocontent: '[label](/fname-a#header)',
@@ -391,7 +391,7 @@ describe('convert', () => {
           ocontent: '[fname-a](/fname-a#my-header)',
         }));
 
-        it('header with label; spaces slugified', testWikiToMkdn({
+        it('labelled; header; spaces slugified', testWikiToMkdn({
           icontent: '[[fname-a#My Header|label]]',
           opts: {},
           ocontent: '[label](/fname-a#my-header)',

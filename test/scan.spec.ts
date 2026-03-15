@@ -316,7 +316,7 @@ describe('scan()', () => {
         }],
       }));
 
-      it('header; labelled; html id (kebab-case)', testScan({
+      it('labelled; header; html id (kebab-case)', testScan({
         mkdn: '[[filename#header-text|label]]',
         expdData: [{
           kind: 'wikilink',
@@ -329,7 +329,7 @@ describe('scan()', () => {
         }],
       }));
 
-      it('header; labelled; header text (Title Case)', testScan({
+      it('labelled; header; header text (Title Case)', testScan({
         mkdn: '[[filename#Header Text|label]]',
         expdData: [{
           kind: 'wikilink',
@@ -437,7 +437,7 @@ describe('scan()', () => {
         }],
       }));
 
-      it('header; labelled; html id (kebab-case)', testScan({
+      it('labelled; header; html id (kebab-case)', testScan({
         mkdn: ':linktype::[[filename#header-text|label]]',
         expdData: [{
           kind: 'wikilink',
@@ -450,7 +450,7 @@ describe('scan()', () => {
         }],
       }));
 
-      it('header; labelled; header text (Title Case)', testScan({
+      it('labelled; header; header text (Title Case)', testScan({
         mkdn: ':linktype::[[filename#Header Text|label]]',
         expdData: [{
           kind: 'wikilink',

@@ -140,12 +140,12 @@ describe('renameFileName()', () => {
         expdMkdn: 'See :linktype::[[hello-world#Some Section]] for details.',
       }));
 
-      it('untyped; html id (kebab-case); labelled', testRenameFileName({
+      it('untyped; labelled; header; kebab-case', testRenameFileName({
         mkdn: 'See [[wikilink#some-section|Jump to section]].',
         expdMkdn: 'See [[hello-world#some-section|Jump to section]].',
       }));
 
-      it('typed; html id (kebab-case); labelled', testRenameFileName({
+      it('typed; labelled; header; Title Case', testRenameFileName({
         mkdn: 'See :linktype::[[wikilink#Some Section|Jump to section]].',
         expdMkdn: 'See :linktype::[[hello-world#Some Section|Jump to section]].',
       }));
