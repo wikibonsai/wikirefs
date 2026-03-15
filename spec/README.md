@@ -408,7 +408,7 @@ Resulting HTML:
 
 ### Header Level Embeds
 
-Obsidian-equivalent behavior: appending a `#header` fragment embeds only that section's content (from that header until the next header of the same or higher level, or end of file). The link href and data-href include the fragment so the title/link still target the full file at that section.
+Appending a `#header` fragment embeds only that section's content (from that header until the next header of the same or higher level, or end of file). The link href and data-href include the fragment so the title/link still target the full file at that section.
 
 ID format (kebab-case, preferred):
 
