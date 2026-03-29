@@ -1122,4 +1122,9 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
         + '<li>string</li>\n'
         + '</ul>\n',
   },
+  {
+    descr: 'wikiattr; unprefixed; malformed; headers not supported in wikiattrs',
+    mkdn: 'attrtype::[[fname-a#header-text]]\n',
+    html: '<p>attrtype::<a class="wiki link" href="/tests/fixtures/fname-a#header-text" data-href="/tests/fixtures/fname-a#header-text">title a</a></p>\n',
+  },
 ];

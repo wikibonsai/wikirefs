@@ -94,12 +94,12 @@ export const wikiLinkUntypedCases: WikiRefTestCase[] = [
   },
   // header
   {
-    descr: 'wikilink; untyped; header; base; kebab-case',
+    descr: 'wikilink; untyped; header; kebab-case',
     mkdn: '[[fname-a#header-text]].',
     html: '<p><a class="wiki link" href="/tests/fixtures/fname-a#header-text" data-href="/tests/fixtures/fname-a#header-text">title a</a>.</p>\n',
   },
   {
-    descr: 'wikilink; untyped; header; base; Title Case',
+    descr: 'wikilink; untyped; header; Title Case',
     mkdn: '[[fname-a#Header Text]].',
     html: '<p><a class="wiki link" href="/tests/fixtures/fname-a#header-text" data-href="/tests/fixtures/fname-a#header-text">title a</a>.</p>\n',
   },
@@ -117,6 +117,27 @@ export const wikiLinkUntypedCases: WikiRefTestCase[] = [
     descr: 'wikilink; untyped; header; empty',
     mkdn: '[[fname-a#]].',
     html: '<p><a class="wiki link" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a>.</p>\n',
+  },
+  {
+    descr: 'wikilink; untyped; header; h3 (deeper level)',
+    mkdn: '[[embed-doc-nested-headers#child-header]].',
+    html: '<p><a class="wiki link" href="/tests/fixtures/embed-doc-nested-headers#child-header" data-href="/tests/fixtures/embed-doc-nested-headers#child-header">embed doc nested headers</a>.</p>\n',
+  },
+  {
+    descr: 'wikilink; untyped; header; special chars (numeric start)',
+    mkdn: '[[fname-a#123-numeric-start]].',
+    html: '<p><a class="wiki link" href="/tests/fixtures/fname-a#123-numeric-start" data-href="/tests/fixtures/fname-a#123-numeric-start">title a</a>.</p>\n',
+  },
+  {
+    descr: 'wikilink; untyped; header; special chars (underscore)',
+    mkdn: '[[fname-a#header_with_underscores]].',
+    html: '<p><a class="wiki link" href="/tests/fixtures/fname-a#header_with_underscores" data-href="/tests/fixtures/fname-a#header_with_underscores">title a</a>.</p>\n',
+  },
+  // header; multi (same file, different headers)
+  {
+    descr: 'wikilink; untyped; header; multi; same file different headers',
+    mkdn: 'See [[fname-a#header-one]] and [[fname-a#header-two]].',
+    html: '<p>See <a class="wiki link" href="/tests/fixtures/fname-a#header-one" data-href="/tests/fixtures/fname-a#header-one">title a</a> and <a class="wiki link" href="/tests/fixtures/fname-a#header-two" data-href="/tests/fixtures/fname-a#header-two">title a</a>.</p>\n',
   },
   // labelled
   {

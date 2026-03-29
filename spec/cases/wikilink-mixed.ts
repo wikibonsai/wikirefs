@@ -27,4 +27,14 @@ export const wikiLinkMixedCases: WikiRefTestCase[] = [
     mkdn: 'see [[fname-a#setext-h1]] and [[fname-b]].\n',
     html: '<p>see <a class="wiki link" href="/tests/fixtures/fname-a#setext-h1" data-href="/tests/fixtures/fname-a#setext-h1">title a</a> and <a class="wiki link" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a>.</p>\n',
   },
+  {
+    descr: 'wikilink; mixed; typed header and untyped header',
+    mkdn: 'see :linktype::[[fname-a#header-one]] and [[fname-b#header-two]].\n',
+    html: '<p>see <a class="wiki link type reftype__linktype" href="/tests/fixtures/fname-a#header-one" data-href="/tests/fixtures/fname-a#header-one">title a</a> and <a class="wiki link" href="/tests/fixtures/fname-b#header-two" data-href="/tests/fixtures/fname-b#header-two">title b</a>.</p>\n',
+  },
+  {
+    descr: 'wikilink; mixed; header and labelled header',
+    mkdn: 'see [[fname-a#header]] and [[fname-b#header|custom label]].\n',
+    html: '<p>see <a class="wiki link" href="/tests/fixtures/fname-a#header" data-href="/tests/fixtures/fname-a#header">title a</a> and <a class="wiki link" href="/tests/fixtures/fname-b#header" data-href="/tests/fixtures/fname-b#header">custom label</a>.</p>\n',
+  },
 ];
