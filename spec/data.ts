@@ -143,12 +143,19 @@ export const fileDataMap: TestFileData[] = [
     content: '![[cycle-self-embed-doc]]',
     media: 'markdown',
   },
+  {
+    filename: 'cycle-self-header-embed-doc',
+    title: 'Cycle Self Header Embed Document',
+    href: '/tests/fixtures/cycle-self-header-embed-doc',
+    content: 'Intro.\n\n# Header Text\n\nContent with ![[cycle-self-header-embed-doc#header-text]].',
+    media: 'markdown',
+  },
   // header level embeds
   {
     filename: 'embed-doc-w-header',
     title: 'Embedded Document with Header Text',
     href: '/tests/fixtures/embed-doc-w-header',
-    content: 'Here is some content.\n\n## Header Text\n\nHeader content.',
+    content: 'Here is some content.\n\n# Header Text\n\nHeader content.',
     media: 'markdown',
   },
   // setext-style headers (=== h1, --- h2)
@@ -163,6 +170,22 @@ export const fileDataMap: TestFileData[] = [
       + 'Setext H2\n'
       + '---------\n\n'
       + 'body for setext h2.\n',
+    media: 'markdown',
+  },
+  // header levels nested
+  {
+    filename: 'embed-doc-nested-headers',
+    title: 'Embed Doc Nested Headers',
+    href: '/tests/fixtures/embed-doc-nested-headers',
+    content: 'Preamble.\n\n'
+      + '## Parent Header\n\n'
+      + 'Parent content.\n\n'
+      + '### Child Header\n\n'
+      + 'Child content.\n\n'
+      + '### Another Child\n\n'
+      + 'Another child content.\n\n'
+      + '## Sibling Header\n\n'
+      + 'Sibling content.\n',
     media: 'markdown',
   },
   {
@@ -196,13 +219,6 @@ export const fileDataMap: TestFileData[] = [
       + '```js\nconst x = 1;\n```\n\n'
       + '## Nested Embed\n\n'
       + 'Content with ![[embed-doc]] here.\n',
-    media: 'markdown',
-  },
-  {
-    filename: 'cycle-self-header-embed-doc',
-    title: 'Cycle Self Header Embed Document',
-    href: '/tests/fixtures/cycle-self-header-embed-doc',
-    content: 'Intro.\n\n## Section\n\nContent with ![[cycle-self-header-embed-doc#section]].',
     media: 'markdown',
   },
   // mkdn; error states

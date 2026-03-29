@@ -312,7 +312,7 @@ export const wikiEmbedCases: WikiRefTestCase[] = [
         +   '</p>\n'
         + '</p>\n',
   },
-  // headers (embed-doc-w-header has ## Header Text)
+  // headers (embed-doc-w-header has # Header Text)
   {
     descr: 'wikiembed; w/ other mkdn constructs; header; html id (kebab-case)',
     mkdn: '![[embed-doc-w-header#header-text]]',
@@ -379,9 +379,7 @@ export const wikiEmbedCases: WikiRefTestCase[] = [
         +       '</div>\n'
         +       '<div class="embed-content">\n'
         +         '<p>Here is some content.</p>\n'
-        +         '\n'
-        +         '<h2>Header Text</h2>\n'
-        +         '\n'
+        +         '<h1>Header Text</h1>\n'
         +         '<p>Header content.</p>\n'
         +         '\n'
         +       '</div>\n'
@@ -679,43 +677,29 @@ export const wikiEmbedCases: WikiRefTestCase[] = [
         +   '</p>\n'
         + '</p>\n',
   },
+  // header; nested header levels (h2 parent includes h3 children)
   {
-    descr: 'wikiembed; w/ other mkdn constructs; header; section w/ nested embed',
-    mkdn: '![[embed-doc-header-mkdn#nested-embed]]',
+    descr: 'wikiembed; w/ other mkdn constructs; header; nested; h2 parent includes h3 children',
+    mkdn: '![[embed-doc-nested-headers#parent-header]]',
     html: '<p>\n'
         +   '<p>\n'
         +     '<div class="embed-wrapper">\n'
         +       '<div class="embed-title">\n'
-        +         '<a class="wiki embed" href="/tests/fixtures/embed-doc-header-mkdn#nested-embed" data-href="/tests/fixtures/embed-doc-header-mkdn#nested-embed">\n'
-        +           'embed doc header constructs\n'
+        +         '<a class="wiki embed" href="/tests/fixtures/embed-doc-nested-headers#parent-header" data-href="/tests/fixtures/embed-doc-nested-headers#parent-header">\n'
+        +           'embed doc nested headers\n'
         +         '</a>\n'
         +       '</div>\n'
         +       '<div class="embed-link">\n'
-        +         '<a class="embed-link-icon" href="/tests/fixtures/embed-doc-header-mkdn#nested-embed" data-href="/tests/fixtures/embed-doc-header-mkdn#nested-embed">\n'
+        +         '<a class="embed-link-icon" href="/tests/fixtures/embed-doc-nested-headers#parent-header" data-href="/tests/fixtures/embed-doc-nested-headers#parent-header">\n'
         +           '<i class="link-icon"></i>\n'
         +         '</a>\n'
         +       '</div>\n'
         +       '<div class="embed-content">\n'
-        +         '<p>Content with \n'
-        +           '<p>\n'
-        +             '<div class="embed-wrapper">\n'
-        +               '<div class="embed-title">\n'
-        +                 '<a class="wiki embed" href="/tests/fixtures/embed-doc" data-href="/tests/fixtures/embed-doc">\n'
-        +                   'embedded document\n'
-        +                 '</a>\n'
-        +               '</div>\n'
-        +               '<div class="embed-link">\n'
-        +                 '<a class="embed-link-icon" href="/tests/fixtures/embed-doc" data-href="/tests/fixtures/embed-doc">\n'
-        +                   '<i class="link-icon"></i>\n'
-        +                 '</a>\n'
-        +               '</div>\n'
-        +               '<div class="embed-content">\n'
-        +                 '<p>Here is some content.</p>\n'
-        +                 '\n'
-        +               '</div>\n'
-        +             '</div>\n'
-        +           '</p>\n'
-        +         ' here.</p>\n'
+        +         '<p>Parent content.</p>\n'
+        +         '<h3>Child Header</h3>\n'
+        +         '<p>Child content.</p>\n'
+        +         '<h3>Another Child</h3>\n'
+        +         '<p>Another child content.</p>\n'
         +         '\n'
         +       '</div>\n'
         +     '</div>\n'
@@ -759,6 +743,97 @@ export const wikiEmbedCases: WikiRefTestCase[] = [
         +             '</div>\n'
         +           '</p>\n'
         +         '.</p>\n'
+        +         '\n'
+        +       '</div>\n'
+        +     '</div>\n'
+        +   '</p>\n'
+        + '</p>\n',
+  },
+  {
+    descr: 'wikiembed; w/ other mkdn constructs; nested; header',
+    mkdn: '![[embed-doc-header-mkdn#nested-embed]]',
+    html: '<p>\n'
+        +   '<p>\n'
+        +     '<div class="embed-wrapper">\n'
+        +       '<div class="embed-title">\n'
+        +         '<a class="wiki embed" href="/tests/fixtures/embed-doc-header-mkdn#nested-embed" data-href="/tests/fixtures/embed-doc-header-mkdn#nested-embed">\n'
+        +           'embed doc header constructs\n'
+        +         '</a>\n'
+        +       '</div>\n'
+        +       '<div class="embed-link">\n'
+        +         '<a class="embed-link-icon" href="/tests/fixtures/embed-doc-header-mkdn#nested-embed" data-href="/tests/fixtures/embed-doc-header-mkdn#nested-embed">\n'
+        +           '<i class="link-icon"></i>\n'
+        +         '</a>\n'
+        +       '</div>\n'
+        +       '<div class="embed-content">\n'
+        +         '<p>Content with \n'
+        +           '<p>\n'
+        +             '<div class="embed-wrapper">\n'
+        +               '<div class="embed-title">\n'
+        +                 '<a class="wiki embed" href="/tests/fixtures/embed-doc" data-href="/tests/fixtures/embed-doc">\n'
+        +                   'embedded document\n'
+        +                 '</a>\n'
+        +               '</div>\n'
+        +               '<div class="embed-link">\n'
+        +                 '<a class="embed-link-icon" href="/tests/fixtures/embed-doc" data-href="/tests/fixtures/embed-doc">\n'
+        +                   '<i class="link-icon"></i>\n'
+        +                 '</a>\n'
+        +               '</div>\n'
+        +               '<div class="embed-content">\n'
+        +                 '<p>Here is some content.</p>\n'
+        +                 '\n'
+        +               '</div>\n'
+        +             '</div>\n'
+        +           '</p>\n'
+        +         ' here.</p>\n'
+        +         '\n'
+        +       '</div>\n'
+        +     '</div>\n'
+        +   '</p>\n'
+        + '</p>\n',
+  },
+  {
+    descr: 'wikiembed; w/ other mkdn constructs; nested; header; child only',
+    mkdn: '![[embed-doc-nested-headers#child-header]]',
+    html: '<p>\n'
+        +   '<p>\n'
+        +     '<div class="embed-wrapper">\n'
+        +       '<div class="embed-title">\n'
+        +         '<a class="wiki embed" href="/tests/fixtures/embed-doc-nested-headers#child-header" data-href="/tests/fixtures/embed-doc-nested-headers#child-header">\n'
+        +           'embed doc nested headers\n'
+        +         '</a>\n'
+        +       '</div>\n'
+        +       '<div class="embed-link">\n'
+        +         '<a class="embed-link-icon" href="/tests/fixtures/embed-doc-nested-headers#child-header" data-href="/tests/fixtures/embed-doc-nested-headers#child-header">\n'
+        +           '<i class="link-icon"></i>\n'
+        +         '</a>\n'
+        +       '</div>\n'
+        +       '<div class="embed-content">\n'
+        +         '<p>Child content.</p>\n'
+        +         '\n'
+        +       '</div>\n'
+        +     '</div>\n'
+        +   '</p>\n'
+        + '</p>\n',
+  },
+  {
+    descr: 'wikiembed; w/ other mkdn constructs; nested; header; sibling after parent with children',
+    mkdn: '![[embed-doc-nested-headers#sibling-header]]',
+    html: '<p>\n'
+        +   '<p>\n'
+        +     '<div class="embed-wrapper">\n'
+        +       '<div class="embed-title">\n'
+        +         '<a class="wiki embed" href="/tests/fixtures/embed-doc-nested-headers#sibling-header" data-href="/tests/fixtures/embed-doc-nested-headers#sibling-header">\n'
+        +           'embed doc nested headers\n'
+        +         '</a>\n'
+        +       '</div>\n'
+        +       '<div class="embed-link">\n'
+        +         '<a class="embed-link-icon" href="/tests/fixtures/embed-doc-nested-headers#sibling-header" data-href="/tests/fixtures/embed-doc-nested-headers#sibling-header">\n'
+        +           '<i class="link-icon"></i>\n'
+        +         '</a>\n'
+        +       '</div>\n'
+        +       '<div class="embed-content">\n'
+        +         '<p>Sibling content.</p>\n'
         +         '\n'
         +       '</div>\n'
         +     '</div>\n'
@@ -905,17 +980,17 @@ export const wikiEmbedCases: WikiRefTestCase[] = [
   },
   {
     descr: 'wikiembed; w/ other mkdn constructs; cycle; self; header',
-    mkdn: '![[cycle-self-header-embed-doc#section]]',
+    mkdn: '![[cycle-self-header-embed-doc#header-text]]',
     html: '<p>\n'
         +   '<p>\n'
         +     '<div class="embed-wrapper">\n'
         +       '<div class="embed-title">\n'
-        +         '<a class="wiki embed" href="/tests/fixtures/cycle-self-header-embed-doc#section" data-href="/tests/fixtures/cycle-self-header-embed-doc#section">\n'
+        +         '<a class="wiki embed" href="/tests/fixtures/cycle-self-header-embed-doc#header-text" data-href="/tests/fixtures/cycle-self-header-embed-doc#header-text">\n'
         +           'cycle self header embed document\n'
         +         '</a>\n'
         +       '</div>\n'
         +       '<div class="embed-link">\n'
-        +         '<a class="embed-link-icon" href="/tests/fixtures/cycle-self-header-embed-doc#section" data-href="/tests/fixtures/cycle-self-header-embed-doc#section">\n'
+        +         '<a class="embed-link-icon" href="/tests/fixtures/cycle-self-header-embed-doc#header-text" data-href="/tests/fixtures/cycle-self-header-embed-doc#header-text">\n'
         +           '<i class="link-icon"></i>\n'
         +         '</a>\n'
         +       '</div>\n'
@@ -924,12 +999,12 @@ export const wikiEmbedCases: WikiRefTestCase[] = [
         +           '<p>\n'
         +             '<div class="embed-wrapper">\n'
         +               '<div class="embed-title">\n'
-        +                 '<a class="wiki embed" href="/tests/fixtures/cycle-self-header-embed-doc#section" data-href="/tests/fixtures/cycle-self-header-embed-doc#section">\n'
+        +                 '<a class="wiki embed" href="/tests/fixtures/cycle-self-header-embed-doc#header-text" data-href="/tests/fixtures/cycle-self-header-embed-doc#header-text">\n'
         +                   'cycle self header embed document\n'
         +                 '</a>\n'
         +               '</div>\n'
         +               '<div class="embed-link">\n'
-        +                 '<a class="embed-link-icon" href="/tests/fixtures/cycle-self-header-embed-doc#section" data-href="/tests/fixtures/cycle-self-header-embed-doc#section">\n'
+        +                 '<a class="embed-link-icon" href="/tests/fixtures/cycle-self-header-embed-doc#header-text" data-href="/tests/fixtures/cycle-self-header-embed-doc#header-text">\n'
         +                   '<i class="link-icon"></i>\n'
         +                 '</a>\n'
         +               '</div>\n'
