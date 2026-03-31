@@ -72,17 +72,21 @@ Options:
 
 `opts.uriToFnameHash: Record<string, string>`: a hash table explicitly defining what uri maps to what filename.
 
-### `renameFileName(oldFileName: string, newFileName: string, content: string): string`
+### `rename(oldFileName: string, newFileName: string, content: string): string`
 
 For all references in a given `content` string which point to an `oldFileName` and rename them to the `newFileName`; ignores escaped instances.
 
 ```typescript
-import { renameFileName } from 'wikirefs';
+import { rename } from 'wikirefs';
 
 const content: string = 'See [[old-note]] for details.';
-const result: string = renameFileName('old-note', 'new-note', content);
+const result: string = rename('old-note', 'new-note', content);
 // result = 'See [[new-note]] for details.'
 ```
+
+#### Alias
+
+`renameFileName()` is an alias of `rename()`.
 
 #### Parameters
 
@@ -98,23 +102,29 @@ The new filename string to be added.
 
 The content string to make the file rename.
 
-### `renameHeader(oldHeader: string, newHeader: string, content: string, opts?: { filename?: string }): string`
+### `rehead(oldHeader: string, newHeader: string, content: string, opts?: { filename?: string }): string`
 
-For all header references in a given `content` string which match the `oldHeader`, rename them to the `newHeader`; ignores escaped instances.
+For all **header level** references (the `#...` part) in a given `content` string which match the `oldHeader`, rename them to the `newHeader`; ignores escaped instances.
 
-If `opts.filename` is provided, only header references in wikilinks matching that filename are renamed (scoped). Otherwise, headers are renamed across all filenames (global).
+If `opts.filename` is provided, only header fragments in wikilinks matching that filename are renamed (scoped). Otherwise, header fragments are renamed across all filenames (global).
 
 ```typescript
-import { renameHeader } from 'wikirefs';
+import { rehead } from 'wikirefs';
 
 const content: string = 'See [[note#old-header]] for details.';
-const result: string = renameHeader('old-header', 'new-header', content);
+const result: string = rehead('old-header', 'new-header', content);
 // result = 'See [[note#new-header]] for details.'
 
 // scoped to a specific filename
-const scoped: string = renameHeader('old-header', 'new-header', content, { filename: 'note' });
+const scoped: string = rehead('old-header', 'new-header', content, { filename: 'note' });
 // scoped = 'See [[note#new-header]] for details.'
 ```
+
+#### Alias
+
+`renameHeader()` is an alias of `rehead()`.
+
+`rehead()` is also an alias of `rehead()`.
 
 #### Parameters
 

@@ -6,12 +6,12 @@ import * as wikirefs from '../src';
 const oldFileName: string = 'wikilink';
 const newFileName: string = 'hello-world';
 
-describe('renameFileName()', () => {
+describe('rename()', () => {
 
   const testRenameFileName = (params: any) => () => {
     const mkdn: string = params.mkdn;
     const expdMkdn: string = params.expdMkdn;
-    const actlMkdn: string = wikirefs.renameFileName(oldFileName, newFileName, mkdn);
+    const actlMkdn: string = wikirefs.rename(oldFileName, newFileName, mkdn);
     assert.strictEqual(actlMkdn, expdMkdn);
   };
 
@@ -32,7 +32,7 @@ describe('renameFileName()', () => {
 
   it('regex special chars that are valid filename chars work', () => {
     assert.strictEqual(
-      wikirefs.renameFileName(
+      wikirefs.rename(
         'c++',
         'cpp',
         'Hopefully this wikilink -- [[c++]] will get renamed.',
@@ -179,7 +179,7 @@ describe('renameFileName()', () => {
     it('with extension', () => {
       const mkdn: string = 'Here is some content with an embedded ![[wikilink.pdf]].';
       const expdMkdn: string = 'Here is some content with an embedded ![[hello-world.pdf]].';
-      const actlMkdn: string = wikirefs.renameFileName('wikilink.pdf', 'hello-world.pdf', mkdn);
+      const actlMkdn: string = wikirefs.rename('wikilink.pdf', 'hello-world.pdf', mkdn);
       assert.strictEqual(actlMkdn, expdMkdn);
     });
 
@@ -201,120 +201,6 @@ describe('renameFileName()', () => {
       mkdn: '```\n:old-reftype::\n- [[wikilink]]\n- [[another]]\n```\nHere is some content.',
       expdMkdn: '```\n:old-reftype::\n- [[wikilink]]\n- [[another]]\n```\nHere is some content.',
     }));
-
-  });
-
-});
-
-const oldHeader: string = 'old-header';
-const newHeader: string = 'new-header';
-const filename: string = 'filename';
-
-describe('renameHeader()', () => {
-
-  describe('with filename option (scoped)', () => {
-
-    const testRenameHeader = (params: any) => () => {
-      const mkdn: string = params.mkdn;
-      const expdMkdn: string = params.expdMkdn;
-      const actlMkdn: string = wikirefs.renameHeader(oldHeader, newHeader, mkdn, { filename });
-      assert.strictEqual(actlMkdn, expdMkdn);
-    };
-
-    it('basic', testRenameHeader({
-      mkdn: 'Here is a [[filename#old-header]].',
-      expdMkdn: 'Here is a [[filename#new-header]].',
-    }));
-
-    it('with label', testRenameHeader({
-      mkdn: 'Here is a [[filename#old-header|label]].',
-      expdMkdn: 'Here is a [[filename#new-header|label]].',
-    }));
-
-    it('typed', testRenameHeader({
-      mkdn: 'Here is a :linktype::[[filename#old-header]].',
-      expdMkdn: 'Here is a :linktype::[[filename#new-header]].',
-    }));
-
-    it('scoped to filename; other filenames unchanged', testRenameHeader({
-      mkdn: 'Here is a [[other-file#old-header]] and [[filename#old-header]].',
-      expdMkdn: 'Here is a [[other-file#old-header]] and [[filename#new-header]].',
-    }));
-
-    it('multiple occurrences', testRenameHeader({
-      mkdn: 'First [[filename#old-header]] and second [[filename#old-header]].',
-      expdMkdn: 'First [[filename#new-header]] and second [[filename#new-header]].',
-    }));
-
-    it('embed', testRenameHeader({
-      mkdn: 'Embed section: ![[filename#old-header]].',
-      expdMkdn: 'Embed section: ![[filename#new-header]].',
-    }));
-
-    it('embed and link; scoped to filename', testRenameHeader({
-      mkdn: '[[other#old-header]] and ![[filename#old-header]] and [[filename#old-header]].',
-      expdMkdn: '[[other#old-header]] and ![[filename#new-header]] and [[filename#new-header]].',
-    }));
-
-    it('mixed; link and embed; same filename; both renamed', testRenameHeader({
-      mkdn: 'Link [[filename#old-header]] and embed ![[filename#old-header]].',
-      expdMkdn: 'Link [[filename#new-header]] and embed ![[filename#new-header]].',
-    }));
-
-    it('setext header (kebab)', () => {
-      const mkdn = 'Here is a [[filename#setext-h1]].';
-      const expdMkdn = 'Here is a [[filename#setext-h2]].';
-      const actlMkdn = wikirefs.renameHeader('setext-h1', 'setext-h2', mkdn, { filename });
-      assert.strictEqual(actlMkdn, expdMkdn);
-    });
-
-  });
-
-  describe('without filename option (global)', () => {
-
-    const testRenameHeaderGlobal = (params: any) => () => {
-      const mkdn: string = params.mkdn;
-      const expdMkdn: string = params.expdMkdn;
-      const actlMkdn: string = wikirefs.renameHeader(oldHeader, newHeader, mkdn);
-      assert.strictEqual(actlMkdn, expdMkdn);
-    };
-
-    it('renames header across all filenames', testRenameHeaderGlobal({
-      mkdn: 'Both [[file-a#old-header]] and [[file-b#old-header]] get renamed.',
-      expdMkdn: 'Both [[file-a#new-header]] and [[file-b#new-header]] get renamed.',
-    }));
-
-    it('renames header in links and embeds', testRenameHeaderGlobal({
-      mkdn: 'Link [[file-a#old-header]] and embed ![[file-b#old-header]].',
-      expdMkdn: 'Link [[file-a#new-header]] and embed ![[file-b#new-header]].',
-    }));
-
-    it('mixed; links and embeds; all renamed', testRenameHeaderGlobal({
-      mkdn: '[[file-a#old-header]] and ![[file-a#old-header]] and [[file-b#old-header]] and ![[file-b#old-header]].',
-      expdMkdn: '[[file-a#new-header]] and ![[file-a#new-header]] and [[file-b#new-header]] and ![[file-b#new-header]].',
-    }));
-
-  });
-
-  describe('shared', () => {
-
-    it('no match passthrough', () => {
-      const mkdn: string = 'There are no matching headers here [[filename#other-header]].';
-      const actlMkdn: string = wikirefs.renameHeader(oldHeader, newHeader, mkdn, { filename });
-      assert.strictEqual(actlMkdn, mkdn);
-    });
-
-    it('escaped; wikilinks inside code blocks are not renamed', () => {
-      const mkdn: string = '```\n[[filename#old-header]]\n```\nHere is some content.';
-      const actlMkdn: string = wikirefs.renameHeader(oldHeader, newHeader, mkdn, { filename });
-      assert.strictEqual(actlMkdn, mkdn);
-    });
-
-    it('escaped; wikiembeds inside code blocks are not renamed', () => {
-      const mkdn: string = '```\n![[filename#old-header]]\n```\nHere is some content.';
-      const actlMkdn: string = wikirefs.renameHeader(oldHeader, newHeader, mkdn, { filename });
-      assert.strictEqual(actlMkdn, mkdn);
-    });
 
   });
 
