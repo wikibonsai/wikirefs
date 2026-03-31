@@ -20,6 +20,14 @@ export interface ConvertOpts {
 export const RGX_MKDN_LINK: RegExp = /(?<!!)\[(^$|.*?)\]\((.*?)\)/gi;
 export const RGX_MKDN_IMAGE: RegExp = /!\[(.*?)]\((.*?)\)/gi;
 
+function decodeUriFragment(fragment: string): string {
+  try {
+    return decodeURIComponent(fragment);
+  } catch {
+    return fragment;
+  }
+}
+
 export function mkdnToWiki(content: string, opts?: ConvertOpts): string | undefined {
   // opts
   const kind  : string = (opts?.kind   && isValidWikiKind(opts.kind))     ? opts.kind   : CONST.WIKI.REF;
@@ -33,7 +41,7 @@ export function mkdnToWiki(content: string, opts?: ConvertOpts): string | undefi
       let cleanUri: string = uri;
       const hashIndex = uri.indexOf('#');
       if (hashIndex !== -1) {
-        header = uri.substring(hashIndex + 1);
+        header = decodeUriFragment(uri.substring(hashIndex + 1));
         cleanUri = uri.substring(0, hashIndex);
       }
       /* eslint-disable indent */
@@ -65,7 +73,7 @@ export function mkdnToWiki(content: string, opts?: ConvertOpts): string | undefi
       let cleanUri: string = uri;
       const hashIndex = uri.indexOf('#');
       if (hashIndex !== -1) {
-        header = uri.substring(hashIndex + 1);
+        header = decodeUriFragment(uri.substring(hashIndex + 1));
         cleanUri = uri.substring(0, hashIndex);
       }
       const filename: string | undefined = extractFileName(cleanUri, format);
@@ -151,14 +159,18 @@ export function wikiToMkdn(content: string, opts?: ConvertOpts): string | undefi
         continue;
       }
       // append header if present
-      const fullUri = m.header && m.header.length > 0 ? `${uri}#${slugify(m.header[0])}` : uri;
+      const fullUri: string = m.header && m.header.length > 0 ? `${uri}#${slugify(m.header[0])}` : uri;
+      const linktype: string = m.type.length > 0
+      // todo: read from trug to see if colon prefix is default format
+        ? CONST.MARKER.PREFIX + m.type[0] + CONST.MARKER.TYPE + ' '
+        : '';
       // unlabelled
       if (m.label.length === 0) {
-        mkdnContent += `[${m.filename[0]}](${fullUri})`;
+        mkdnContent += linktype + `[${m.filename[0]}](${fullUri})`;
         curPos = m.start + m.text.length;
       // labelled
       } else {
-        mkdnContent += `[${m.label[0]}](${fullUri})`;
+        mkdnContent += linktype + `[${m.label[0]}](${fullUri})`;
         curPos = m.start + m.text.length;
       }
     ////

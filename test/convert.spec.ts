@@ -76,6 +76,30 @@ describe('convert', () => {
           ocontent: ':attrtype::\n- [[fname-a]]\n- [[fname-b]]\n',
         }));
 
+        it('single; header', testMkdnToWiki({
+          icontent: ':attrtype:: [fname-a](/fname-a#header-text)\n',
+          opts: {},
+          ocontent: ':attrtype:: [[fname-a#header-text]]\n',
+        }));
+
+        it('list; comma; header', testMkdnToWiki({
+          icontent: ':attrtype:: [fname-a](/fname-a#header-text), [fname-b](/fname-b#other-header)\n',
+          opts: {},
+          ocontent: ':attrtype:: [[fname-a#header-text]], [[fname-b#other-header]]\n',
+        }));
+
+        it('list; mkdn; header', testMkdnToWiki({
+          icontent: ':attrtype::\n- [fname-a](/fname-a#header-text)\n- [fname-b](/fname-b#other-header)\n',
+          opts: {},
+          ocontent: ':attrtype::\n- [[fname-a#header-text]]\n- [[fname-b#other-header]]\n',
+        }));
+
+        it('labelled; header', testMkdnToWiki({
+          icontent: ':attrtype:: [Jump](/fname-a#header-text)\n',
+          opts: {},
+          ocontent: ':attrtype:: [[fname-a#header-text|Jump]]\n',
+        }));
+
       });
 
       describe('link', () => {
@@ -117,15 +141,15 @@ describe('convert', () => {
         }));
 
         it('header; kebab-case', testMkdnToWiki({
-          icontent: '[fname-a](/fname-a#my-header)',
+          icontent: '[fname-a](/fname-a#header-text)',
           opts: {},
-          ocontent: '[[fname-a#my-header]]',
+          ocontent: '[[fname-a#header-text]]',
         }));
 
-        it('header; spaces', testMkdnToWiki({
-          icontent: '[fname-a](/fname-a#my header)',
+        it('header; Title Case', testMkdnToWiki({
+          icontent: '[fname-a](/fname-a#Header%20Text)',
           opts: {},
-          ocontent: '[[fname-a#my header]]',
+          ocontent: '[[fname-a#Header Text]]',
         }));
 
         it('header; setext', testMkdnToWiki({
@@ -343,6 +367,18 @@ describe('convert', () => {
           ocontent: ':attrtype::\n- [fname-a](/fname-a)\n- [fname-b](/fname-b)\n',
         }));
 
+        it('header; kebab-case', testWikiToMkdn({
+          icontent: ':attrtype:: [[fname-a#header-text]]\n',
+          opts: {},
+          ocontent: ':attrtype:: [fname-a](/fname-a#header-text)\n',
+        }));
+
+        it('labelled; header', testWikiToMkdn({
+          icontent: ':attrtype:: [[fname-a#header-text|label]]\n',
+          opts: {},
+          ocontent: ':attrtype:: [label](/fname-a#header-text)\n',
+        }));
+
       });
 
       describe('link', () => {
@@ -385,22 +421,16 @@ describe('convert', () => {
           ocontent: '[label](/fname-a#header)',
         }));
 
-        it('header; spaces slugified', testWikiToMkdn({
-          icontent: '[[fname-a#My Header]]',
+        it('header; Title Case', testWikiToMkdn({
+          icontent: '[[fname-a#Header Text]]',
           opts: {},
-          ocontent: '[fname-a](/fname-a#my-header)',
+          ocontent: '[fname-a](/fname-a#header-text)',
         }));
 
-        it('labelled; header; spaces slugified', testWikiToMkdn({
-          icontent: '[[fname-a#My Header|label]]',
+        it('labelled; header; Title Case', testWikiToMkdn({
+          icontent: '[[fname-a#Header Text|label]]',
           opts: {},
-          ocontent: '[label](/fname-a#my-header)',
-        }));
-
-        it('header; setext', testWikiToMkdn({
-          icontent: '[[fname-a#setext-h1]]',
-          opts: {},
-          ocontent: '[fname-a](/fname-a#setext-h1)',
+          ocontent: '[label](/fname-a#header-text)',
         }));
 
         it('zombie (defaults to filename format)', testWikiToMkdn({
@@ -431,16 +461,10 @@ describe('convert', () => {
           ocontent: 'here is an embed: [fname-a](/fname-a#header-text)',
         }));
 
-        it('embed; header; spaces slugified', testWikiToMkdn({
+        it('embed; header; Title Case', testWikiToMkdn({
           icontent: '![[fname-a#Header Text]]',
           opts: {},
           ocontent: '[fname-a](/fname-a#header-text)',
-        }));
-
-        it('embed; header; setext', testWikiToMkdn({
-          icontent: 'here is an embed: ![[fname-a#setext-h1]]',
-          opts: {},
-          ocontent: 'here is an embed: [fname-a](/fname-a#setext-h1)',
         }));
 
         it.skip('audio', testWikiToMkdn({
