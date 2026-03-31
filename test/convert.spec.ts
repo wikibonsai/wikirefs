@@ -128,7 +128,7 @@ describe('convert', () => {
           ocontent: '[[fname-a#header]]',
         }));
 
-        it('label', testMkdnToWiki({
+        it('labelled', testMkdnToWiki({
           icontent: '[label](/fname-a)',
           opts: {},
           ocontent: '[[fname-a|label]]',
@@ -180,6 +180,24 @@ describe('convert', () => {
           icontent: '[fname-a](/fname-a)',
           opts: {},
           ocontent: '[[fname-a]]',
+        }));
+
+        it('empty markdown label', testMkdnToWiki({
+          icontent: '[](/fname-a)',
+          opts: {},
+          ocontent: '[[fname-a]]',
+        }));
+
+        it('empty markdown label; header', testMkdnToWiki({
+          icontent: '[](/fname-a#header-text)',
+          opts: {},
+          ocontent: '[[fname-a#header-text]]',
+        }));
+
+        it('markdown label matches target', testMkdnToWiki({
+          icontent: '[fname-a#header-text](/fname-a#header-text)',
+          opts: {},
+          ocontent: '[[fname-a#header-text]]',
         }));
 
         it('zombie (defaults to filename format)', testMkdnToWiki({
@@ -403,7 +421,7 @@ describe('convert', () => {
           ocontent: 'here is a link: [fname-a](/fname-a.md)',
         }));
 
-        it('label', testWikiToMkdn({
+        it('labelled', testWikiToMkdn({
           icontent: 'here is a link: [[fname-a|label]]',
           opts: {},
           ocontent: 'here is a link: [label](/fname-a)',

@@ -28,6 +28,29 @@ function decodeUriFragment(fragment: string): string {
   }
 }
 
+/**
+ * Remove pointless wikilink labels: empty `|`, or `|target` when label duplicates the target
+ * (including `[[file#header|file#header]]`). Applies to `[[...]]` and `![[...]]`.
+ */
+export function stripEmptyWikiLinkLabels(content: string): string {
+  const stripInner = (target: string, label: string): string | null => {
+    if (label === '' || label === target) {
+      return CONST.MARKER.OPEN + target + CONST.MARKER.CLOSE;
+    }
+    return null;
+  };
+  let out: string = content;
+  out = out.replace(/!\[\[([^\|\]]+)\|([^\]]*)\]\]/g, (m, target, label) => {
+    const inner: string | null = stripInner(target, label);
+    return inner !== null ? CONST.MARKER.EMBED + inner : m;
+  });
+  out = out.replace(/(?<!!)\[\[([^\|\]]+)\|([^\]]*)\]\]/g, (m, target, label) => {
+    const inner: string | null = stripInner(target, label);
+    return inner !== null ? inner : m;
+  });
+  return out;
+}
+
 export function mkdnToWiki(content: string, opts?: ConvertOpts): string | undefined {
   // opts
   const kind  : string = (opts?.kind   && isValidWikiKind(opts.kind))     ? opts.kind   : CONST.WIKI.REF;
@@ -51,16 +74,14 @@ export function mkdnToWiki(content: string, opts?: ConvertOpts): string | undefi
       /* eslint-disable indent */
       if (filename !== undefined) {
         const wikiBase = CONST.MARKER.OPEN + filename + (header ? CONST.MARKER.HEADER + header : '');
-        // unlabelled
-        if (label === filename) {
+        const wikiTarget: string = filename + (header ? CONST.MARKER.HEADER + header : '');
+        if (label === '' || label === filename || label === wikiTarget) {
           return wikiBase + CONST.MARKER.CLOSE;
-        // labelled
-        } else {
-          return wikiBase
-                + CONST.MARKER.LABEL
-                + label
-                + CONST.MARKER.CLOSE;
         }
+        return wikiBase
+              + CONST.MARKER.LABEL
+              + label
+              + CONST.MARKER.CLOSE;
       }
       // simply put back if unable to determine wiki-equivalent
       return `[${label}](${uri})`;
