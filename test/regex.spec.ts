@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 
-import { RGX, WikiAttrMatch } from '../src';
+import { RGX, MatchAttr } from '../src';
 
 
 // since RegExpMatchArray is an array-franken-object,
@@ -293,7 +293,7 @@ describe('RGX', () => {
     describe('ATTR() function', () => {
 
       it('unprefixed; single', () => {
-        const results: WikiAttrMatch[] = RGX.WIKI.ATTR('attrtype::[[wikilink]]\n');
+        const results: MatchAttr[] = RGX.WIKI.ATTR('attrtype::[[wikilink]]\n');
         assert.strictEqual(results.length, 1);
         assert.strictEqual(results[0].type[0], 'attrtype');
         assert.strictEqual(results[0].filenames.length, 1);
@@ -302,7 +302,7 @@ describe('RGX', () => {
       });
 
       it('prefixed; single', () => {
-        const results: WikiAttrMatch[] = RGX.WIKI.ATTR(':attrtype::[[wikilink]]\n');
+        const results: MatchAttr[] = RGX.WIKI.ATTR(':attrtype::[[wikilink]]\n');
         assert.strictEqual(results.length, 1);
         assert.strictEqual(results[0].type[0], 'attrtype');
         assert.strictEqual(results[0].filenames.length, 1);
@@ -311,7 +311,7 @@ describe('RGX', () => {
       });
 
       it('list; comma; all filenames extracted', () => {
-        const results: WikiAttrMatch[] = RGX.WIKI.ATTR(':attrtype::[[fname-a]], [[fname-b]], [[fname-c]]\n');
+        const results: MatchAttr[] = RGX.WIKI.ATTR(':attrtype::[[fname-a]], [[fname-b]], [[fname-c]]\n');
         assert.strictEqual(results.length, 1);
         assert.strictEqual(results[0].filenames.length, 3);
         assert.strictEqual(results[0].filenames[0][0], 'fname-a');
@@ -321,7 +321,7 @@ describe('RGX', () => {
       });
 
       it('list; mkdn; all filenames extracted', () => {
-        const results: WikiAttrMatch[] = RGX.WIKI.ATTR(
+        const results: MatchAttr[] = RGX.WIKI.ATTR(
           ':attrtype::\n'
           + '- [[fname-a]]\n'
           + '- [[fname-b]]\n'
@@ -338,7 +338,7 @@ describe('RGX', () => {
       it('multi; single + list (comma)', () => {
         const content = ':type1::[[fname-a]]\n'
           + ':type2::[[fname-b]], [[fname-c]]\n';
-        const results: WikiAttrMatch[] = RGX.WIKI.ATTR(content);
+        const results: MatchAttr[] = RGX.WIKI.ATTR(content);
         assert.strictEqual(results.length, 2);
         assert.strictEqual(results[0].type[0], 'type1');
         assert.strictEqual(results[0].filenames.length, 1);
@@ -348,7 +348,7 @@ describe('RGX', () => {
 
       it('attrtype offsets', () => {
         const content = ':attrtype::[[wikilink]]\n';
-        const results: WikiAttrMatch[] = RGX.WIKI.ATTR(content);
+        const results: MatchAttr[] = RGX.WIKI.ATTR(content);
         assert.strictEqual(results[0].start, 0);
         assert.strictEqual(results[0].type[1], 1); // after ':'
         assert.strictEqual(results[0].filenames[0][1], 13); // after '::['
@@ -356,12 +356,12 @@ describe('RGX', () => {
       });
 
       it('no matches returns empty array', () => {
-        const results: WikiAttrMatch[] = RGX.WIKI.ATTR('no wikirefs here');
+        const results: MatchAttr[] = RGX.WIKI.ATTR('no wikirefs here');
         assert.strictEqual(results.length, 0);
       });
 
       it('labelled; empty', () => {
-        const results: WikiAttrMatch[] = RGX.WIKI.ATTR(':attrtype::[[wikilink|]]\n');
+        const results: MatchAttr[] = RGX.WIKI.ATTR(':attrtype::[[wikilink|]]\n');
         assert.strictEqual(results.length, 0);
       });
 

@@ -1,9 +1,11 @@
 import { getEscIndices, isStrEscaped } from 'escape-mkdn';
 
 import { CONST } from '../var/const';
-import { RGX, WikiAttrMatch } from '../var/regex';
+import { RGX, MatchAttr } from '../var/regex';
 import { getMediaKind } from './media';
 
+
+// types
 
 export interface ScanOpts {
   filename?: string;
@@ -11,33 +13,66 @@ export interface ScanOpts {
   skipEsc?: boolean;
 }
 
-export interface ScanResult {
-  kind: string;
+export interface ScanTxt {
   text: string;
   start: number;
 }
 
-export interface WikiAttrResult extends ScanResult {
-  type: [string, number] | [];
-  filenames: [string, number][];
-  listFormat: string; // 'mkdn' or 'comma'
+// wikirefs (grouped constructs)
+
+export interface ScanAttr {
+  kind: 'wikiattr';
+  match: string;
+  start: number;
+  type: ScanTxt;
+  filenames: ScanTxt[];
+  listFormat: 'comma' | 'mkdn' | 'none';
 }
 
-export interface WikiLinkResult extends ScanResult {
-  type: [string, number] | [];
-  filename: [string, number];
-  header: [string, number] | [];
-  label: [string, number] | [];
+export interface ScanLink {
+  kind: 'wikilink';
+  match: string;
+  start: number;
+  type?: ScanTxt;
+  filename: ScanTxt;
+  header?: ScanTxt;
+  label?: ScanTxt;
 }
 
-export interface WikiEmbedResult extends ScanResult {
-  filename: [string, number];
+export interface ScanEmbed {
+  kind: 'wikiembed';
+  match: string;
+  start: number;
+  filename: ScanTxt;
+  header?: ScanTxt;
   media: string;
-  header: string;
 }
 
-export function scan(content: string, opts?: ScanOpts): (WikiAttrResult | WikiLinkResult | WikiEmbedResult)[] {
-  const res: (WikiAttrResult | WikiLinkResult | WikiEmbedResult)[] = [];
+export type ScanRef = ScanAttr | ScanLink | ScanEmbed;
+
+// filenames (flat)
+
+export interface ScannedFileName {
+  filename: ScanTxt;
+  kind: 'wikiattr' | 'wikilink' | 'wikiembed';
+  type?: ScanTxt;
+  header?: ScanTxt;
+  label?: ScanTxt;
+  media?: string;
+  listFormat?: 'comma' | 'mkdn' | 'none';
+}
+
+// scan result
+
+export interface ScanResult {
+  wikirefs: ScanRef[];
+  filenames: ScannedFileName[];
+}
+
+// scan
+
+export function scan(content: string, opts?: ScanOpts): ScanResult {
+  const wikirefs: ScanRef[] = [];
   // opts
   const kind     : string | undefined  = opts ? opts.kind     : undefined;
   const filename : string | undefined  = opts ? opts.filename : undefined;
@@ -45,10 +80,10 @@ export function scan(content: string, opts?: ScanOpts): (WikiAttrResult | WikiLi
   const escdIndices: number[] = getEscIndices(content);
   // go
   // attr //
-  const attrMatches: WikiAttrMatch[] = RGX.WIKI.ATTR(content);
+  const attrMatches: MatchAttr[] = RGX.WIKI.ATTR(content);
   for (const am of attrMatches) {
     // filter filenames by opts
-    const filenames: [string, number][] = [];
+    const filenames: ScanTxt[] = [];
     for (const [fnameText, fnameOffset] of am.filenames) {
       if (!filename || (filename === fnameText)) {
         const isMkdnList: boolean = am.listFormat === 'mkdn';
@@ -58,7 +93,7 @@ export function scan(content: string, opts?: ScanOpts): (WikiAttrResult | WikiLi
         if (!kind || (kind === CONST.WIKI.REF) || (kind === CONST.WIKI.ATTR)
           && (skipEsc || !escaped)
         ) {
-          filenames.push([fnameText, fnameOffset]);
+          filenames.push({ text: fnameText, start: fnameOffset });
         }
       }
     }
@@ -70,11 +105,11 @@ export function scan(content: string, opts?: ScanOpts): (WikiAttrResult | WikiLi
         && (filenames.length !== 0)
         && (skipEsc || !escaped)
     ) {
-      res.push({
-        kind: CONST.WIKI.ATTR,
-        text: am.text,
+      wikirefs.push({
+        kind: 'wikiattr',
+        match: am.text,
         start: am.start,
-        type: am.type,
+        type: { text: trimmedAttrTypeText, start: attrtypeOffset },
         filenames: filenames,
         listFormat: am.listFormat,
       });
@@ -91,7 +126,6 @@ export function scan(content: string, opts?: ScanOpts): (WikiAttrResult | WikiLi
   // embed //
   if (!kind || (kind === CONST.WIKI.REF) || (kind === CONST.WIKI.EMBED)) {
     const embedsGottaCatchEmAll: RegExp = new RegExp(RGX.WIKI.EMBED, 'g');
-    // 🦨 do-while: https://stackoverflow.com/a/6323598
     let embedMatch: RegExpExecArray | null;
     do {
       embedMatch = embedsGottaCatchEmAll.exec(content);
@@ -103,21 +137,22 @@ export function scan(content: string, opts?: ScanOpts): (WikiAttrResult | WikiLi
         const wikilinkOffset = embedMatch.index;
         const filenameOffset = matchText.indexOf(fileNameText);
         if (!filename || (filename === fileNameText)) {
-          /* eslint-disable indent */
           const escaped: boolean = isStrEscaped(
-                                                  matchText, content,
-                                                  wikilinkOffset, escdIndices,
-                                                );
-          /* eslint-enable indent */
+            matchText, content, wikilinkOffset, escdIndices,
+          );
           if (skipEsc || !escaped) {
-            res.push({
-              kind: CONST.WIKI.EMBED,
-              text: matchText,
+            const headerStart: number = matchText.indexOf('#') + 1;
+            const embed: ScanEmbed = {
+              kind: 'wikiembed',
+              match: matchText,
               start: embedMatch.index,
-              filename: [fileNameText, wikilinkOffset + filenameOffset],
+              filename: { text: fileNameText, start: wikilinkOffset + filenameOffset },
               media: getMediaKind(fileNameText),
-              header: headerText !== undefined ? headerText : '',
-            });
+            };
+            if (headerText !== undefined) {
+              embed.header = { text: headerText, start: embedMatch.index + headerStart };
+            }
+            wikirefs.push(embed);
           }
         }
       }
@@ -126,7 +161,6 @@ export function scan(content: string, opts?: ScanOpts): (WikiAttrResult | WikiLi
   // link //
   if (!kind || (kind === CONST.WIKI.REF) || (kind === CONST.WIKI.LINK)) {
     const linksGottaCatchEmAll: RegExp = new RegExp(RGX.WIKI.LINK, 'g');
-    // 🦨 do-while: https://stackoverflow.com/a/6323598
     let linkMatch: RegExpExecArray | null;
     do {
       linkMatch = linksGottaCatchEmAll.exec(content);
@@ -140,34 +174,68 @@ export function scan(content: string, opts?: ScanOpts): (WikiAttrResult | WikiLi
         const wikilinkOffset = linkMatch.index;
         const linkTypeOffset = matchText.indexOf(linkTypeText);
         const filenameOffset = matchText.indexOf(fileNameText);
-        const headerOffset   = (headerText !== undefined) ? 
+        const headerOffset   = (headerText !== undefined) ?
           (headerText === '' ? matchText.indexOf('#') + 1 : matchText.indexOf(headerText)) : -1;
         const labelOffset    = matchText.indexOf(labelText);
         if (!filename || (filename === fileNameText)) {
-          /* eslint-disable indent */
           const escaped: boolean = isStrEscaped(
-                                                  matchText, content,
-                                                  wikilinkOffset, escdIndices,
-                                                );
-          /* eslint-enable indent */
+            matchText, content, wikilinkOffset, escdIndices,
+          );
           if (skipEsc || !escaped) {
-            const type  : [string, number] | [] = (linkTypeText) ? [linkTypeText.trim(), linkMatch.index + linkTypeOffset] : [];
-            const header: [string, number] | [] = (headerText !== undefined) ? [headerText, linkMatch.index + headerOffset] : [];
-            const label : [string, number] | [] = (labelText)    ? [labelText, linkMatch.index + labelOffset]            : [];
-            res.push({
-              kind: CONST.WIKI.LINK,
-              text: matchText,
+            const link: ScanLink = {
+              kind: 'wikilink',
+              match: matchText,
               start: linkMatch.index,
-              type: type,
-              filename: [fileNameText, wikilinkOffset + filenameOffset],
-              header: header,
-              label: label,
-            });
+              filename: { text: fileNameText, start: wikilinkOffset + filenameOffset },
+            };
+            if (linkTypeText) {
+              link.type = { text: linkTypeText.trim(), start: linkMatch.index + linkTypeOffset };
+            }
+            if (headerText !== undefined) {
+              link.header = { text: headerText, start: linkMatch.index + headerOffset };
+            }
+            if (labelText) {
+              link.label = { text: labelText, start: linkMatch.index + labelOffset };
+            }
+            wikirefs.push(link);
           }
         }
       }
     } while (linkMatch);
   }
   // sort matches by start position
-  return res.sort((a, b) => a.start - b.start);
+  wikirefs.sort((a, b) => a.start - b.start);
+  // build flat filenames list from wikirefs
+  const filenames: ScannedFileName[] = [];
+  for (const ref of wikirefs) {
+    if (ref.kind === 'wikiattr') {
+      for (const fname of ref.filenames) {
+        const entry: ScannedFileName = {
+          filename: fname,
+          kind: 'wikiattr',
+          type: ref.type,
+          listFormat: ref.listFormat,
+        };
+        filenames.push(entry);
+      }
+    } else if (ref.kind === 'wikilink') {
+      const entry: ScannedFileName = {
+        filename: ref.filename,
+        kind: 'wikilink',
+      };
+      if (ref.type) entry.type = ref.type;
+      if (ref.header) entry.header = ref.header;
+      if (ref.label) entry.label = ref.label;
+      filenames.push(entry);
+    } else if (ref.kind === 'wikiembed') {
+      const entry: ScannedFileName = {
+        filename: ref.filename,
+        kind: 'wikiembed',
+        media: ref.media,
+      };
+      if (ref.header) entry.header = ref.header;
+      filenames.push(entry);
+    }
+  }
+  return { wikirefs, filenames };
 }

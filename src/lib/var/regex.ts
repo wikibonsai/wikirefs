@@ -6,7 +6,7 @@ import { esc } from 'escape-mkdn';
 import { CONST } from './const';
 
 
-export interface WikiAttrMatch {
+export interface MatchAttr {
   text: string;
   start: number;
   type: [string, number];
@@ -189,8 +189,8 @@ export namespace RGX {
      * Uses sticky (y-flag) regexes internally — JS equivalent of Ruby's \G anchor.
      * The raw block regex is available as `WIKI._ATTR` for find-and-replace uses.
      */
-    ATTR(content: string): WikiAttrMatch[] {
-      const results: WikiAttrMatch[] = [];
+    ATTR(content: string): MatchAttr[] {
+      const results: MatchAttr[] = [];
       const blockRegex: RegExp = new RegExp(WIKI._ATTR, 'gim');
       let attrMatch: RegExpExecArray | null;
       while ((attrMatch = blockRegex.exec(content)) !== null) {

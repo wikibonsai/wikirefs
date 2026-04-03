@@ -24,7 +24,21 @@ npm install wikirefs
 ```js
 import * as wikirefs from 'wikirefs';
 
-let res = wikirefs.scan('[[wikilink]]');
+const { wikirefs: refs, filenames } = wikirefs.scan('[[wikilink]]');
+
+// refs (grouped constructs):
+// [{
+//   kind: 'wikilink',
+//   match: '[[wikilink]]',
+//   start: 0,
+//   filename: { text: 'wikilink', start: 2 },
+// }]
+
+// filenames (flat list):
+// [{
+//   filename: { text: 'wikilink', start: 2 },
+//   kind: 'wikilink',
+// }]
 ```
 
 ## Syntax
@@ -224,59 +238,102 @@ The new linktype string to be added.
 
 The content string to make the retype (rename).
 
-### `scan(content: string, opts?: ScanOpts): (WikiAttrResult | WikiLinkResult | WikiEmbedResult)[]`
+### `scan(content: string, opts?: ScanOpts): ScanResult`
 
-Scan a given `content` string and return an array of descriptions of all valid wikiref constructs. Result formats are listed below and are sorted by order of appearance in the content string based on their `start` position.
+Scan a given `content` string and return all valid wikiref constructs. Returns a `ScanResult` with two views of the same data:
+
+- **`wikirefs`**: Grouped constructs in source order — one entry per syntactic construct (attr block, link, embed). Use for display, rendering attr boxes, tree views.
+- **`filenames`**: Flat list in source order — one entry per referenced filename (attr blocks with multiple filenames are exploded). Use for syntax highlighting, link validation, rename propagation.
 
 ```typescript
 import { scan } from 'wikirefs';
-import type { WikiAttrResult, WikiLinkResult, WikiEmbedResult } from 'wikirefs';
+import type { ScanResult, ScanRef, ScannedFileName } from 'wikirefs';
 
-const results: (WikiAttrResult | WikiLinkResult | WikiEmbedResult)[] = scan(
-  ':attr::[[note-a]]\nSee [[note-b]] for details.'
-);
-// results = [
-//   { kind: 'wikiattr', text: ':attr::[[note-a]]\n', start: 0,
-//     type: ['attr', 1], filenames: [['note-a', 8]], listFormat: 'comma' },
-//   { kind: 'wikilink', text: '[[note-b]]', start: 22,
-//     type: [], filename: ['note-b', 24], header: [], label: [] },
-// ]
+const result: ScanResult = scan(':attr::[[note-a]]\nSee [[note-b]] for details.');
+
+// grouped constructs
+for (const ref of result.wikirefs) {
+  if (ref.kind === 'wikiattr') {
+    ref.type.text       // 'attr'
+    ref.filenames[0].text // 'note-a'
+  }
+  if (ref.kind === 'wikilink') {
+    ref.filename.text   // 'note-b'
+    ref.header?.text    // undefined (no header)
+  }
+}
+
+// flat filenames
+for (const f of result.filenames) {
+  f.filename.text  // 'note-a', then 'note-b'
+  f.kind           // 'wikiattr', then 'wikilink'
+}
 
 // filter by kind
-const links: (WikiAttrResult | WikiLinkResult | WikiEmbedResult)[] = scan(
-  '[[note-a]]\n![[image.png]]',
-  { kind: 'wikilink' },
-);
-// links = [{ kind: 'wikilink', ... }]  // embed excluded
+const { wikirefs } = scan('[[note-a]]\n![[image.png]]', { kind: 'wikilink' });
+// wikirefs = [{ kind: 'wikilink', ... }]  // embed excluded
 ```
 
-Result formats:
+#### Types
 
-```js
-ScanResult {
-  kind: string;  // kind of wikiref
-  text: string;  // match text
-  start: number; // match start position in content string
-}
-WikiAttrResult extends ScanResult {
-  type: [string, number] | [];
-  filenames: [string, number][];
-  listFormat: string;
-}
-WikiLinkResult extends ScanResult {
-  type: [string, number] | [];
-  filename: [string, number];
-  header: [string, number] | [];
-  label: [string, number] | [];
-}
-WikiEmbedResult extends ScanResult {
-  filename: [string, number];
-  media: string;
-  header: string;
+The `ScanTxt` atom holds a text value and its position in the content string:
+
+```typescript
+interface ScanTxt {
+  text: string;
+  start: number;
 }
 ```
 
-Options:
+Grouped construct types:
+
+```typescript
+interface ScanAttr {
+  kind: 'wikiattr';
+  match: string;                          // full matched text
+  start: number;                          // offset in content
+  type: ScanTxt;                          // attrtype name + position
+  filenames: ScanTxt[];                   // all [[wikilink]] targets
+  listFormat: 'comma' | 'mkdn' | 'none'; // list format
+}
+
+interface ScanLink {
+  kind: 'wikilink';
+  match: string;
+  start: number;
+  type?: ScanTxt;       // linktype (undefined if untyped)
+  filename: ScanTxt;
+  header?: ScanTxt;     // undefined if no header
+  label?: ScanTxt;      // undefined if no label
+}
+
+interface ScanEmbed {
+  kind: 'wikiembed';
+  match: string;
+  start: number;
+  filename: ScanTxt;
+  header?: ScanTxt;     // undefined if no header
+  media: string;        // 'markdown' | 'image' | 'audio' | 'video' | ...
+}
+
+type ScanRef = ScanAttr | ScanLink | ScanEmbed;
+```
+
+Flat filename type:
+
+```typescript
+interface ScannedFileName {
+  filename: ScanTxt;
+  kind: 'wikiattr' | 'wikilink' | 'wikiembed';
+  type?: ScanTxt;
+  header?: ScanTxt;
+  label?: ScanTxt;
+  media?: string;
+  listFormat?: 'comma' | 'mkdn' | 'none';
+}
+```
+
+#### Options
 
 `opts.filename: string`: a specific filename to be targetted -- non-target-filename wiki constructs will be ignored.
 
@@ -362,63 +419,31 @@ Regex utilities for extracting wiki constructs from strings. All regexes are cas
 
 See [`regex.ts`](https://github.com/wikibonsai/wikirefs/blob/main/src/lib/var/regex.ts) for more regex utilities.
 
-### `RGX.WIKI.ATTR`
+### `RGX.WIKI.ATTR(content: string): MatchAttr[]`
 
-Note: Since javascript/typescript regex does not support the [`\G` anchor](https://ruby-doc.org/core-2.5.1/Regexp.html#class-Regexp-label-Anchors), filenames should be extracted from list items in the full match string. `wikirefs.RGX.WIKI.BASE` is a convenience regex for this purpose.
+A function that scans content and returns structured results for all wikiattr blocks, with filenames extracted in a single call (no two-pass needed). Uses sticky (`y`-flag) regexes internally — JS's equivalent of Ruby's `\G` anchor.
 
-```js
-// mkdn + comma separated formats both supported
+```typescript
 import * as wikirefs from 'wikirefs';
+import type { MatchAttr } from 'wikirefs';
 
-////
-// single / comma-list...
+// comma-separated
+const results: MatchAttr[] = wikirefs.RGX.WIKI.ATTR(':attrtype::[[fname-a]], [[fname-b]]\n');
+// results[0].type         = ['attrtype', 1]
+// results[0].filenames    = [['fname-a', 13], ['fname-b', 26]]
+// results[0].listFormat   = 'comma'
 
-const match = wikirefs.RGX.WIKI.ATTR.exec(`
-:attrtype::[[wikilink1]],[[wikilink2]]
-`);
-
-const matchText    : string = match[0]; // ':attrtype::[[wikilink1]],[[wikilink2]]\n'
-const attrTypeText : string = match[1]; // 'attrtype'
-
-// no '\G' so extract filenames manually
-let fnameMatch: RegExpExecArray;
-let filenames: string[] = [];           // ['wikilink1', 'wikilink2']
-const fnameRegex = new RegExp(wikirefs.RGX.WIKI.BASE, 'g');
-do {
-  fnameMatch = fnameRegex.exec(matchText);
-  if (fnameMatch) {
-    filenames.push(fnameMatch[1]);
-  }
-} while (fnameMatch);
-
-console.log(attrTypeText, filenames) // prints: 'attrtype', ['wikilink1', 'wikilink2']
-
-////
-// mkdn-list...
-
-const match = wikirefs.RGX.WIKI.ATTR.exec(
-`:attrtype::
-- [[wikilink1]]
-- [[wikilink2]]
-`);
-
-const matchText    : string = match[0]; // ':attrtype::\n- [[wikilink1]]\n- [[wikilink2]]\n'
-const attrTypeText : string = match[1]; // 'attrtype'
-
-// no '\G' so extract filenames manually
-let fnameMatch: RegExpExecArray;
-let filenames: string[] = [];           // ['wikilink1', 'wikilink2']
-const fnameRegex = new RegExp(wikirefs.RGX.WIKI.BASE, 'g');
-do {
-  fnameMatch = fnameRegex.exec(matchText);
-  if (fnameMatch) {
-    filenames.push(fnameMatch[1]);
-  }
-} while (fnameMatch);
-
-console.log(attrTypeText, filenames) // prints: 'attrtype', ['wikilink1', 'wikilink2']
-
+// mkdn-list
+const mkdnResults: MatchAttr[] = wikirefs.RGX.WIKI.ATTR(
+  ':attrtype::\n'
+  + '- [[fname-a]]\n'
+  + '- [[fname-b]]\n',
+);
+// mkdnResults[0].filenames = [['fname-a', 16], ['fname-b', 32]]
+// mkdnResults[0].listFormat = 'mkdn'
 ```
+
+The raw block-detection regex is available as `RGX.WIKI._ATTR` for find-and-replace use cases (e.g. `retypeAttrType`).
 
 ### `RGX.WIKI.LINK`
 

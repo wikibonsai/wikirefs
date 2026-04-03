@@ -117,22 +117,23 @@ export function wikiToMkdn(content: string, opts?: ConvertOpts): string | undefi
   // vars
   let mkdnContent: string = '';
   let curPos: number = 0;
-  const matches: any = scan(content);
-  for (const m of matches) {
+  const { wikirefs } = scan(content);
+  for (const m of wikirefs) {
     let linkedFileUri: string;
     // process non-wikiref text
     mkdnContent += content.substring(curPos, m.start);
     curPos = m.start;
     ////
     // attr
-    if ((m.kind === CONST.WIKI.ATTR)
+    if ((m.kind === 'wikiattr')
       && ((kind === CONST.WIKI.REF) || (kind === CONST.WIKI.ATTR)
         || (kind === CONST.WIKI.LINK)) // todo: remove
     ) {
-      for (const filename of m.filenames) {
+      for (let fi = 0; fi < m.filenames.length; fi++) {
+        const fname: { text: string; start: number } = m.filenames[fi];
         // wikiattrs encode header fragments inside the "filename" capture (e.g. `[[file#Header Text]]`)
         // but markdown links expect the label to be just the filename, with header in the URI fragment.
-        const rawTarget: string = filename[0];
+        const rawTarget: string = fname.text;
         const hashIndex: number = rawTarget.indexOf('#');
         const baseName: string = hashIndex === -1 ? rawTarget : rawTarget.substring(0, hashIndex);
         const headerText: string = hashIndex === -1 ? '' : rawTarget.substring(hashIndex + 1);
@@ -147,8 +148,8 @@ export function wikiToMkdn(content: string, opts?: ConvertOpts): string | undefi
           continue;
         }
         const fullUri: string = headerText ? `${uri}#${slugify(headerText)}` : uri;
-        const isFirstItem: boolean = (filename === m.filenames[0]);
-        const isNotLastItem: boolean = (filename !== m.filenames[m.filenames.length - 1]);
+        const isFirstItem: boolean = (fi === 0);
+        const isNotLastItem: boolean = (fi < m.filenames.length - 1);
         let suffix: string = '';
         if (isNotLastItem) {
           if (m.listFormat === 'comma') {
@@ -162,20 +163,20 @@ export function wikiToMkdn(content: string, opts?: ConvertOpts): string | undefi
           suffix = '\n';
         }
         if (isFirstItem) {
-          mkdnContent += content.substring(curPos, filename[1] - CONST.MARKER.OPEN.length);
+          mkdnContent += content.substring(curPos, fname.start - CONST.MARKER.OPEN.length);
         }
         mkdnContent += `[${baseName}](${fullUri})` + suffix;
       }
-      curPos = m.start + m.text.length;
+      curPos = m.start + m.match.length;
     ////
     // link
-    } else if ((m.kind === CONST.WIKI.LINK)
+    } else if ((m.kind === 'wikilink')
       && ((kind === CONST.WIKI.REF) || (kind === CONST.WIKI.LINK))
     ) {
       /* eslint-disable indent */
-      linkedFileUri = Object.keys(fnameToUriHash).includes(m.filename[0])
-                        ? fnameToUriHash[m.filename[0]]
-                        : '/' + m.filename[0] + CONST.EXTS.MD;
+      linkedFileUri = Object.keys(fnameToUriHash).includes(m.filename.text)
+                        ? fnameToUriHash[m.filename.text]
+                        : '/' + m.filename.text + CONST.EXTS.MD;
       /* eslint-enable indent */
       const uri: string | undefined = buildURI(linkedFileUri, format, ext);
       if (uri === undefined) {
@@ -190,37 +191,38 @@ export function wikiToMkdn(content: string, opts?: ConvertOpts): string | undefi
       const lineEnd: number = content.indexOf('\n', m.start);
       const lineText: string = content.substring(lineStart, lineEnd === -1 ? content.length : lineEnd);
       const isAttrLine: boolean = /^\s*:/.test(lineText) && lineText.includes('::');
-      const headerFrag: string | null = (m.header && m.header.length > 0)
-        ? (isAttrLine ? slugify(m.header[0]) : encodeURIComponent(m.header[0]))
+      const headerFrag: string | null = m.header
+        ? (isAttrLine ? slugify(m.header.text) : encodeURIComponent(m.header.text))
         : null;
       const fullUri: string = headerFrag ? `${uri}#${headerFrag}` : uri;
-      const linktype: string = m.type.length > 0
+      const linktype: string = m.type
       // todo: read from trug to see if colon prefix is default format
-        ? CONST.MARKER.PREFIX + m.type[0] + CONST.MARKER.TYPE + ' '
+        ? CONST.MARKER.PREFIX + m.type.text + CONST.MARKER.TYPE + ' '
         : '';
       // unlabelled
-      const hasExplicitLabelPipe: boolean = m.text.includes(CONST.MARKER.LABEL);
-      if (m.label.length === 0 && !hasExplicitLabelPipe) {
-        mkdnContent += linktype + `[${m.filename[0]}](${fullUri})`;
-        curPos = m.start + m.text.length;
+      const hasExplicitLabelPipe: boolean = m.match.includes(CONST.MARKER.LABEL);
+      if (!m.label && !hasExplicitLabelPipe) {
+        mkdnContent += linktype + `[${m.filename.text}](${fullUri})`;
+        curPos = m.start + m.match.length;
       // labelled
       } else {
-        const labelText: string = (m.label.length === 0) ? '' : m.label[0];
+        const labelText: string = m.label ? m.label.text : '';
         mkdnContent += linktype + `[${labelText}](${fullUri})`;
-        curPos = m.start + m.text.length;
+        curPos = m.start + m.match.length;
       }
     ////
     // embed
     // convert to markdown img link -- img
-    } else if ((m.kind === CONST.WIKI.EMBED)
+    } else if ((m.kind === 'wikiembed')
       && ((kind === CONST.WIKI.REF) || (kind === CONST.WIKI.EMBED))
     ) {
+      const headerTxt: string | undefined = m.header?.text;
       // image embed
       if (m.media === CONST.MEDIA.IMG) {
         /* eslint-disable indent */
-        linkedFileUri = Object.keys(fnameToUriHash).includes(m.filename[0])
-                          ? fnameToUriHash[m.filename[0]]
-                          : '/' + m.filename[0];
+        linkedFileUri = Object.keys(fnameToUriHash).includes(m.filename.text)
+                          ? fnameToUriHash[m.filename.text]
+                          : '/' + m.filename.text;
         /* eslint-enable indent */
         const INCLUDE_IMG_EXT: boolean = true;
         const uri: string | undefined = buildURI(linkedFileUri, format, INCLUDE_IMG_EXT);
@@ -228,17 +230,17 @@ export function wikiToMkdn(content: string, opts?: ConvertOpts): string | undefi
           console.warn('invalid uri from file uri: ', linkedFileUri);
           continue;
         }
-        const fullUri: string = m.header ? `${uri}#${slugify(m.header)}` : uri;
+        const fullUri: string = headerTxt ? `${uri}#${slugify(headerTxt)}` : uri;
         mkdnContent += `![](${fullUri})`;
-        curPos = m.start + m.text.length;
+        curPos = m.start + m.match.length;
       // convert to markdown link -- markdown, audio, video
       } else if ((m.media === CONST.MEDIA.MD)
               || (m.media === CONST.MEDIA.AUD)
               || (m.media === CONST.MEDIA.VID)) {
         /* eslint-disable indent */
-        linkedFileUri = Object.keys(fnameToUriHash).includes(m.filename[0])
-                          ? fnameToUriHash[m.filename[0]]
-                          : '/' + m.filename[0];
+        linkedFileUri = Object.keys(fnameToUriHash).includes(m.filename.text)
+                          ? fnameToUriHash[m.filename.text]
+                          : '/' + m.filename.text;
         /* eslint-enable indent */
         const INCLUDE_MEDIA_EXT: boolean = (m.media === CONST.MEDIA.AUD) || (m.media === CONST.MEDIA.VID);
         const uri: string | undefined = buildURI(linkedFileUri, format, INCLUDE_MEDIA_EXT || ext);
@@ -246,14 +248,14 @@ export function wikiToMkdn(content: string, opts?: ConvertOpts): string | undefi
           console.warn('invalid uri from file uri: ', linkedFileUri);
           continue;
         }
-        const fullUri: string = m.header ? `${uri}#${slugify(m.header)}` : uri;
-        mkdnContent += `[${m.filename[0]}](${fullUri})`;
-        curPos = m.start + m.text.length;
+        const fullUri: string = headerTxt ? `${uri}#${slugify(headerTxt)}` : uri;
+        mkdnContent += `[${m.filename.text}](${fullUri})`;
+        curPos = m.start + m.match.length;
       }
     // just add the match back since we are not processing it
     } else {
-      mkdnContent += m.text;
-      curPos = m.start + m.text.length;
+      mkdnContent += m.match;
+      curPos = m.start + m.match.length;
     }
   }
   // add remaining content
