@@ -20,6 +20,10 @@ export namespace RGX {
     SETEXT_HEADER     : /^ {0,3}([^ \t].*)\n[-=][-=]*[ \t\r\f\v]*\n/im,
     // list item: https://github.com/gettalong/kramdown/blob/master/lib/kramdown/parser/kramdown/list.rbL49
     BULLET            : /[^\n\r\S]{0,4}([+*-]) /i,
+    // markdown link: [label](uri) — excludes images (negative lookbehind for !)
+    LINK              : /(?<!!)\[(^$|.*?)\]\((.*?)\)/gi,
+    // markdown image: ![alt](uri)
+    IMAGE             : /!\[(.*?)]\((.*?)\)/gi,
     // markdown-style block-reference
     // BLOCK          : /".* \^" + BLOCK_ID$/i,
   } as const;

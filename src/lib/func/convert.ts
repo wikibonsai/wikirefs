@@ -1,5 +1,6 @@
 import { scan } from './scan';
 import { CONST } from '../var/const';
+import { RGX } from '../var/regex';
 import { buildURI, extractFileName } from '../../util/uri';
 import { isValidUriFormat, isValidWikiKind } from '../../util/valid';
 import { slugify } from '../util';
@@ -17,15 +18,10 @@ export interface ConvertOpts {
   uriToFnameHash?: Record<string, string>;
 }
 
-export const RGX_MKDN_LINK: RegExp = /(?<!!)\[(^$|.*?)\]\((.*?)\)/gi;
-export const RGX_MKDN_IMAGE: RegExp = /!\[(.*?)]\((.*?)\)/gi;
-
-function decodeUriFragment(fragment: string): string {
-  try {
-    return decodeURIComponent(fragment);
-  } catch {
-    return fragment;
-  }
+/** Decode percent-encoded fragment; returns raw string on malformed input (e.g. `%ZZ`). */
+function decodeURI_safe(fragment: string): string {
+  try { return decodeURIComponent(fragment); }
+  catch { return fragment; }
 }
 
 /**
@@ -58,13 +54,13 @@ export function mkdnToWiki(content: string, opts?: ConvertOpts): string | undefi
   const uriToFnameHash: Record<string, string> = opts?.uriToFnameHash ?? {};
   // links (includes attrs)
   if ((kind === CONST.WIKI.REF) || (kind === CONST.WIKI.LINK)) {
-    content = content.replace(RGX_MKDN_LINK, (match: string, label: string, uri: string) => {
+    content = content.replace(RGX._MKDN.LINK, (match: string, label: string, uri: string) => {
       // extract header if present
       let header: string = '';
       let cleanUri: string = uri;
       const hashIndex = uri.indexOf('#');
       if (hashIndex !== -1) {
-        header = decodeUriFragment(uri.substring(hashIndex + 1));
+        header = decodeURI_safe(uri.substring(hashIndex + 1));
         cleanUri = uri.substring(0, hashIndex);
       }
       /* eslint-disable indent */
@@ -89,12 +85,12 @@ export function mkdnToWiki(content: string, opts?: ConvertOpts): string | undefi
   }
   // embeds
   if ((kind === CONST.WIKI.REF) || (kind === CONST.WIKI.EMBED)) {
-    content = content.replace(RGX_MKDN_IMAGE, (match: string, label: string, uri: string) => {
+    content = content.replace(RGX._MKDN.IMAGE, (match: string, label: string, uri: string) => {
       let header: string = '';
       let cleanUri: string = uri;
       const hashIndex = uri.indexOf('#');
       if (hashIndex !== -1) {
-        header = decodeUriFragment(uri.substring(hashIndex + 1));
+        header = decodeURI_safe(uri.substring(hashIndex + 1));
         cleanUri = uri.substring(0, hashIndex);
       }
       const filename: string | undefined = extractFileName(cleanUri, format);
@@ -134,16 +130,23 @@ export function wikiToMkdn(content: string, opts?: ConvertOpts): string | undefi
         || (kind === CONST.WIKI.LINK)) // todo: remove
     ) {
       for (const filename of m.filenames) {
+        // wikiattrs encode header fragments inside the "filename" capture (e.g. `[[file#Header Text]]`)
+        // but markdown links expect the label to be just the filename, with header in the URI fragment.
+        const rawTarget: string = filename[0];
+        const hashIndex: number = rawTarget.indexOf('#');
+        const baseName: string = hashIndex === -1 ? rawTarget : rawTarget.substring(0, hashIndex);
+        const headerText: string = hashIndex === -1 ? '' : rawTarget.substring(hashIndex + 1);
         /* eslint-disable indent */
-        linkedFileUri = Object.keys(fnameToUriHash).includes(filename[0])
-                          ? fnameToUriHash[filename[0]]
-                          : '/' + filename[0] + CONST.EXTS.MD;
+        linkedFileUri = Object.keys(fnameToUriHash).includes(baseName)
+                          ? fnameToUriHash[baseName]
+                          : '/' + baseName + CONST.EXTS.MD;
         /* eslint-enable indent */
         const uri: string | undefined = buildURI(linkedFileUri, format, ext);
         if (uri === undefined) {
           console.warn('invalid uri from file uri: ', linkedFileUri);
           continue;
         }
+        const fullUri: string = headerText ? `${uri}#${slugify(headerText)}` : uri;
         const isFirstItem: boolean = (filename === m.filenames[0]);
         const isNotLastItem: boolean = (filename !== m.filenames[m.filenames.length - 1]);
         let suffix: string = '';
@@ -161,7 +164,7 @@ export function wikiToMkdn(content: string, opts?: ConvertOpts): string | undefi
         if (isFirstItem) {
           mkdnContent += content.substring(curPos, filename[1] - CONST.MARKER.OPEN.length);
         }
-        mkdnContent += `[${filename[0]}](${uri})` + suffix;
+        mkdnContent += `[${baseName}](${fullUri})` + suffix;
       }
       curPos = m.start + m.text.length;
     ////
@@ -180,18 +183,30 @@ export function wikiToMkdn(content: string, opts?: ConvertOpts): string | undefi
         continue;
       }
       // append header if present
-      const fullUri: string = m.header && m.header.length > 0 ? `${uri}#${slugify(m.header[0])}` : uri;
+      // - wikiattrs on attr lines: slugify fragment (e.g. `#header-text`)
+      // - ordinary wikilinks: percent-encode fragment so spaces etc. are valid in the URI
+      //   (e.g. `#Header%20Text`; round-trips with mkdnToWiki's decodeURI_safe).
+      const lineStart: number = content.lastIndexOf('\n', m.start - 1) + 1;
+      const lineEnd: number = content.indexOf('\n', m.start);
+      const lineText: string = content.substring(lineStart, lineEnd === -1 ? content.length : lineEnd);
+      const isAttrLine: boolean = /^\s*:/.test(lineText) && lineText.includes('::');
+      const headerFrag: string | null = (m.header && m.header.length > 0)
+        ? (isAttrLine ? slugify(m.header[0]) : encodeURIComponent(m.header[0]))
+        : null;
+      const fullUri: string = headerFrag ? `${uri}#${headerFrag}` : uri;
       const linktype: string = m.type.length > 0
       // todo: read from trug to see if colon prefix is default format
         ? CONST.MARKER.PREFIX + m.type[0] + CONST.MARKER.TYPE + ' '
         : '';
       // unlabelled
-      if (m.label.length === 0) {
+      const hasExplicitLabelPipe: boolean = m.text.includes(CONST.MARKER.LABEL);
+      if (m.label.length === 0 && !hasExplicitLabelPipe) {
         mkdnContent += linktype + `[${m.filename[0]}](${fullUri})`;
         curPos = m.start + m.text.length;
       // labelled
       } else {
-        mkdnContent += linktype + `[${m.label[0]}](${fullUri})`;
+        const labelText: string = (m.label.length === 0) ? '' : m.label[0];
+        mkdnContent += linktype + `[${labelText}](${fullUri})`;
         curPos = m.start + m.text.length;
       }
     ////
@@ -225,7 +240,8 @@ export function wikiToMkdn(content: string, opts?: ConvertOpts): string | undefi
                           ? fnameToUriHash[m.filename[0]]
                           : '/' + m.filename[0];
         /* eslint-enable indent */
-        const uri: string | undefined = buildURI(linkedFileUri, format, ext);
+        const INCLUDE_MEDIA_EXT: boolean = (m.media === CONST.MEDIA.AUD) || (m.media === CONST.MEDIA.VID);
+        const uri: string | undefined = buildURI(linkedFileUri, format, INCLUDE_MEDIA_EXT || ext);
         if (uri === undefined) {
           console.warn('invalid uri from file uri: ', linkedFileUri);
           continue;

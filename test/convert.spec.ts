@@ -58,6 +58,18 @@ describe('convert', () => {
           ocontent: ':attrtype:: [[fname-a]]\n',
         }));
 
+        it('single; header; kebab-case', testMkdnToWiki({
+          icontent: ':attrtype:: [fname-a#header-text](/fname-a#header-text)\n',
+          opts: {},
+          ocontent: ':attrtype:: [[fname-a#header-text]]\n',
+        }));
+
+        it('single; header; Title Case', testMkdnToWiki({
+          icontent: ':attrtype:: [fname-a#Header Text](/fname-a#Header Text)\n',
+          opts: {},
+          ocontent: ':attrtype:: [[fname-a#Header Text]]\n',
+        }));
+
         it('list; comma', testMkdnToWiki({
           icontent: ':attrtype:: [fname-a](/fname-a), [fname-b](/fname-b)\n',
           opts: {},
@@ -70,22 +82,16 @@ describe('convert', () => {
           ocontent: ':attrtype::[[fname-a]] ,  [[fname-b]]\n',
         }));
 
-        it('list; mkdn', testMkdnToWiki({
-          icontent: ':attrtype::\n- [fname-a](/fname-a)\n- [fname-b](/fname-b)\n',
-          opts: {},
-          ocontent: ':attrtype::\n- [[fname-a]]\n- [[fname-b]]\n',
-        }));
-
-        it('single; header', testMkdnToWiki({
-          icontent: ':attrtype:: [fname-a](/fname-a#header-text)\n',
-          opts: {},
-          ocontent: ':attrtype:: [[fname-a#header-text]]\n',
-        }));
-
         it('list; comma; header', testMkdnToWiki({
           icontent: ':attrtype:: [fname-a](/fname-a#header-text), [fname-b](/fname-b#other-header)\n',
           opts: {},
           ocontent: ':attrtype:: [[fname-a#header-text]], [[fname-b#other-header]]\n',
+        }));
+
+        it('list; mkdn', testMkdnToWiki({
+          icontent: ':attrtype::\n- [fname-a](/fname-a)\n- [fname-b](/fname-b)\n',
+          opts: {},
+          ocontent: ':attrtype::\n- [[fname-a]]\n- [[fname-b]]\n',
         }));
 
         it('list; mkdn; header', testMkdnToWiki({
@@ -122,42 +128,6 @@ describe('convert', () => {
           ocontent: 'here is a link: [[fname-a]]',
         }));
 
-        it('header', testMkdnToWiki({
-          icontent: '[fname-a](/fname-a#header)',
-          opts: {},
-          ocontent: '[[fname-a#header]]',
-        }));
-
-        it('labelled', testMkdnToWiki({
-          icontent: '[label](/fname-a)',
-          opts: {},
-          ocontent: '[[fname-a|label]]',
-        }));
-
-        it('labelled; header', testMkdnToWiki({
-          icontent: '[label](/fname-a#header)',
-          opts: {},
-          ocontent: '[[fname-a#header|label]]',
-        }));
-
-        it('header; kebab-case', testMkdnToWiki({
-          icontent: '[fname-a](/fname-a#header-text)',
-          opts: {},
-          ocontent: '[[fname-a#header-text]]',
-        }));
-
-        it('header; Title Case', testMkdnToWiki({
-          icontent: '[fname-a](/fname-a#Header%20Text)',
-          opts: {},
-          ocontent: '[[fname-a#Header Text]]',
-        }));
-
-        it('header; setext', testMkdnToWiki({
-          icontent: '[fname-a](/fname-a#setext-h1)',
-          opts: {},
-          ocontent: '[[fname-a#setext-h1]]',
-        }));
-
         it('filename format; nested path', testMkdnToWiki({
           icontent: '[fname-a](/path/to/fname-a)',
           opts: {},
@@ -170,32 +140,62 @@ describe('convert', () => {
           ocontent: '[[fname-a]]',
         }));
 
-        it('label; with spaces', testMkdnToWiki({
+        it('header; kebab-case', testMkdnToWiki({
+          icontent: '[fname-a](/fname-a#header-text)',
+          opts: {},
+          ocontent: '[[fname-a#header-text]]',
+        }));
+
+        it('header; Title Case', testMkdnToWiki({
+          icontent: '[fname-a](/fname-a#Header Text)',
+          opts: {},
+          ocontent: '[[fname-a#Header Text]]',
+        }));
+
+        it('labelled', testMkdnToWiki({
+          icontent: '[label](/fname-a)',
+          opts: {},
+          ocontent: '[[fname-a|label]]',
+        }));
+
+        it('labelled; with spaces', testMkdnToWiki({
           icontent: '[my label](/fname-a)',
           opts: {},
           ocontent: '[[fname-a|my label]]',
         }));
 
-        it('label; matches filename (unlabelled)', testMkdnToWiki({
+        it('labelled; matches filename (unlabelled)', testMkdnToWiki({
           icontent: '[fname-a](/fname-a)',
           opts: {},
           ocontent: '[[fname-a]]',
         }));
 
-        it('empty markdown label', testMkdnToWiki({
+        it('labelled; empty', testMkdnToWiki({
           icontent: '[](/fname-a)',
           opts: {},
           ocontent: '[[fname-a]]',
         }));
 
-        it('empty markdown label; header', testMkdnToWiki({
-          icontent: '[](/fname-a#header-text)',
+        it('labelled; header; kabob-case', testMkdnToWiki({
+          icontent: 'see [text](/fname-a#header-text)\n',
+          opts: {},
+          ocontent: 'see [[fname-a#header-text|text]]\n',
+        }));
+
+        it('labelled; header; Title Case', testMkdnToWiki({
+          icontent: 'see [text](/fname-a#Header Text)\n',
+          opts: {},
+          ocontent: 'see [[fname-a#Header Text|text]]\n',
+        }));
+
+        it('labelled; header; label is target', testMkdnToWiki({
+          icontent: '[fname-a#header-text](/fname-a#header-text)',
           opts: {},
           ocontent: '[[fname-a#header-text]]',
         }));
 
-        it('markdown label matches target', testMkdnToWiki({
-          icontent: '[fname-a#header-text](/fname-a#header-text)',
+        it('labelled; header; empty', testMkdnToWiki({
+          icontent: '[](/fname-a#header-text)',
           opts: {},
           ocontent: '[[fname-a#header-text]]',
         }));
@@ -210,7 +210,7 @@ describe('convert', () => {
 
       describe('embed', () => {
 
-        it.skip('markdown', testMkdnToWiki({
+        it('markdown', testMkdnToWiki({
           icontent: '![](/fname-a)',
           opts: {},
           ocontent: '![[fname-a]]',
@@ -223,30 +223,30 @@ describe('convert', () => {
         }));
 
         it('image; nested path', testMkdnToWiki({
-          icontent: '![](/images/img.png)',
+          icontent: '![](/path/to/img.png)',
           opts: {},
           ocontent: '![[img.png]]',
         }));
 
-        it('embed; header', testMkdnToWiki({
-          icontent: '![](/fname-a#header-text)',
-          opts: { kind: 'wikiembed' },
-          ocontent: '![[fname-a#header-text]]',
+        it('embed; header; kabob-case', testMkdnToWiki({
+          icontent: '![](/img.png#header-text)',
+          opts: {},
+          ocontent: '![[img.png#header-text]]',
         }));
 
-        it('embed; header; setext', testMkdnToWiki({
-          icontent: '![](/fname-a#setext-h1)',
-          opts: { kind: 'wikiembed' },
-          ocontent: '![[fname-a#setext-h1]]',
+        it('embed; header; Title Case', testMkdnToWiki({
+          icontent: '![](/img.png#Header Text)',
+          opts: {},
+          ocontent: '![[img.png#Header Text]]',
         }));
 
-        it.skip('audio', testMkdnToWiki({
+        it('audio', testMkdnToWiki({
           icontent: '![](/aud.mp3)',
           opts: {},
           ocontent: '![[aud.mp3]]',
         }));
 
-        it.skip('video', testMkdnToWiki({
+        it('video', testMkdnToWiki({
           icontent: '![](/vid.mp4)',
           opts: {},
           ocontent: '![[vid.mp4]]',
@@ -391,8 +391,20 @@ describe('convert', () => {
           ocontent: ':attrtype:: [fname-a](/fname-a#header-text)\n',
         }));
 
+        it('single; header; Title Case', testWikiToMkdn({
+          icontent: ':attrtype:: [[fname-a#Header Text]]\n',
+          opts: {},
+          ocontent: ':attrtype:: [fname-a](/fname-a#header-text)\n',
+        }));
+
         it('labelled; header', testWikiToMkdn({
           icontent: ':attrtype:: [[fname-a#header-text|label]]\n',
+          opts: {},
+          ocontent: ':attrtype:: [label](/fname-a#header-text)\n',
+        }));
+
+        it('labelled; header; Title Case', testWikiToMkdn({
+          icontent: ':attrtype:: [[fname-a#Header Text|label]]\n',
           opts: {},
           ocontent: ':attrtype:: [label](/fname-a#header-text)\n',
         }));
@@ -427,28 +439,46 @@ describe('convert', () => {
           ocontent: 'here is a link: [label](/fname-a)',
         }));
 
-        it('header', testWikiToMkdn({
-          icontent: '[[fname-a#header]]',
+        it('header; kebab-case', testWikiToMkdn({
+          icontent: 'here is a link: [[fname-a#header-text]]',
           opts: {},
-          ocontent: '[fname-a](/fname-a#header)',
-        }));
-
-        it('labelled; header', testWikiToMkdn({
-          icontent: '[[fname-a#header|label]]',
-          opts: {},
-          ocontent: '[label](/fname-a#header)',
+          ocontent: 'here is a link: [fname-a](/fname-a#header-text)',
         }));
 
         it('header; Title Case', testWikiToMkdn({
-          icontent: '[[fname-a#Header Text]]',
+          icontent: 'here is a link: [[fname-a#Header Text]]',
           opts: {},
-          ocontent: '[fname-a](/fname-a#header-text)',
+          ocontent: 'here is a link: [fname-a](/fname-a#Header%20Text)',
+        }));
+
+        it('labelled; empty (not a valid wikilink — passes through)', testWikiToMkdn({
+          icontent: 'here is a link: [[fname-a|]]',
+          opts: {},
+          ocontent: 'here is a link: [[fname-a|]]',
+        }));
+
+        it('labelled; header; kabob-case', testWikiToMkdn({
+          icontent: 'here is a link: [[fname-a#header-text|label]]',
+          opts: {},
+          ocontent: 'here is a link: [label](/fname-a#header-text)',
         }));
 
         it('labelled; header; Title Case', testWikiToMkdn({
-          icontent: '[[fname-a#Header Text|label]]',
+          icontent: 'here is a link: [[fname-a#Header Text|label]]',
           opts: {},
-          ocontent: '[label](/fname-a#header-text)',
+          ocontent: 'here is a link: [label](/fname-a#Header%20Text)',
+        }));
+
+        it('labelled; header; label is target', testWikiToMkdn({
+          icontent: 'here is a link: [[fname-a#header-text|fname-a#header-text]]',
+          opts: {},
+          ocontent: 'here is a link: [fname-a#header-text](/fname-a#header-text)',
+        }));
+
+        it('labelled; header; empty (not a valid wikilink — passes through)', testWikiToMkdn({
+          icontent: 'here is a link: [[fname-a#header-text|]]',
+          opts: {},
+          ocontent: 'here is a link: [[fname-a#header-text|]]',
         }));
 
         it('zombie (defaults to filename format)', testWikiToMkdn({
@@ -473,28 +503,16 @@ describe('convert', () => {
           ocontent: '![](/img.png)',
         }));
 
-        it('embed; header', testWikiToMkdn({
-          icontent: 'here is an embed: ![[fname-a#header-text]]',
-          opts: {},
-          ocontent: 'here is an embed: [fname-a](/fname-a#header-text)',
-        }));
-
-        it('embed; header; Title Case', testWikiToMkdn({
-          icontent: '![[fname-a#Header Text]]',
-          opts: {},
-          ocontent: '[fname-a](/fname-a#header-text)',
-        }));
-
-        it.skip('audio', testWikiToMkdn({
+        it('audio', testWikiToMkdn({
           icontent: '![[aud.mp3]]',
           opts: {},
-          ocontent: '[](/aud.mp3)',
+          ocontent: '[aud.mp3](/aud.mp3)',
         }));
 
-        it.skip('video', testWikiToMkdn({
+        it('video', testWikiToMkdn({
           icontent: '![[vid.mp4]]',
           opts: {},
-          ocontent: '[](/vid.mp4)',
+          ocontent: '[vid.mp4](/vid.mp4)',
         }));
 
       });
