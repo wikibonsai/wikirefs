@@ -6,6 +6,14 @@ import { esc } from 'escape-mkdn';
 import { CONST } from './const';
 
 
+export interface WikiAttrMatch {
+  text: string;
+  start: number;
+  type: [string, number];
+  filenames: [string, number][];
+  listFormat: 'comma' | 'mkdn' | 'none';
+}
+
 export namespace RGX {
 
   // <------------------------------------------------------------------------>
@@ -155,11 +163,8 @@ export namespace RGX {
                                       + MARKER.CLOSE.source
                                     + ')'
                                   , 'i'),
-    // since javascript/typescript regex does not support the \G anchor (see: https://ruby-doc.org/core-2.5.1/Regexp.html#class-Regexp-label-Anchors),
-    // filenames should be extracted from list items in the full match string
-    // ('WIKI.BASE' is useful for this)
-    // attr / block / flow
-    ATTR              : new RegExp(
+    // raw attr block regex — use WIKI.ATTR() function for structured results
+    _ATTR             : new RegExp(
                                     ATTR_UTIL.PREFIX.source                                            // 1
                                     + '(?:'
                                       // comma-separated
@@ -177,7 +182,64 @@ export namespace RGX {
                                       + ')+'
                                     + ')'
                                   , 'im'),
-  } as const;
+    /**
+     * Match all wikiattr blocks in content and extract filenames in one call.
+     * Returns structured results with type, filenames, offsets, and list format.
+     *
+     * Uses sticky (y-flag) regexes internally — JS equivalent of Ruby's \G anchor.
+     * The raw block regex is available as `WIKI._ATTR` for find-and-replace uses.
+     */
+    ATTR(content: string): WikiAttrMatch[] {
+      const results: WikiAttrMatch[] = [];
+      const blockRegex: RegExp = new RegExp(WIKI._ATTR, 'gim');
+      let attrMatch: RegExpExecArray | null;
+      while ((attrMatch = blockRegex.exec(content)) !== null) {
+        const matchText: string = attrMatch[0];
+        const attrtypeText: string = attrMatch[1];
+        const attrtypeOffset: number = attrMatch.index + matchText.indexOf(attrtypeText);
+        // detect list format
+        const isMkdnList: boolean = /\n *[-+*] /.test(matchText);
+        let listFormat: 'comma' | 'mkdn' | 'none' = 'none';
+        if (isMkdnList) {
+          listFormat = 'mkdn';
+        } else if (/ *, */.test(matchText)) {
+          listFormat = 'comma';
+        }
+        // extract filenames via sticky walk
+        const filenames: [string, number][] = [];
+        const stickyItemRegex: RegExp = isMkdnList
+          ? new RegExp(_STICKY.ATTR_ITEM_MKDN, 'iy')
+          : new RegExp(_STICKY.ATTR_ITEM_COMMA, 'iy');
+        const prefixRegex: RegExp = new RegExp(_STICKY.ATTR_PREFIX, 'im');
+        const prefixMatch = prefixRegex.exec(matchText);
+        if (prefixMatch) {
+          const valueStart: number = attrMatch.index
+                                   + prefixMatch.index
+                                   + prefixMatch[0].length;
+          stickyItemRegex.lastIndex = valueStart;
+          let fnameMatch: RegExpExecArray | null;
+          while ((fnameMatch = stickyItemRegex.exec(content)) !== null) {
+            const filenameText: string = isMkdnList
+              ? fnameMatch[2].replace(/^\[\[/, '').replace(/\]\]$/, '')
+              : fnameMatch[1];
+            const twoLeftBrackets: number = 2;
+            const bracketOffset: number = fnameMatch[0].indexOf('[[');
+            const filenameOffset: number = fnameMatch.index + bracketOffset + twoLeftBrackets;
+            filenames.push([filenameText, filenameOffset]);
+          }
+        }
+        results.push({
+          text: matchText,
+          start: attrMatch.index,
+          type: [attrtypeText.trim(), attrtypeOffset],
+          filenames,
+          listFormat,
+        });
+      }
+      return results;
+    },
+  };
+
 
   // <------------------------------------------------------------------------>
   //  utilities to extract out target wikitext
@@ -268,12 +330,50 @@ export namespace RGX {
                                   , 'i'),
     // BLOCK_ID         : new RegExp(MARKER.LINK_LEFT.source
     //                               + '(?:' + VALID_CHARS.FILENAME.source + ')'
-    //                               + MARKER.BLOCK.source 
+    //                               + MARKER.BLOCK.source
     //                               + CAP_GRP.BLOCK_ID.source
     //                               + '(?:'
     //                                 + MARKER.LINK_LABEL.source
     //                                 + '|' + MARKER.LINK_RIGHT.source
     //                               + ')'
     //                               , 'i'),
+  } as const;
+
+  // <------------------------------------------------------------------------>
+  //  sticky (y-flag) regexes — JS equivalent of Ruby's \G anchor.
+  //
+  //  The 'y' flag anchors each exec() to lastIndex and returns null if the
+  //  pattern doesn't match at that exact position. Usage:
+  //
+  //    const re = new RegExp(RGX._STICKY.ATTR_ITEM_COMMA, 'iy');
+  //    re.lastIndex = startOffset;
+  //    let m;
+  //    while ((m = re.exec(content)) !== null) {
+  //      // m[1] = filename; re.lastIndex is advanced automatically
+  //    }
+  //
+  //  Create a fresh RegExp per use — sticky regexes are stateful via lastIndex.
+  // <------------------------------------------------------------------------>
+
+  const _STICKY = {
+    /** Locates where `:type::` prefix ends so we know where to anchor the item regex. */
+    ATTR_PREFIX       : new RegExp(
+                                    ATTR_UTIL.PREFIX.source
+                                  , 'im'),
+    /** Matches one [[filename]] in a comma-separated attr value. Capture [1] = filename. */
+    ATTR_ITEM_COMMA   : new RegExp(
+                                    ' *,? *'
+                                    + MARKER.OPEN.source
+                                    + CAP_GRP.FILENAME.source                                              // 1
+                                    + MARKER.CLOSE.source
+                                    + ' *'
+                                  , 'iy'),
+    /** Matches one `- [[filename]]` line in a mkdn-list attr value. Capture [1] = bullet, [2] = full `[[filename]]`. */
+    ATTR_ITEM_MKDN    : new RegExp(
+                                    '\\n'
+                                    + '(?: *)'
+                                    + _MKDN.BULLET.source                                                  // 1
+                                    + '(' + _CAP_GRP_BASE.source + ')'                                     // 2
+                                  , 'iy'),
   } as const;
 }

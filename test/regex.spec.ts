@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 
-import { RGX } from '../src';
+import { RGX, WikiAttrMatch } from '../src';
 
 
 // since RegExpMatchArray is an array-franken-object,
@@ -173,7 +173,7 @@ describe('RGX', () => {
     describe('ATTR', () => {
 
       it('unprefixed; single; end of line', testRegex({
-        regex: RGX.WIKI.ATTR,
+        regex: RGX.WIKI._ATTR,
         content: 'attrtype::[[wikilink]]',
         match: [
           'attrtype::[[wikilink]]',
@@ -187,7 +187,7 @@ describe('RGX', () => {
       }));
 
       it('unprefixed; single; newline', testRegex({
-        regex: RGX.WIKI.ATTR,
+        regex: RGX.WIKI._ATTR,
         content: 'attrtype::[[wikilink]]\n',
         match: [
           'attrtype::[[wikilink]]\n',
@@ -201,13 +201,13 @@ describe('RGX', () => {
       }));
 
       it('unprefixed; single; no label', testRegex({
-        regex: RGX.WIKI.ATTR,
+        regex: RGX.WIKI._ATTR,
         content: 'attrtype::[[wikilink|label]]\n',
         match: null,
       }));
 
       it('unprefixed; list; comma', testRegex({
-        regex: RGX.WIKI.ATTR,
+        regex: RGX.WIKI._ATTR,
         content: 'attrtype::[[wikilink-1]],[[wikilink-2]],[[wikilink-3]]\n',
         match: [
           'attrtype::[[wikilink-1]],[[wikilink-2]],[[wikilink-3]]\n',
@@ -221,7 +221,7 @@ describe('RGX', () => {
       }));
 
       it('unprefixed; list; mkdn', testRegex({
-        regex: RGX.WIKI.ATTR,
+        regex: RGX.WIKI._ATTR,
         content: 'attrtype::\n'
         + '- [[wikilink-1]]\n'
         + '- [[wikilink-2]]\n'
@@ -238,7 +238,7 @@ describe('RGX', () => {
       }));
 
       it('prefixed; single', testRegex({
-        regex: RGX.WIKI.ATTR,
+        regex: RGX.WIKI._ATTR,
         content: ':attrtype::[[wikilink]]\n',
         match: [
           ':attrtype::[[wikilink]]\n',
@@ -252,13 +252,13 @@ describe('RGX', () => {
       }));
 
       it('prefixed; single; no label', testRegex({
-        regex: RGX.WIKI.ATTR,
+        regex: RGX.WIKI._ATTR,
         content: ':attrtype::[[wikilink|label]]\n',
         match: null,
       }));
 
       it('prefixed; list; comma', testRegex({
-        regex: RGX.WIKI.ATTR,
+        regex: RGX.WIKI._ATTR,
         content: ':attrtype::[[wikilink-1]],[[wikilink-2]],[[wikilink-3]]\n',
         match: [
           ':attrtype::[[wikilink-1]],[[wikilink-2]],[[wikilink-3]]\n',
@@ -272,7 +272,7 @@ describe('RGX', () => {
       }));
 
       it('prefixed; list; mkdn', testRegex({
-        regex: RGX.WIKI.ATTR,
+        regex: RGX.WIKI._ATTR,
         content: ':attrtype::\n'
         + '- [[wikilink-1]]\n'
         + '- [[wikilink-2]]\n'
@@ -287,6 +287,83 @@ describe('RGX', () => {
           'wikilink-3',
         ],
       }));
+
+    });
+
+    describe('ATTR() function', () => {
+
+      it('unprefixed; single', () => {
+        const results: WikiAttrMatch[] = RGX.WIKI.ATTR('attrtype::[[wikilink]]\n');
+        assert.strictEqual(results.length, 1);
+        assert.strictEqual(results[0].type[0], 'attrtype');
+        assert.strictEqual(results[0].filenames.length, 1);
+        assert.strictEqual(results[0].filenames[0][0], 'wikilink');
+        assert.strictEqual(results[0].listFormat, 'none');
+      });
+
+      it('prefixed; single', () => {
+        const results: WikiAttrMatch[] = RGX.WIKI.ATTR(':attrtype::[[wikilink]]\n');
+        assert.strictEqual(results.length, 1);
+        assert.strictEqual(results[0].type[0], 'attrtype');
+        assert.strictEqual(results[0].filenames.length, 1);
+        assert.strictEqual(results[0].filenames[0][0], 'wikilink');
+        assert.strictEqual(results[0].listFormat, 'none');
+      });
+
+      it('list; comma; all filenames extracted', () => {
+        const results: WikiAttrMatch[] = RGX.WIKI.ATTR(':attrtype::[[fname-a]], [[fname-b]], [[fname-c]]\n');
+        assert.strictEqual(results.length, 1);
+        assert.strictEqual(results[0].filenames.length, 3);
+        assert.strictEqual(results[0].filenames[0][0], 'fname-a');
+        assert.strictEqual(results[0].filenames[1][0], 'fname-b');
+        assert.strictEqual(results[0].filenames[2][0], 'fname-c');
+        assert.strictEqual(results[0].listFormat, 'comma');
+      });
+
+      it('list; mkdn; all filenames extracted', () => {
+        const results: WikiAttrMatch[] = RGX.WIKI.ATTR(
+          ':attrtype::\n'
+          + '- [[fname-a]]\n'
+          + '- [[fname-b]]\n'
+          + '- [[fname-c]]\n',
+        );
+        assert.strictEqual(results.length, 1);
+        assert.strictEqual(results[0].filenames.length, 3);
+        assert.strictEqual(results[0].filenames[0][0], 'fname-a');
+        assert.strictEqual(results[0].filenames[1][0], 'fname-b');
+        assert.strictEqual(results[0].filenames[2][0], 'fname-c');
+        assert.strictEqual(results[0].listFormat, 'mkdn');
+      });
+
+      it('multi; single + list (comma)', () => {
+        const content = ':type1::[[fname-a]]\n'
+          + ':type2::[[fname-b]], [[fname-c]]\n';
+        const results: WikiAttrMatch[] = RGX.WIKI.ATTR(content);
+        assert.strictEqual(results.length, 2);
+        assert.strictEqual(results[0].type[0], 'type1');
+        assert.strictEqual(results[0].filenames.length, 1);
+        assert.strictEqual(results[1].type[0], 'type2');
+        assert.strictEqual(results[1].filenames.length, 2);
+      });
+
+      it('attrtype offsets', () => {
+        const content = ':attrtype::[[wikilink]]\n';
+        const results: WikiAttrMatch[] = RGX.WIKI.ATTR(content);
+        assert.strictEqual(results[0].start, 0);
+        assert.strictEqual(results[0].type[1], 1); // after ':'
+        assert.strictEqual(results[0].filenames[0][1], 13); // after '::['
+        assert.strictEqual(content.substring(results[0].filenames[0][1], results[0].filenames[0][1] + 8), 'wikilink');
+      });
+
+      it('no matches returns empty array', () => {
+        const results: WikiAttrMatch[] = RGX.WIKI.ATTR('no wikirefs here');
+        assert.strictEqual(results.length, 0);
+      });
+
+      it('labelled; empty', () => {
+        const results: WikiAttrMatch[] = RGX.WIKI.ATTR(':attrtype::[[wikilink|]]\n');
+        assert.strictEqual(results.length, 0);
+      });
 
     });
 
@@ -798,6 +875,78 @@ describe('RGX', () => {
         ],
       }));
 
+    });
+
+  });
+
+  describe('sticky (y-flag) pattern usage', () => {
+
+    // These tests illustrate how the sticky (y) flag works as JS's
+    // equivalent of Ruby's \G anchor. The y flag anchors each exec()
+    // to lastIndex — if the pattern doesn't match at that exact
+    // position, it returns null (unlike 'g' which skips ahead).
+    //
+    // The actual _STICKY regexes are private to the RGX namespace
+    // (used internally by WIKI.ATTR()). These tests reconstruct
+    // equivalent patterns to demonstrate the mechanics.
+
+    it('comma items: walks contiguous comma-separated [[items]]', () => {
+      const content = ':attrtype::[[fname-a]], [[fname-b]], [[fname-c]]\n';
+      // equivalent of _STICKY.ATTR_ITEM_COMMA
+      const re = / *,? *\[\[([^\n\r!#:^|[\]]+)\]\] */iy;
+      re.lastIndex = 11; // right after '::'
+      const filenames: string[] = [];
+      let m: RegExpExecArray | null;
+      while ((m = re.exec(content)) !== null) {
+        filenames.push(m[1]);
+      }
+      assert.deepStrictEqual(filenames, ['fname-a', 'fname-b', 'fname-c']);
+    });
+
+    it('comma items: stops at non-matching position (no skip-ahead)', () => {
+      const content = ':attrtype::[[fname-a]], GARBAGE, [[fname-c]]\n';
+      const re = / *,? *\[\[([^\n\r!#:^|[\]]+)\]\] */iy;
+      re.lastIndex = 11;
+      const filenames: string[] = [];
+      let m: RegExpExecArray | null;
+      while ((m = re.exec(content)) !== null) {
+        filenames.push(m[1]);
+      }
+      // only fname-a matched — sticky stopped at GARBAGE
+      assert.deepStrictEqual(filenames, ['fname-a']);
+    });
+
+    it('mkdn items: walks contiguous list items', () => {
+      const content = ':attrtype::\n'
+        + '- [[fname-a]]\n'
+        + '- [[fname-b]]\n'
+        + '- [[fname-c]]\n';
+      // equivalent of _STICKY.ATTR_ITEM_MKDN
+      const re = /\n(?: *)([+*-]) (\[\[[^\n\r!#:^|[\]]+\]\])/iy;
+      re.lastIndex = 11; // right after '::'
+      const filenames: string[] = [];
+      let m: RegExpExecArray | null;
+      while ((m = re.exec(content)) !== null) {
+        filenames.push(m[2].replace(/^\[\[/, '').replace(/\]\]$/, ''));
+      }
+      assert.deepStrictEqual(filenames, ['fname-a', 'fname-b', 'fname-c']);
+    });
+
+    it('y-flag vs g-flag: g skips gaps, y does not', () => {
+      const content = '[[a]] GARBAGE [[b]]';
+      // g-flag: finds both — skips over GARBAGE
+      const gRe = /\[\[([^\]]+)\]\]/g;
+      const gResults: string[] = [];
+      let gm: RegExpExecArray | null;
+      while ((gm = gRe.exec(content)) !== null) { gResults.push(gm[1]); }
+      assert.deepStrictEqual(gResults, ['a', 'b']);
+      // y-flag: finds only first — stops at GARBAGE
+      const yRe = /\[\[([^\]]+)\]\] */y;
+      yRe.lastIndex = 0;
+      const yResults: string[] = [];
+      let ym: RegExpExecArray | null;
+      while ((ym = yRe.exec(content)) !== null) { yResults.push(ym[1]); }
+      assert.deepStrictEqual(yResults, ['a']);
     });
 
   });

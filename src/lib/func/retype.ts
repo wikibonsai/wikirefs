@@ -17,7 +17,7 @@ export function retypeAttrType(
   newAttrType: string,
   content: string,
 ): string {
-  const wikiattr: RegExp = new RegExp(RGX.WIKI.ATTR, 'gm');
+  const wikiattr: RegExp = new RegExp(RGX.WIKI._ATTR, 'gm');
   return string.replace(wikiattr, oldAttrType, newAttrType, content, { pad: true });
 }
 
