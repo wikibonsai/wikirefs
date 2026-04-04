@@ -36,12 +36,9 @@ export function replace(
         const start: number = (match.index + fnameOffset);
         const end: number = (match.index + fnameOffset + oldStr.length);
         // check for escapes
-        /* eslint-disable indent */
-        const escaped: boolean = isStrEscaped(
-                                              oldStr, content,
-                                              fnameOffset, escdIndices,
-                                            );
-        /* eslint-enable indent */
+        const escaped: boolean = opts.escape
+          ? isStrEscaped(oldStr, content, start, escdIndices)
+          : false;
         if (!escaped) {
           updatedContent += content.substring(lastOffset, start)
                           + newStr;

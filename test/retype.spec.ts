@@ -11,7 +11,8 @@ describe('retypeRefType()', () => {
   const testRetypeRefType = (params: any) => () => {
     const mkdn: string = params.mkdn;
     const expdMkdn: string = params.expdMkdn;
-    const actlMkdn: string = wikirefs.retypeRefType(oldRefType, newRefType, mkdn);
+    const opts: any = params.opts;
+    const actlMkdn: string = wikirefs.retypeRefType(oldRefType, newRefType, mkdn, opts);
     assert.strictEqual(actlMkdn, expdMkdn);
   };
 
@@ -108,7 +109,8 @@ describe('retypeAttrType()', () => {
     () => {
       const mkdn: string = params.mkdn;
       const expdMkdn: string = params.expdMkdn;
-      const actlMkdn: string = wikirefs.retypeAttrType(oldRefType, newRefType, mkdn);
+      const opts: any = params.opts;
+      const actlMkdn: string = wikirefs.retypeAttrType(oldRefType, newRefType, mkdn, opts);
       assert.strictEqual(actlMkdn, expdMkdn);
     };
 
@@ -171,21 +173,62 @@ describe('retypeAttrType()', () => {
         expdMkdn: ':new-reftype::\n- [[wikilink]]\n- [[another]]\nHere is some content.',
       }));
 
-      describe('escaped', () => {
+      describe('escaped (skipped by default)', () => {
 
-        it('single', testRetypeAttrType({
+        it('code span', testRetypeAttrType({
+          mkdn: 'see `:old-reftype::[[wikilink]]` in code.\n',
+          expdMkdn: 'see `:old-reftype::[[wikilink]]` in code.\n',
+        }));
+
+        it('code fence; backtick', testRetypeAttrType({
           mkdn: '```\n:old-reftype::[[wikilink]]\n```\nHere is some content.',
           expdMkdn: '```\n:old-reftype::[[wikilink]]\n```\nHere is some content.',
         }));
 
-        it('list; comma', testRetypeAttrType({
-          mkdn: '```\n:old-reftype::[[wikilink]],[[another]]\n```\nHere is some content.',
-          expdMkdn: '```\n:old-reftype::[[wikilink]],[[another]]\n```\nHere is some content.',
+        it('code fence; tilde', testRetypeAttrType({
+          mkdn: '~~~\n:old-reftype::[[wikilink]]\n~~~\nHere is some content.',
+          expdMkdn: '~~~\n:old-reftype::[[wikilink]]\n~~~\nHere is some content.',
         }));
 
-        it('list; mkdn', testRetypeAttrType({
-          mkdn: '```\n:old-reftype::\n- [[wikilink]]\n- [[another]]\n```\nHere is some content.',
-          expdMkdn: '```\n:old-reftype::\n- [[wikilink]]\n- [[another]]\n```\nHere is some content.',
+        it('code block (4+ spaces)', testRetypeAttrType({
+          mkdn: '    :old-reftype::[[wikilink]]\nHere is some content.',
+          expdMkdn: '    :old-reftype::[[wikilink]]\nHere is some content.',
+        }));
+
+        it('math span', testRetypeAttrType({
+          mkdn: 'see $:old-reftype::[[wikilink]]$ in math.\n',
+          expdMkdn: 'see $:old-reftype::[[wikilink]]$ in math.\n',
+        }));
+
+        it('math fence', testRetypeAttrType({
+          mkdn: '$$\n:old-reftype::[[wikilink]]\n$$\nHere is some content.',
+          expdMkdn: '$$\n:old-reftype::[[wikilink]]\n$$\nHere is some content.',
+        }));
+
+      });
+
+      describe('escape: false (include escaped)', () => {
+
+        // note: code span, code block (4+ spaces), and math span are not tested here
+        // because retypeAttrType uses the block-level _ATTR regex which requires
+        // attrs on their own line — inline escaped contexts won't match structurally.
+
+        it('code fence; backtick', testRetypeAttrType({
+          mkdn: '```\n:old-reftype::[[wikilink]]\n```\n',
+          expdMkdn: '```\n:new-reftype::[[wikilink]]\n```\n',
+          opts: { escape: false },
+        }));
+
+        it('code fence; tilde', testRetypeAttrType({
+          mkdn: '~~~\n:old-reftype::[[wikilink]]\n~~~\n',
+          expdMkdn: '~~~\n:new-reftype::[[wikilink]]\n~~~\n',
+          opts: { escape: false },
+        }));
+
+        it('math fence', testRetypeAttrType({
+          mkdn: '$$\n:old-reftype::[[wikilink]]\n$$\n',
+          expdMkdn: '$$\n:new-reftype::[[wikilink]]\n$$\n',
+          opts: { escape: false },
         }));
 
       });
@@ -234,7 +277,8 @@ describe('retypeLinkType()', () => {
     () => {
       const mkdn: string = params.mkdn;
       const expdMkdn: string = params.expdMkdn;
-      const actlMkdn: string = wikirefs.retypeLinkType(oldRefType, newRefType, mkdn);
+      const opts: any = params.opts;
+      const actlMkdn: string = wikirefs.retypeLinkType(oldRefType, newRefType, mkdn, opts);
       assert.strictEqual(actlMkdn, expdMkdn);
     };
 
@@ -284,6 +328,85 @@ describe('retypeLinkType()', () => {
       }));
 
     });
+
+  });
+
+  describe('escaped (skipped by default)', () => {
+
+    it('code span', testRetypeLinkType({
+      mkdn: 'see `:old-reftype::[[wikilink]]` in code.',
+      expdMkdn: 'see `:old-reftype::[[wikilink]]` in code.',
+    }));
+
+    it('code fence; backtick', testRetypeLinkType({
+      mkdn: '```\n:old-reftype::[[wikilink]]\n```\nHere is some content.',
+      expdMkdn: '```\n:old-reftype::[[wikilink]]\n```\nHere is some content.',
+    }));
+
+    it('code fence; tilde', testRetypeLinkType({
+      mkdn: '~~~\n:old-reftype::[[wikilink]]\n~~~\nHere is some content.',
+      expdMkdn: '~~~\n:old-reftype::[[wikilink]]\n~~~\nHere is some content.',
+    }));
+
+    it('code block (4+ spaces)', testRetypeLinkType({
+      mkdn: '    :old-reftype::[[wikilink]]\nHere is some content.',
+      expdMkdn: '    :old-reftype::[[wikilink]]\nHere is some content.',
+    }));
+
+    it('math span', testRetypeLinkType({
+      mkdn: 'see $:old-reftype::[[wikilink]]$ in math.',
+      expdMkdn: 'see $:old-reftype::[[wikilink]]$ in math.',
+    }));
+
+    it('math fence', testRetypeLinkType({
+      mkdn: '$$\n:old-reftype::[[wikilink]]\n$$\nHere is some content.',
+      expdMkdn: '$$\n:old-reftype::[[wikilink]]\n$$\nHere is some content.',
+    }));
+
+    it('outside escaped context; still retyped', testRetypeLinkType({
+      mkdn: '`code` and :old-reftype::[[wikilink]] here.',
+      expdMkdn: '`code` and :new-reftype::[[wikilink]] here.',
+    }));
+
+  });
+
+  describe('escape: false (include escaped)', () => {
+
+    it('code span', testRetypeLinkType({
+      mkdn: 'see `:old-reftype::[[wikilink]]` in code.',
+      expdMkdn: 'see `:new-reftype::[[wikilink]]` in code.',
+      opts: { escape: false },
+    }));
+
+    it('code fence; backtick', testRetypeLinkType({
+      mkdn: '```\n:old-reftype::[[wikilink]]\n```',
+      expdMkdn: '```\n:new-reftype::[[wikilink]]\n```',
+      opts: { escape: false },
+    }));
+
+    it('code fence; tilde', testRetypeLinkType({
+      mkdn: '~~~\n:old-reftype::[[wikilink]]\n~~~',
+      expdMkdn: '~~~\n:new-reftype::[[wikilink]]\n~~~',
+      opts: { escape: false },
+    }));
+
+    it('code block (4+ spaces)', testRetypeLinkType({
+      mkdn: '    :old-reftype::[[wikilink]]\ntext.',
+      expdMkdn: '    :new-reftype::[[wikilink]]\ntext.',
+      opts: { escape: false },
+    }));
+
+    it('math span', testRetypeLinkType({
+      mkdn: 'see $:old-reftype::[[wikilink]]$ in math.',
+      expdMkdn: 'see $:new-reftype::[[wikilink]]$ in math.',
+      opts: { escape: false },
+    }));
+
+    it('math fence', testRetypeLinkType({
+      mkdn: '$$\n:old-reftype::[[wikilink]]\n$$',
+      expdMkdn: '$$\n:new-reftype::[[wikilink]]\n$$',
+      opts: { escape: false },
+    }));
 
   });
 

@@ -406,6 +406,8 @@ export const wikiEmbedCases: WikiRefTestCase[] = [
         +       '</div>\n'
         +       '<div class="embed-content">\n'
         +         '<p>body for setext h1.</p>\n'
+        +         '<h2>Setext H2</h2>\n'
+        +         '<p>body for setext h2.</p>\n'
         +         '\n'
         +       '</div>\n'
         +     '</div>\n'

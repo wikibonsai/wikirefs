@@ -9,14 +9,15 @@ const filename: string = 'filename';
 
 describe('rehead()', () => {
 
-  describe('with filename option (scoped)', () => {
+  const testRehead = (params: any) => () => {
+    const mkdn: string = params.mkdn;
+    const expdMkdn: string = params.expdMkdn;
+    const opts: any = { filename, ...params.opts };
+    const actlMkdn: string = wikirefs.rehead(oldHeader, newHeader, mkdn, opts);
+    assert.strictEqual(actlMkdn, expdMkdn);
+  };
 
-    const testRehead = (params: any) => () => {
-      const mkdn: string = params.mkdn;
-      const expdMkdn: string = params.expdMkdn;
-      const actlMkdn: string = wikirefs.rehead(oldHeader, newHeader, mkdn, { filename });
-      assert.strictEqual(actlMkdn, expdMkdn);
-    };
+  describe('with filename option (scoped)', () => {
 
     it('basic', testRehead({
       mkdn: 'Here is a [[filename#old-header]].',
@@ -95,23 +96,94 @@ describe('rehead()', () => {
 
   describe('shared', () => {
 
-    it('no match passthrough', () => {
-      const mkdn: string = 'There are no matching headers here [[filename#other-header]].';
-      const actlMkdn: string = wikirefs.rehead(oldHeader, newHeader, mkdn, { filename });
-      assert.strictEqual(actlMkdn, mkdn);
-    });
+    it('no match passthrough', testRehead({
+      mkdn: 'There are no matching headers here [[filename#other-header]].',
+      expdMkdn: 'There are no matching headers here [[filename#other-header]].',
+    }));
 
-    it('escaped; wikilinks inside code blocks are not renamed', () => {
-      const mkdn: string = '```\n[[filename#old-header]]\n```\nHere is some content.';
-      const actlMkdn: string = wikirefs.rehead(oldHeader, newHeader, mkdn, { filename });
-      assert.strictEqual(actlMkdn, mkdn);
-    });
+  });
 
-    it('escaped; wikiembeds inside code blocks are not renamed', () => {
-      const mkdn: string = '```\n![[filename#old-header]]\n```\nHere is some content.';
-      const actlMkdn: string = wikirefs.rehead(oldHeader, newHeader, mkdn, { filename });
-      assert.strictEqual(actlMkdn, mkdn);
-    });
+  describe('escaped (skipped by default)', () => {
+
+    it('code span', testRehead({
+      mkdn: 'see `[[filename#old-header]]` in code.',
+      expdMkdn: 'see `[[filename#old-header]]` in code.',
+    }));
+
+    it('code fence; backtick', testRehead({
+      mkdn: '```\n[[filename#old-header]]\n```\nHere is some content.',
+      expdMkdn: '```\n[[filename#old-header]]\n```\nHere is some content.',
+    }));
+
+    it('code fence; tilde', testRehead({
+      mkdn: '~~~\n[[filename#old-header]]\n~~~\nHere is some content.',
+      expdMkdn: '~~~\n[[filename#old-header]]\n~~~\nHere is some content.',
+    }));
+
+    it('code block (4+ spaces)', testRehead({
+      mkdn: '    [[filename#old-header]]\nHere is some content.',
+      expdMkdn: '    [[filename#old-header]]\nHere is some content.',
+    }));
+
+    it('math span', testRehead({
+      mkdn: 'see $[[filename#old-header]]$ in math.',
+      expdMkdn: 'see $[[filename#old-header]]$ in math.',
+    }));
+
+    it('math fence', testRehead({
+      mkdn: '$$\n[[filename#old-header]]\n$$\nHere is some content.',
+      expdMkdn: '$$\n[[filename#old-header]]\n$$\nHere is some content.',
+    }));
+
+    it('embed; code fence', testRehead({
+      mkdn: '```\n![[filename#old-header]]\n```\nHere is some content.',
+      expdMkdn: '```\n![[filename#old-header]]\n```\nHere is some content.',
+    }));
+
+    it('outside escaped context; still renamed', testRehead({
+      mkdn: '`code` and [[filename#old-header]] here.',
+      expdMkdn: '`code` and [[filename#new-header]] here.',
+    }));
+
+  });
+
+  describe('escape: false (include escaped)', () => {
+
+    it('code span', testRehead({
+      mkdn: 'see `[[filename#old-header]]` in code.',
+      expdMkdn: 'see `[[filename#new-header]]` in code.',
+      opts: { escape: false },
+    }));
+
+    it('code fence; backtick', testRehead({
+      mkdn: '```\n[[filename#old-header]]\n```',
+      expdMkdn: '```\n[[filename#new-header]]\n```',
+      opts: { escape: false },
+    }));
+
+    it('code fence; tilde', testRehead({
+      mkdn: '~~~\n[[filename#old-header]]\n~~~',
+      expdMkdn: '~~~\n[[filename#new-header]]\n~~~',
+      opts: { escape: false },
+    }));
+
+    it('code block (4+ spaces)', testRehead({
+      mkdn: '    [[filename#old-header]]\ntext.',
+      expdMkdn: '    [[filename#new-header]]\ntext.',
+      opts: { escape: false },
+    }));
+
+    it('math span', testRehead({
+      mkdn: 'see $[[filename#old-header]]$ in math.',
+      expdMkdn: 'see $[[filename#new-header]]$ in math.',
+      opts: { escape: false },
+    }));
+
+    it('math fence', testRehead({
+      mkdn: '$$\n[[filename#old-header]]\n$$',
+      expdMkdn: '$$\n[[filename#new-header]]\n$$',
+      opts: { escape: false },
+    }));
 
   });
 

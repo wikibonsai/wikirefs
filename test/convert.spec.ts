@@ -50,6 +50,34 @@ describe('convert', () => {
         ocontent: 'no links here!',
       }));
 
+      describe('escaped', () => {
+
+        it('code span; link not converted', testMkdnToWiki({
+          icontent: 'see `[fname-a](/fname-a)` in code',
+          opts: {},
+          ocontent: 'see `[fname-a](/fname-a)` in code',
+        }));
+
+        it('code span; image not converted', testMkdnToWiki({
+          icontent: 'see `![](/img.png)` in code',
+          opts: {},
+          ocontent: 'see `![](/img.png)` in code',
+        }));
+
+        it('code fence; link not converted', testMkdnToWiki({
+          icontent: '```\n[fname-a](/fname-a)\n```',
+          opts: {},
+          ocontent: '```\n[fname-a](/fname-a)\n```',
+        }));
+
+        it('outside code span; link converted', testMkdnToWiki({
+          icontent: '[fname-a](/fname-a) and `some code`',
+          opts: {},
+          ocontent: '[[fname-a]] and `some code`',
+        }));
+
+      });
+
       describe('attr', () => {
 
         it('single', testMkdnToWiki({
@@ -394,7 +422,7 @@ describe('convert', () => {
         it('single; header; Title Case', testWikiToMkdn({
           icontent: ':attrtype:: [[fname-a#Header Text]]\n',
           opts: {},
-          ocontent: ':attrtype:: [fname-a](/fname-a#header-text)\n',
+          ocontent: ':attrtype:: [fname-a](/fname-a#Header Text)\n',
         }));
 
         it('labelled; header', testWikiToMkdn({
@@ -406,7 +434,7 @@ describe('convert', () => {
         it('labelled; header; Title Case', testWikiToMkdn({
           icontent: ':attrtype:: [[fname-a#Header Text|label]]\n',
           opts: {},
-          ocontent: ':attrtype:: [label](/fname-a#header-text)\n',
+          ocontent: ':attrtype:: [label](/fname-a#Header Text)\n',
         }));
 
       });
@@ -448,7 +476,7 @@ describe('convert', () => {
         it('header; Title Case', testWikiToMkdn({
           icontent: 'here is a link: [[fname-a#Header Text]]',
           opts: {},
-          ocontent: 'here is a link: [fname-a](/fname-a#Header%20Text)',
+          ocontent: 'here is a link: [fname-a](/fname-a#Header Text)',
         }));
 
         it('labelled; empty (not a valid wikilink — passes through)', testWikiToMkdn({
@@ -466,7 +494,7 @@ describe('convert', () => {
         it('labelled; header; Title Case', testWikiToMkdn({
           icontent: 'here is a link: [[fname-a#Header Text|label]]',
           opts: {},
-          ocontent: 'here is a link: [label](/fname-a#Header%20Text)',
+          ocontent: 'here is a link: [label](/fname-a#Header Text)',
         }));
 
         it('labelled; header; label is target', testWikiToMkdn({

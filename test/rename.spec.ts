@@ -11,7 +11,8 @@ describe('rename()', () => {
   const testRenameFileName = (params: any) => () => {
     const mkdn: string = params.mkdn;
     const expdMkdn: string = params.expdMkdn;
-    const actlMkdn: string = wikirefs.rename(oldFileName, newFileName, mkdn);
+    const opts: any = params.opts;
+    const actlMkdn: string = wikirefs.rename(oldFileName, newFileName, mkdn, opts);
     assert.strictEqual(actlMkdn, expdMkdn);
   };
 
@@ -185,21 +186,81 @@ describe('rename()', () => {
 
   });
 
-  describe('escaped; attr; prefixed', () => {
+  describe('escaped (skipped by default)', () => {
 
-    it('single', testRenameFileName({
-      mkdn: '```\n:old-reftype::[[wikilink]]\n```\nHere is some content.',
-      expdMkdn: '```\n:old-reftype::[[wikilink]]\n```\nHere is some content.',
+    it('code span', testRenameFileName({
+      mkdn: 'see `[[wikilink]]` in code.',
+      expdMkdn: 'see `[[wikilink]]` in code.',
     }));
 
-    it('list; comma-separated', testRenameFileName({
-      mkdn: '```\n:old-reftype::[[wikilink]],[[another]]\n```\nHere is some content.',
-      expdMkdn: '```\n:old-reftype::[[wikilink]],[[another]]\n```\nHere is some content.',
+    it('code fence; backtick', testRenameFileName({
+      mkdn: '```\n[[wikilink]]\n```\nHere is some content.',
+      expdMkdn: '```\n[[wikilink]]\n```\nHere is some content.',
     }));
 
-    it('list; mkdn-separated', testRenameFileName({
-      mkdn: '```\n:old-reftype::\n- [[wikilink]]\n- [[another]]\n```\nHere is some content.',
-      expdMkdn: '```\n:old-reftype::\n- [[wikilink]]\n- [[another]]\n```\nHere is some content.',
+    it('code fence; tilde', testRenameFileName({
+      mkdn: '~~~\n[[wikilink]]\n~~~\nHere is some content.',
+      expdMkdn: '~~~\n[[wikilink]]\n~~~\nHere is some content.',
+    }));
+
+    it('code block (4+ spaces)', testRenameFileName({
+      mkdn: '    [[wikilink]]\nHere is some content.',
+      expdMkdn: '    [[wikilink]]\nHere is some content.',
+    }));
+
+    it('math span', testRenameFileName({
+      mkdn: 'see $[[wikilink]]$ in math.',
+      expdMkdn: 'see $[[wikilink]]$ in math.',
+    }));
+
+    it('math fence', testRenameFileName({
+      mkdn: '$$\n[[wikilink]]\n$$\nHere is some content.',
+      expdMkdn: '$$\n[[wikilink]]\n$$\nHere is some content.',
+    }));
+
+    it('outside escaped context; still renamed', testRenameFileName({
+      mkdn: '`code` and [[wikilink]] here.',
+      expdMkdn: '`code` and [[hello-world]] here.',
+    }));
+
+  });
+
+  describe('escape: false (include escaped)', () => {
+
+    it('code span', testRenameFileName({
+      mkdn: 'see `[[wikilink]]` in code.',
+      expdMkdn: 'see `[[hello-world]]` in code.',
+      opts: { escape: false },
+    }));
+
+    it('code fence; backtick', testRenameFileName({
+      mkdn: '```\n[[wikilink]]\n```',
+      expdMkdn: '```\n[[hello-world]]\n```',
+      opts: { escape: false },
+    }));
+
+    it('code fence; tilde', testRenameFileName({
+      mkdn: '~~~\n[[wikilink]]\n~~~',
+      expdMkdn: '~~~\n[[hello-world]]\n~~~',
+      opts: { escape: false },
+    }));
+
+    it('code block (4+ spaces)', testRenameFileName({
+      mkdn: '    [[wikilink]]\ntext.',
+      expdMkdn: '    [[hello-world]]\ntext.',
+      opts: { escape: false },
+    }));
+
+    it('math span', testRenameFileName({
+      mkdn: 'see $[[wikilink]]$ in math.',
+      expdMkdn: 'see $[[hello-world]]$ in math.',
+      opts: { escape: false },
+    }));
+
+    it('math fence', testRenameFileName({
+      mkdn: '$$\n[[wikilink]]\n$$',
+      expdMkdn: '$$\n[[hello-world]]\n$$',
+      opts: { escape: false },
     }));
 
   });

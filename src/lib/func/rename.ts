@@ -9,9 +9,11 @@ export function renameFileName(
   oldFileName: string,
   newFileName: string,
   content: string,
+  opts?: { escape?: boolean },
 ): string {
   const wikiTextFilename: RegExp = new RegExp(RGX.GET.FILENAME, 'g');
-  return string.replace(wikiTextFilename, oldFileName, newFileName, content);
+  const skip: boolean = opts?.escape !== undefined ? opts.escape : true;
+  return string.replace(wikiTextFilename, oldFileName, newFileName, content, { escape: skip });
 }
 
 // alias
@@ -19,6 +21,7 @@ export function rename(
   oldFileName: string,
   newFileName: string,
   content: string,
+  opts?: { escape?: boolean },
 ): string {
-  return renameFileName(oldFileName, newFileName, content);
+  return renameFileName(oldFileName, newFileName, content, opts);
 }

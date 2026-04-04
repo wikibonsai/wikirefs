@@ -6,7 +6,7 @@ export function renameHeader(
   oldHeader: string,
   newHeader: string,
   content: string,
-  opts?: { filename?: string },
+  opts?: { filename?: string; escape?: boolean },
 ): string {
   // Only match #header inside [[...]] or ![[...]] (group 1 = header)
   const linkOrEmbed: string = '(?:' + RGX.MARKER.EMBED.source + ')?'
@@ -25,7 +25,8 @@ export function renameHeader(
   } else {
     headerRegex = new RegExp(linkOrEmbed + RGX.GET.HEADER.source, 'gi');
   }
-  return string.replace(headerRegex, oldHeader, newHeader, content);
+  const skip: boolean = opts?.escape !== undefined ? opts.escape : true;
+  return string.replace(headerRegex, oldHeader, newHeader, content, { escape: skip });
 }
 
 // alias
@@ -33,7 +34,7 @@ export function rehead(
   oldHeader: string,
   newHeader: string,
   content: string,
-  opts?: { filename?: string },
+  opts?: { filename?: string; escape?: boolean },
 ): string {
   return renameHeader(oldHeader, newHeader, content, opts);
 }

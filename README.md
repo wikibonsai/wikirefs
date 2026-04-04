@@ -86,9 +86,9 @@ Options:
 
 `opts.uriToFnameHash: Record<string, string>`: a hash table explicitly defining what uri maps to what filename.
 
-### `rename(oldFileName: string, newFileName: string, content: string): string`
+### `rename(oldFileName: string, newFileName: string, content: string, opts?): string`
 
-For all references in a given `content` string which point to an `oldFileName` and rename them to the `newFileName`; ignores escaped instances.
+For all references in a given `content` string which point to an `oldFileName` and rename them to the `newFileName`. Skips escaped instances (code spans, code fences, math) by default.
 
 ```typescript
 import { rename } from 'wikirefs';
@@ -96,6 +96,14 @@ import { rename } from 'wikirefs';
 const content: string = 'See [[old-note]] for details.';
 const result: string = rename('old-note', 'new-note', content);
 // result = 'See [[new-note]] for details.'
+
+// escaped wikirefs are skipped by default
+const escaped: string = rename('old-note', 'new-note', 'see `[[old-note]]` in code.');
+// escaped = 'see `[[old-note]]` in code.'  (unchanged)
+
+// opt out of escape detection
+const all: string = rename('old-note', 'new-note', 'see `[[old-note]]` in code.', { escape: false });
+// all = 'see `[[new-note]]` in code.'  (renamed inside code span)
 ```
 
 #### Alias
@@ -116,9 +124,13 @@ The new filename string to be added.
 
 The content string to make the file rename.
 
-### `rehead(oldHeader: string, newHeader: string, content: string, opts?: { filename?: string }): string`
+##### `opts.escape: boolean` (optional, default `true`)
 
-For all **header level** references (the `#...` part) in a given `content` string which match the `oldHeader`, rename them to the `newHeader`; ignores escaped instances.
+If `true`, skip wikirefs inside code spans, code fences, code blocks (4+ spaces), and math spans/fences. Set to `false` to process all wikirefs regardless of context.
+
+### `rehead(oldHeader: string, newHeader: string, content: string, opts?): string`
+
+For all **header level** references (the `#...` part) in a given `content` string which match the `oldHeader`, rename them to the `newHeader`. Skips escaped instances by default.
 
 If `opts.filename` is provided, only header fragments in wikilinks matching that filename are renamed (scoped). Otherwise, header fragments are renamed across all filenames (global).
 
@@ -138,8 +150,6 @@ const scoped: string = rehead('old-header', 'new-header', content, { filename: '
 
 `renameHeader()` is an alias of `rehead()`.
 
-`rehead()` is also an alias of `rehead()`.
-
 #### Parameters
 
 ##### `oldHeader: string`
@@ -158,9 +168,13 @@ The content string to make the header rename.
 
 If provided, only rename headers in wikilinks matching this filename.
 
-### `retypeRefType(oldRefType: string, newRefType: string, content: string): string`
+##### `opts.escape: boolean` (optional, default `true`)
 
-For all reference types in a given `content` string which match the given `oldRefType`, rename them to `newRefType`; ignores escaped instances.
+If `true`, skip wikirefs inside escaped markdown contexts. Set to `false` to process all wikirefs.
+
+### `retypeRefType(oldRefType: string, newRefType: string, content: string, opts?): string`
+
+For all reference types in a given `content` string which match the given `oldRefType`, rename them to `newRefType`. Skips escaped instances by default.
 
 Since 'reftypes' contain 'attrtypes' (wikiattr) and 'linktypes' (wikilink), this function will preform the operations of both `retypeAttrType()` and `retypeLinkType()` below.
 
@@ -186,9 +200,13 @@ The new reftype string to be added.
 
 The content string to make the retype (rename).
 
-### `retypeAttrType(oldAttrType: string, newAttrType: string, content: string): string`
+##### `opts.escape: boolean` (optional, default `true`)
 
-For all attribute types in a given `content` string which match the given `oldAttrType`, rename them to `newAttrType`; ignores escaped instances.
+If `true`, skip wikirefs inside escaped markdown contexts. Set to `false` to process all wikirefs.
+
+### `retypeAttrType(oldAttrType: string, newAttrType: string, content: string, opts?): string`
+
+For all attribute types in a given `content` string which match the given `oldAttrType`, rename them to `newAttrType`. Skips escaped instances by default.
 
 ```typescript
 import { retypeAttrType } from 'wikirefs';
@@ -212,9 +230,13 @@ The new attrtype string to be added.
 
 The content string to make the retype (rename).
 
-### `retypeLinkType(oldLinkType: string, newLinkType: string, content: string): string`
+##### `opts.escape: boolean` (optional, default `true`)
 
-For all link types in a given `content` string which match the given `oldLinkType`, rename them to be `newLinkType`; ignores escaped instances.
+If `true`, skip wikirefs inside escaped markdown contexts. Set to `false` to process all wikirefs.
+
+### `retypeLinkType(oldLinkType: string, newLinkType: string, content: string, opts?): string`
+
+For all link types in a given `content` string which match the given `oldLinkType`, rename them to be `newLinkType`. Skips escaped instances by default.
 
 ```typescript
 import { retypeLinkType } from 'wikirefs';
@@ -237,6 +259,10 @@ The new linktype string to be added.
 ##### `content: string`
 
 The content string to make the retype (rename).
+
+##### `opts.escape: boolean` (optional, default `true`)
+
+If `true`, skip wikirefs inside escaped markdown contexts. Set to `false` to process all wikirefs.
 
 ### `scan(content: string, opts?: ScanOpts): ScanResult`
 
