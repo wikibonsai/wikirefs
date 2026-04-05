@@ -93,7 +93,7 @@ describe('convert', () => {
         }));
 
         it('single; header; Title Case', testMkdnToWiki({
-          icontent: ':attrtype:: [fname-a#Header Text](/fname-a#Header Text)\n',
+          icontent: ':attrtype:: [fname-a#Header Text](/fname-a#Header%20Text)\n',
           opts: {},
           ocontent: ':attrtype:: [[fname-a#Header Text]]\n',
         }));
@@ -175,7 +175,7 @@ describe('convert', () => {
         }));
 
         it('header; Title Case', testMkdnToWiki({
-          icontent: '[fname-a](/fname-a#Header Text)',
+          icontent: '[fname-a](/fname-a#Header%20Text)',
           opts: {},
           ocontent: '[[fname-a#Header Text]]',
         }));
@@ -211,7 +211,7 @@ describe('convert', () => {
         }));
 
         it('labelled; header; Title Case', testMkdnToWiki({
-          icontent: 'see [text](/fname-a#Header Text)\n',
+          icontent: 'see [text](/fname-a#Header%20Text)\n',
           opts: {},
           ocontent: 'see [[fname-a#Header Text|text]]\n',
         }));
@@ -263,7 +263,7 @@ describe('convert', () => {
         }));
 
         it('embed; header; Title Case', testMkdnToWiki({
-          icontent: '![](/img.png#Header Text)',
+          icontent: '![](/img.png#Header%20Text)',
           opts: {},
           ocontent: '![[img.png#Header Text]]',
         }));
@@ -422,7 +422,7 @@ describe('convert', () => {
         it('single; header; Title Case', testWikiToMkdn({
           icontent: ':attrtype:: [[fname-a#Header Text]]\n',
           opts: {},
-          ocontent: ':attrtype:: [fname-a](/fname-a#Header Text)\n',
+          ocontent: ':attrtype:: [fname-a](/fname-a#Header%20Text)\n',
         }));
 
         it('labelled; header', testWikiToMkdn({
@@ -434,7 +434,7 @@ describe('convert', () => {
         it('labelled; header; Title Case', testWikiToMkdn({
           icontent: ':attrtype:: [[fname-a#Header Text|label]]\n',
           opts: {},
-          ocontent: ':attrtype:: [label](/fname-a#Header Text)\n',
+          ocontent: ':attrtype:: [label](/fname-a#Header%20Text)\n',
         }));
 
       });
@@ -476,7 +476,7 @@ describe('convert', () => {
         it('header; Title Case', testWikiToMkdn({
           icontent: 'here is a link: [[fname-a#Header Text]]',
           opts: {},
-          ocontent: 'here is a link: [fname-a](/fname-a#Header Text)',
+          ocontent: 'here is a link: [fname-a](/fname-a#Header%20Text)',
         }));
 
         it('labelled; empty (not a valid wikilink — passes through)', testWikiToMkdn({
@@ -494,7 +494,7 @@ describe('convert', () => {
         it('labelled; header; Title Case', testWikiToMkdn({
           icontent: 'here is a link: [[fname-a#Header Text|label]]',
           opts: {},
-          ocontent: 'here is a link: [label](/fname-a#Header Text)',
+          ocontent: 'here is a link: [label](/fname-a#Header%20Text)',
         }));
 
         it('labelled; header; label is target', testWikiToMkdn({

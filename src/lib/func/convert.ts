@@ -51,12 +51,13 @@ export function mkdnToWiki(content: string, opts?: ConvertOpts): string | undefi
   if ((kind === CONST.WIKI.REF) || (kind === CONST.WIKI.LINK)) {
     content = content.replace(RGX._MKDN.LINK, (match: string, label: string, uri: string, offset: number) => {
       if (isStrEscaped(match, content, offset, escdIndices)) { return match; }
-      // extract header if present — preserve original form (no decode)
+      // extract header if present — decode %20 etc. back to readable text
       let header: string = '';
       let cleanUri: string = uri;
       const hashIndex = uri.indexOf('#');
       if (hashIndex !== -1) {
-        header = uri.substring(hashIndex + 1);
+        try { header = decodeURIComponent(uri.substring(hashIndex + 1)); }
+        catch { header = uri.substring(hashIndex + 1); }
         cleanUri = uri.substring(0, hashIndex);
       }
       /* eslint-disable indent */
@@ -83,12 +84,13 @@ export function mkdnToWiki(content: string, opts?: ConvertOpts): string | undefi
   if ((kind === CONST.WIKI.REF) || (kind === CONST.WIKI.EMBED)) {
     content = content.replace(RGX._MKDN.IMAGE, (match: string, label: string, uri: string, offset: number) => {
       if (isStrEscaped(match, content, offset, escdIndices)) { return match; }
-      // preserve original form (no decode)
+      // decode %20 etc. back to readable text
       let header: string = '';
       let cleanUri: string = uri;
       const hashIndex = uri.indexOf('#');
       if (hashIndex !== -1) {
-        header = uri.substring(hashIndex + 1);
+        try { header = decodeURIComponent(uri.substring(hashIndex + 1)); }
+        catch { header = uri.substring(hashIndex + 1); }
         cleanUri = uri.substring(0, hashIndex);
       }
       const filename: string | undefined = extractFileName(cleanUri, format);
@@ -145,7 +147,7 @@ export function wikiToMkdn(content: string, opts?: ConvertOpts): string | undefi
           console.warn('invalid uri from file uri: ', linkedFileUri);
           continue;
         }
-        const fullUri: string = headerText ? `${uri}#${headerText}` : uri;
+        const fullUri: string = headerText ? `${uri}#${encodeURIComponent(headerText)}` : uri;
         const isFirstItem: boolean = (fi === 0);
         const isNotLastItem: boolean = (fi < m.filenames.length - 1);
         let suffix: string = '';
@@ -181,9 +183,9 @@ export function wikiToMkdn(content: string, opts?: ConvertOpts): string | undefi
         console.warn('invalid uri from file uri: ', linkedFileUri);
         continue;
       }
-      // append header if present — preserve original form (no slugify or encode)
+      // append header if present — percent-encode for valid URI
       const headerFrag: string | null = m.header ? m.header.text : null;
-      const fullUri: string = headerFrag ? `${uri}#${headerFrag}` : uri;
+      const fullUri: string = headerFrag ? `${uri}#${encodeURIComponent(headerFrag)}` : uri;
       const linktype: string = m.type
       // todo: read from trug to see if colon prefix is default format
         ? CONST.MARKER.PREFIX + m.type.text + CONST.MARKER.TYPE + ' '
@@ -219,7 +221,7 @@ export function wikiToMkdn(content: string, opts?: ConvertOpts): string | undefi
           console.warn('invalid uri from file uri: ', linkedFileUri);
           continue;
         }
-        const fullUri: string = headerTxt ? `${uri}#${headerTxt}` : uri;
+        const fullUri: string = headerTxt ? `${uri}#${encodeURIComponent(headerTxt)}` : uri;
         mkdnContent += `![](${fullUri})`;
         curPos = m.start + m.match.length;
       // convert to markdown link -- markdown, audio, video
@@ -237,7 +239,7 @@ export function wikiToMkdn(content: string, opts?: ConvertOpts): string | undefi
           console.warn('invalid uri from file uri: ', linkedFileUri);
           continue;
         }
-        const fullUri: string = headerTxt ? `${uri}#${headerTxt}` : uri;
+        const fullUri: string = headerTxt ? `${uri}#${encodeURIComponent(headerTxt)}` : uri;
         mkdnContent += `[${m.filename.text}](${fullUri})`;
         curPos = m.start + m.match.length;
       }
