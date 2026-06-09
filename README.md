@@ -361,11 +361,43 @@ interface ScannedFileName {
 
 #### Options
 
-`opts.filename: string`: a specific filename to be targetted -- non-target-filename wiki constructs will be ignored.
+##### `filename: string`
 
-`opts.kind: string`: specific kinds of wiki constructs may be targetted; valid options are `'wikiattr'`, `'wikilink'`, and `'wikiembed'`.
+A specific filename to be targeted — non-target-filename wiki constructs will be ignored.
 
-`opts.skipEsc: boolean`: whether or not to skip escaped wiki construct instances; set to `true` by default.
+```ts
+const { wikirefs } = scan(':attr::[[note-a]]\nSee [[note-b]].', { filename: 'note-a' });
+// wikirefs = [{ kind: 'wikiattr', type: { text: 'attr', ... }, filenames: [{ text: 'note-a', ... }], ... }]
+// note-b is excluded
+```
+
+##### `kind: string`
+
+Specific kinds of wiki constructs may be targeted; valid options are `'wikiattr'`, `'wikilink'`, and `'wikiembed'`.
+
+```ts
+const { wikirefs } = scan('[[note-a]]\n![[image.png]]', { kind: 'wikilink' });
+// wikirefs = [{ kind: 'wikilink', ... }]  // embed excluded
+
+const { wikirefs: attrs } = scan(':attr::[[note-a]]\n[[note-b]]', { kind: 'wikiattr' });
+// attrs = [{ kind: 'wikiattr', ... }]  // link excluded
+```
+
+##### `skipEsc: boolean`
+
+Whether or not to skip escaped wiki construct instances; set to `true` by default.
+
+- `true` (default): wikirefs inside backticks, code spans, and fenced code blocks are ignored.
+- `false`: all wikiref constructs are returned regardless of escaping.
+
+```ts
+const { wikirefs } = scan('`[[escaped]]`\n[[visible]]', { skipEsc: true });
+// wikirefs = [{ kind: 'wikilink', filename: { text: 'visible', ... }, ... }]
+// escaped is skipped
+
+const { wikirefs: all } = scan('`[[escaped]]`\n[[visible]]', { skipEsc: false });
+// all = [{ filename: { text: 'escaped', ... } }, { filename: { text: 'visible', ... } }]
+```
 
 ### `wikiToMkdn(content: string, opts?: ConvertOpts): string`
 
