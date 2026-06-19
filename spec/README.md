@@ -90,9 +90,11 @@ Resulting HTML:
 ```html
 <aside class="attrbox">
   <dl>
+    <div class="attr-item">
       <dt>attrtype</dt>
-        <dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
-    </dl>
+      <dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
+    </div>
+  </dl>
 </aside>
 <p>Some more text.</p>
 ```
@@ -168,12 +170,14 @@ Resulting HTML:
 ```html
 <aside class="attrbox">
   <dl>
+    <div class="attr-item">
       <dt>attrtype</dt>
-        <dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
-        <dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></dd>
-        <dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-c" data-href="/tests/fixtures/fname-c">title c</a></dd>
-        <!-- etc. -->
-    </dl>
+      <dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
+      <dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></dd>
+      <dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-c" data-href="/tests/fixtures/fname-c">title c</a></dd>
+      <!-- etc. -->
+    </div>
+  </dl>
 </aside>
 ```
 
@@ -220,12 +224,14 @@ For example, this markdown might generate the following `json` data and `html`:
 ```html
 <aside class="attrbox">
   <dl>
+    <div class="attr-item">
       <dt>attrtype</dt>
-        <!-- filename duplicates preserved here -->
-        <dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
-        <dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
-        <dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></dd>
-    </dl>
+      <!-- filename duplicates preserved here -->
+      <dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
+      <dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
+      <dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></dd>
+    </div>
+  </dl>
 </aside>
 ```
 
@@ -548,10 +554,12 @@ If a document type (`doctype`) for the referenced markdown file is given, its sl
 ```html
 <aside class="attrbox">
   <dl>
+    <div class="attr-item">
       <dt>attrtype</dt>
-        <dd><a class="attr wiki reftype__attrtype doctype__doctype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
-        <!-- etc. -->
-    </dl>
+      <dd><a class="attr wiki reftype__attrtype doctype__doctype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
+      <!-- etc. -->
+    </div>
+  </dl>
 </aside>
 ```
 

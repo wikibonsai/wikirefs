@@ -12,8 +12,10 @@ export const wikiLinkTypedCases: WikiRefTestCase[] = [
     mkdn: ':attrtype::[[fname-a]]',
     html: '<aside class="attrbox">\n'
         + '<dl>\n'
+        + '<div class="attr-item">\n'
         + '<dt>attrtype</dt>\n'
         + '<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
+        + '</div>\n'
         + '</dl>\n'
         + '</aside>\n',
   },
