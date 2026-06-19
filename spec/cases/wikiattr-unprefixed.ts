@@ -11,7 +11,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
     descr: 'wikiattr; unprefixed; single; base',
     mkdn: 'attrtype::[[fname-a]]',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -22,7 +21,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
     descr: 'wikiattr; unprefixed; single; base (safe)',
     mkdn: 'attrtype::[[fname-a]]\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -33,7 +31,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
     descr: 'wikiattr; unprefixed; slugify (uppercase -> lowercase; whitespace -> dash; rm non-alpha-numeric',
     mkdn: ':Attr Type&::[[fname-a]]\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>Attr Type&</dt>\n'
         +     '<dd><a class="attr wiki reftype__attr-type" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -44,7 +41,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
     descr: 'wikiattr; unprefixed; single; w/ prior newline',
     mkdn: '\nattrtype::[[fname-a]]\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -55,7 +51,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
     descr: 'wikiattr; unprefixed; single; padded whitespace allowed around attrtype construct',
     mkdn: 'attrtype :: [[fname-a]]\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -66,7 +61,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
     descr: 'wikiattr; unprefixed; single; long whitespace before attrtype special char (::)',
     mkdn: 'attrtype     :: [[fname-a]]\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -82,7 +76,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
     descr: 'wikiattr; unprefixed; single; renders at top of content',
     mkdn: 'some text.\n\nattrtype::[[fname-a]]\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -112,7 +105,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
     descr: 'wikiattr; unprefixed; single; render fallback; no \'htmlText\'',
     mkdn: 'attrtype::[[no-html-text]]\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/no-html-text" data-href="/tests/fixtures/no-html-text">no-html-text</a></dd>\n'
@@ -124,7 +116,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
     descr: 'wikiattr; unprefixed; single; invalid; no \'htmlHref\'',
     mkdn: 'attrtype::[[no-html-href]]\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype</dt>\n'
         +     '<dd><a class="attr wiki invalid">[[no-html-href]]</a></dd>\n'
@@ -138,7 +129,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
         + 'attrtype-2::[[fname-b]]\n'
         + 'attrtype-3::[[fname-c]]\n', 
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype-1</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype-1" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -157,7 +147,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
         + '\n'
         + 'attrtype-3::[[fname-c]]\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype-1</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype-1" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -174,7 +163,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
         + 'attrtype-2  :: [[fname-b]]\n'
         + 'attrtype-3     :: [[fname-c]]\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype-1</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype-1" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -191,7 +179,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
         + 'attrtype-2  :: [[fname-b]]\n'
         + 'attrtype-3       :: [[fname-c]]\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype-1</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype-1" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -208,7 +195,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
         + 'attrtype-2  :: [[fname-b]]\n'
         + 'attrtype-3  ::  [[fname-c]]\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype-1</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype-1" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -223,7 +209,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
     mkdn: 'attrtype-1::[[fname-a]]\n'
         + 'attrtype-2::[[fname-b]]\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype-1</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype-1" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -237,7 +222,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
     mkdn: 'attrtype::[[fname-a]]\n'
         + 'attrtype::[[fname-b]]\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -250,7 +234,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
     mkdn: 'attrtype::[[fname-a]]\n'
         + 'attrtype::[[fname-a]]\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -264,7 +247,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
         + 'some in between text\n'
         + 'attrtype-2::[[fname-b]]\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype-1</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype-1" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -281,7 +263,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
         + 'attrtype-1::[[fname-a]]\n'
         + 'attrtype-2::[[fname-b]]\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype-1</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype-1" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -297,7 +278,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
         + 'attrtype-1::[[fname-a]]\n'
         + 'attrtype-2::[[fname-b]]\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype-1</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype-1" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -313,7 +293,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
     descr: 'wikiattr; unprefixed; list; comma-separated; w/o whitespace pad',
     mkdn: 'attrtype::[[fname-a]],[[fname-b]],[[fname-c]]\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -326,7 +305,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
     descr: 'wikiattr; unprefixed; list; comma-separated; w/ full whitespace pad',
     mkdn: 'attrtype :: [[fname-a]] , [[fname-b]] , [[fname-c]]\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -339,7 +317,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
     descr: 'wikiattr; unprefixed; list; comma-separated; w/ comma whitespace prefix pad',
     mkdn: 'attrtype::[[fname-a]] ,[[fname-b]] ,[[fname-c]]\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -352,7 +329,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
     descr: 'wikiattr; unprefixed; list; comma-separated; w/ comma whitespace suffix pad',
     mkdn: 'attrtype::[[fname-a]], [[fname-b]], [[fname-c]]\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -366,7 +342,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
     mkdn: 'attrtype-1::[[fname-a]],[[fname-b]]\n'
         + 'attrtype-2::[[fname-c]],[[fname-d]]\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype-1</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype-1" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -382,7 +357,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
     mkdn: 'attrtype::[[fname-a]],[[fname-b]]\n'
         + 'attrtype::[[fname-c]],[[fname-d]]\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -397,7 +371,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
     mkdn: 'attrtype::[[fname-a]],[[fname-b]]\n'
         + 'attrtype::[[fname-a]],[[fname-b]]\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -413,7 +386,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
         + 'some in between text\n'
         + 'attrtype-2::[[fname-b]]\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype-1</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype-1" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -428,7 +400,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
     mkdn: 'some random text.\n'
         + 'attrtype::[[fname-a]],[[fname-b]]\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -442,7 +413,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
     mkdn: 'attrtype::[[fname-a]],[[fname-b]]\n'
         + 'some random text.\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -472,7 +442,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
         + '- [[fname-b]]\n'
         + '- [[fname-c]]\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -488,7 +457,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
         + '+ [[fname-b]]\n'
         + '+ [[fname-c]]\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -504,7 +472,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
         + '* [[fname-b]]\n'
         + '* [[fname-c]]\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -520,7 +487,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
         + '+ [[fname-b]]\n'
         + '* [[fname-c]]\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -536,7 +502,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
         + '- [[fname-b]]\n'
         + '- [[fname-c]]\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -552,7 +517,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
         + '- [[fname-b]]\n'
         + '- [[fname-c]]\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -568,7 +532,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
         + '            - [[fname-b]]\n'
         + '            - [[fname-c]]\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -584,7 +547,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
         + '  - [[fname-b]]\n'
         + '  - [[fname-c]]\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -600,7 +562,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
         + '  - [[fname-b]]\n'
         + '    - [[fname-c]]\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -616,7 +577,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
         + '- [[fname-b]]\n'
         + '- [[fname-c]]\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -634,7 +594,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
         + '- [[fname-c]]\n'
         + '- [[fname-d]]\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype-1</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype-1" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -654,7 +613,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
         + '- [[fname-c]]\n'
         + '- [[fname-d]]\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -673,7 +631,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
         + '- [[fname-a]]\n'
         + '- [[fname-b]]\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -693,7 +650,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
         + '- [[fname-c]]\n'
         + '- [[fname-d]]\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype-1</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype-1" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -714,7 +670,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
         + '- [[fname-b]]\n'
         + '- [[fname-c]]\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -736,7 +691,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
         + '- [[fname-a]]\n'
         + '- [[fname-b]]\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -756,7 +710,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
         + '- [[fname-a]]\n'
         + '- [[fname-b]]\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -772,7 +725,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
         + '- [[fname-b]]\n'
         + 'some random text.\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -796,7 +748,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
         + '- [[fname-b]]\n'
         + '- [[fname-c]]\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -814,7 +765,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
         + '\n'
         + '# a header\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -827,7 +777,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
     mkdn: 'attrtype::[[fname-a]]\n'
         + '# a header\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -841,7 +790,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
         + '\n'
         + 'attrtype::[[fname-a]]\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -854,7 +802,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
     mkdn: '# a header\n'
         + 'attrtype::[[fname-a]]\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -870,7 +817,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
         + '- list-item-2\n'
         + '- list-item-3\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -889,7 +835,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
         + '- list-item-2\n'
         + '- list-item-3\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -909,7 +854,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
         + '\n'
         + 'attrtype::[[fname-a]]\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -928,7 +872,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
         + '- list-item-3\n'
         + 'attrtype::[[fname-a]]\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -946,7 +889,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
         + '\n'
         + '> some text\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -961,7 +903,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
     mkdn: 'attrtype::[[fname-a]]\n'
         + '> some text\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -977,7 +918,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
         + '\n'
         + 'attrtype::[[fname-a]]\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -992,7 +932,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
     mkdn: '> some text\n'
         + 'attrtype::[[fname-a]]\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -1032,7 +971,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
         + 'attrtype-2::[[fname-b]]\n'
         + 'attrtype-3::[[fname-c]]\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype-2</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype-2" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></dd>\n'
@@ -1048,7 +986,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
         + 'attrtype-2::[[fname-b]]\n'
         + 'attrtype-3::[[fname-c]]\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype-2</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype-2" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></dd>\n'
@@ -1064,7 +1001,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
         + 'attrtype-2::[[fname-b]]\n'
         + 'attrtype-3::[[fname-c]]\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype-2</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype-2" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></dd>\n'
@@ -1080,7 +1016,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
         + 'attrtype-2::[[fname-b]]\n'
         + 'attrtype-3::[[fname-c]]\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype-2</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype-2" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></dd>\n'
@@ -1096,7 +1031,6 @@ export const wikiAttrUnprefixedCases: WikiRefTestCase[] = [
         + 'attrtype-2::[fname-b]\n'
         + 'attrtype-3::[[fname-c]]\n',
     html: '<aside class="attrbox">\n'
-        +   '<span class="attrbox-title">Attributes</span>\n'
         +   '<dl>\n'
         +     '<dt>attrtype-1</dt>\n'
         +     '<dd><a class="attr wiki reftype__attrtype-1" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'

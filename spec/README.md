@@ -89,8 +89,7 @@ Resulting HTML:
 
 ```html
 <aside class="attrbox">
-  <span class="attrbox-title">Attributes</span>
-    <dl>
+  <dl>
       <dt>attrtype</dt>
         <dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
     </dl>
@@ -168,8 +167,7 @@ Resulting HTML:
 
 ```html
 <aside class="attrbox">
-  <span class="attrbox-title">Attributes</span>
-    <dl>
+  <dl>
       <dt>attrtype</dt>
         <dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
         <dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-b" data-href="/tests/fixtures/fname-b">title b</a></dd>
@@ -221,8 +219,7 @@ For example, this markdown might generate the following `json` data and `html`:
 
 ```html
 <aside class="attrbox">
-  <span class="attrbox-title">Attributes</span>
-    <dl>
+  <dl>
       <dt>attrtype</dt>
         <!-- filename duplicates preserved here -->
         <dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
@@ -550,8 +547,7 @@ If a document type (`doctype`) for the referenced markdown file is given, its sl
 
 ```html
 <aside class="attrbox">
-  <span class="attrbox-title">Attributes</span>
-    <dl>
+  <dl>
       <dt>attrtype</dt>
         <dd><a class="attr wiki reftype__attrtype doctype__doctype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>
         <!-- etc. -->

@@ -15,7 +15,6 @@ export const wikiAttrMixedCases: WikiRefTestCase[] = [
         + '- [[fname-b]]\n'
         + '- [[fname-c]]\n',
     html: '<aside class="attrbox">\n'
-        + '<span class="attrbox-title">Attributes</span>\n'
         + '<dl>\n'
         + '<dt>attrtype1</dt>\n'
         + '<dd><a class="attr wiki reftype__attrtype1" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -34,7 +33,6 @@ export const wikiAttrMixedCases: WikiRefTestCase[] = [
     mkdn: ':attrtype1::[[fname-a]]\n'
         + ':attrtype2::string\n',
     html: '<aside class="attrbox">\n'
-        + '<span class="attrbox-title">Attributes</span>\n'
         + '<dl>\n'
         + '<dt>attrtype1</dt>\n'
         + '<dd><a class="attr wiki reftype__attrtype1" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -49,7 +47,6 @@ export const wikiAttrMixedCases: WikiRefTestCase[] = [
         + ':attrtype3::string\n'
         + ':attrtype4::string\n',
     html: '<aside class="attrbox">\n'
-        + '<span class="attrbox-title">Attributes</span>\n'
         + '<dl>\n'
         + '<dt>attrtype1</dt>\n'
         + '<dd><a class="attr wiki reftype__attrtype1" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -67,7 +64,6 @@ export const wikiAttrMixedCases: WikiRefTestCase[] = [
         + '- string\n'
         + '- string\n',
     html: '<aside class="attrbox">\n'
-        + '<span class="attrbox-title">Attributes</span>\n'
         + '<dl>\n'
         + '<dt>attrtype1</dt>\n'
         + '<dd><a class="attr wiki reftype__attrtype1" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -89,7 +85,6 @@ export const wikiAttrMixedCases: WikiRefTestCase[] = [
         + ':attrtype2::string\n'
         + ':attrtype3::string\n',
     html: '<aside class="attrbox">\n'
-        + '<span class="attrbox-title">Attributes</span>\n'
         + '<dl>\n'
         + '<dt>attrtype1</dt>\n'
         + '<dd><a class="attr wiki reftype__attrtype1" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
@@ -107,7 +102,6 @@ export const wikiAttrMixedCases: WikiRefTestCase[] = [
         + '- string\n'
         + '- string\n',
     html: '<aside class="attrbox">\n'
-        + '<span class="attrbox-title">Attributes</span>\n'
         + '<dl>\n'
         + '<dt>attrtype1</dt>\n'
         + '<dd><a class="attr wiki reftype__attrtype1" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'

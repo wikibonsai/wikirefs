@@ -11,7 +11,6 @@ export const wikiLinkTypedCases: WikiRefTestCase[] = [
     descr: 'wikilink; typed; base -- this is actually a valid wikiattr!',
     mkdn: ':attrtype::[[fname-a]]',
     html: '<aside class="attrbox">\n'
-        + '<span class="attrbox-title">Attributes</span>\n'
         + '<dl>\n'
         + '<dt>attrtype</dt>\n'
         + '<dd><a class="attr wiki reftype__attrtype" href="/tests/fixtures/fname-a" data-href="/tests/fixtures/fname-a">title a</a></dd>\n'
