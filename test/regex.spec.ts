@@ -951,4 +951,53 @@ describe('RGX', () => {
 
   });
 
+  describe('_MKDN', () => {
+
+    describe('ATX_HEADER', () => {
+
+      it('matches h1 with space', () => {
+        const match = RGX._MKDN.ATX_HEADER.exec('# Heading\n');
+        assert.notStrictEqual(match, null);
+        assert.strictEqual(match![1].trim(), 'Heading');
+      });
+
+      it('matches h2 with space', () => {
+        const match = RGX._MKDN.ATX_HEADER.exec('## Heading\n');
+        assert.notStrictEqual(match, null);
+        assert.strictEqual(match![1].trim(), 'Heading');
+      });
+
+      it('matches h6', () => {
+        const match = RGX._MKDN.ATX_HEADER.exec('###### Heading\n');
+        assert.notStrictEqual(match, null);
+        assert.strictEqual(match![1].trim(), 'Heading');
+      });
+
+      it('does not match without space after #', () => {
+        const match = RGX._MKDN.ATX_HEADER.exec('#NoSpace\n');
+        assert.strictEqual(match, null);
+      });
+
+      it('does not match 7+ hashes', () => {
+        const match = RGX._MKDN.ATX_HEADER.exec('####### Not a heading\n');
+        assert.strictEqual(match, null);
+      });
+
+      it('matches with tab after #', () => {
+        const match = RGX._MKDN.ATX_HEADER.exec('#\tTabbed\n');
+        assert.notStrictEqual(match, null);
+        assert.strictEqual(match![1].trim(), 'Tabbed');
+      });
+
+      it('captures content with trailing hashes stripped by caller', () => {
+        const match = RGX._MKDN.ATX_HEADER.exec('## Heading ##\n');
+        assert.notStrictEqual(match, null);
+        // regex captures everything after space; trailing ## stripping is caller's job
+        assert.ok(match![1].includes('Heading'));
+      });
+
+    });
+
+  });
+
 });

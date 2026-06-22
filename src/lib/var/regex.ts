@@ -23,7 +23,7 @@ export namespace RGX {
   export const _MKDN = {
     // markdown (originally from kramdown)
     // atx header: https://github.com/gettalong/kramdown/blob/master/lib/kramdown/parser/kramdown/header.rbL29
-    ATX_HEADER        : /^#{1,6}[\t ]*([^ \t].*)\n/im,
+    ATX_HEADER        : /^#{1,6}[\t ]+([^ \t].*)\n/im,
     // setext header: https://github.com/gettalong/kramdown/blob/master/lib/kramdown/parser/kramdown/header.rbL17
     SETEXT_HEADER     : /^ {0,3}([^ \t].*)\n[-=][-=]*[ \t\r\f\v]*\n/im,
     // list item: https://github.com/gettalong/kramdown/blob/master/lib/kramdown/parser/kramdown/list.rbL49
